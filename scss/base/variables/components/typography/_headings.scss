@@ -1,0 +1,93 @@
+$heading-base: (
+    "font-size": var(--font-size),
+    "text-transform": var(--text-transform),
+    "letter-spacing": var(--letter-spacing, normal),
+    "line-height": var(--line-height, inherit),
+    "color": var(--color, inherit),
+    "font-family": var(--font-family, var(--font-family-heading)),
+    "font-weight": var(--font-weight, var(--font-heading-weight, 600))
+);
+
+$headings: (
+    "h1": (
+        "size": "2xl",
+        "text-transform": uppercase,
+        "letter-spacing": 0.1rem,
+        "line-height": 1
+    ),
+    "h2": (
+        "size": "xl",
+        "text-transform": uppercase,
+        "letter-spacing": 0.1rem,
+        "line-height": 1
+    ),
+    "h3": (
+        "size": "lg",
+        "letter-spacing": 0.1rem,
+        "line-height": 1
+    ),
+    "h4": (
+        "size": "default",
+        "letter-spacing": 0.1rem,
+        "line-height": 1.2
+    ),
+    "h5": (
+        "size": "sm",
+        "text-transform": uppercase
+    ),
+    "h6": (
+        "size": "xs"
+    )                
+)!default;
+
+$heading-sizes: (
+    "2xl" : (
+        "font-size-min": "display-lg",
+        "font-size-max": "display-xl",
+        "font-ratio-min": 1.2,
+        "font-ratio-max": 1.5,
+        "font-width-min": 375,
+        "font-width-max": 1440,
+    ),
+    "xl" : (
+        "font-size-min": "display-md",
+        "font-size-max": "display-lg",
+        "font-ratio-min": 1.2,
+        "font-ratio-max": 1.5,
+        "font-width-min": 375,
+        "font-width-max": 1440,
+    ),
+    "lg" : (
+        "font-size-min": "display-sm",
+        "font-size-max": "display-md",
+        "font-ratio-min": 1.2,
+        "font-ratio-max": 1.5,
+        "font-width-min": 375,
+        "font-width-max": 1440,
+    ),
+    "default" : (
+        "font-size-min": "display-xs",
+        "font-size-max": "display-sm",
+        "font-ratio-min": 1.2,
+        "font-ratio-max": 1.5,
+        "font-width-min": 375,
+        "font-width-max": 1440,
+    ),
+    "sm" : (
+        "font-size-min": "xl",
+        "font-size-max": "display-xs",
+        "font-ratio-min": 1.2,
+        "font-ratio-max": 1.5,
+        "font-width-min": 375,
+        "font-width-max": 1440,
+    ),
+    "xs" : (
+        "font-size-min": "lg",
+        "font-size-max": "xl",
+        "font-ratio-min": 1.2,
+        "font-ratio-max": 1.5,
+        "font-width-min": 375,
+        "font-width-max": 1440,
+    )
+)!default;
+

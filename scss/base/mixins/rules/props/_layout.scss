@@ -1,0 +1,25 @@
+@use "../../../../theme" as *;
+@use "../../../props/key-tokens" as key-tokens;
+@use "../../../props/layout" as layout;
+@use "../../../props/wrapper" as wrapper;
+
+$_valid-key-tokens-keys: 'text-frame-ratio' 'text-frame-y' 'text-frame-x' 'space-increment' 'unit-max' 'unit-min' 'unit-fluid' 'unit' 'radius' 'line-height-relative' 'line-height-fixed' 'border';
+$_valid-layout-keys: 'layout-column-min' 'layout-gap' 'layout-grid-min' 'layout-grid-gap' 'layout-grid-template-columns' 'column-count' 'breakpoint' 'column-size' 'flex-grid-min' 'flex-grid-gap';
+$_valid-wrapper-keys: 'max-wrapper-width' 'wrapper-padding' 'wrapper-padding-min' 'wrapper-inline' 'wrapper-width' 'grid-wrapper-columns';
+
+$_key-tokens: module-variables("key-tokens");
+$_layout: module-variables("layout");
+$_wrapper: module-variables("wrapper");
+
+// Layout related variables
+:root:is(.#{$scopeClassName}) {
+    @include output-props(pick-keys($_key-tokens, $_valid-key-tokens-keys)...);
+}
+
+:root:is(.#{$scopeClassName}) {
+    @include output-props(pick-keys($_layout, $_valid-layout-keys)...);
+}
+
+:root:is(.#{$scopeClassName}) {
+    @include output-props(pick-keys($_wrapper, $_valid-wrapper-keys)...);
+}

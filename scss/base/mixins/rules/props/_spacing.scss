@@ -1,0 +1,20 @@
+@use "sass:meta";
+@use "sass:map";
+@use "sass:list";
+@use "../../../../theme" as *;
+// @use "../../../variables" as *;
+@use "../../../props/spacing" as spacing;
+
+$_spacing: meta.module-variables("spacing");
+
+@each $key, $value in $_spacing {
+    $key-starts-with: list.nth(str-explode($key, '-'), 1);
+    @if not ($key-starts-with == 'space') {
+        $_spacing: map.remove($_spacing , $key );
+    }
+}
+
+// Spacing related variables
+:root:is(.#{$scopeClassName}) {
+    @include output-props($_spacing...); 
+}

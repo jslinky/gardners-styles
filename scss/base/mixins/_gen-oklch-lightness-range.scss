@@ -1,0 +1,33 @@
+@use "sass:math";
+@use "../functions/get-color-prefix" as *;
+
+@mixin generate-oklch-centered-lightness-range(
+  $class-name: "l",
+  $lightness: 0.56,
+  $steps: 12,
+  $lightest: 0.8,
+  $darkest: 0.17,
+  $include-color-output: true,
+  $prefix: getColorPrefix(),
+) {
+  $half: floor(math.div($steps, 2));
+
+  $up-limit: $lightest - $lightness;
+  $down-limit: $lightness - $darkest;
+  $max-span: min($up-limit, $down-limit);
+  $step-size: if($half > 0, math.div($max-span, $half), 0);
+
+  @for $i from 0 through ($steps - 1) {
+    $offset: $i - $half;
+    $adjusted-lightness: $lightness + ($offset * $step-size);
+    $adjusted-lightness: if($adjusted-lightness < 0, 0, if($adjusted-lightness > 1, 1, $adjusted-lightness));
+    $formatted: math.div(round($adjusted-lightness * 100), 100);
+
+    // Actual CSS custom property
+    --#{$prefix}#{$class-name}-l-#{$i}: #{$formatted};
+    @if($include-color-output) {
+      // Output the color
+      --#{$prefix}#{$class-name}-#{$i}: oklch(var(--#{$prefix}#{$class-name}-l-#{$i}, var(--#{$prefix}#{$class-name}-l)) var(--#{$prefix}#{$class-name}-c-#{$i}, var(--#{$prefix}#{$class-name}-c)) var(--#{$prefix}#{$class-name}-h-#{$i}, var(--#{$prefix}#{$class-name}-h)));    
+    }
+  }
+}

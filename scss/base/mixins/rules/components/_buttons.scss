@@ -1,0 +1,75 @@
+
+@use "../../../../theme" as *;
+// @use "../../variables" as *;
+@use '../../../props/key-tokens' as key-tokens;
+@use "../../../props/colors" as colors;
+@use "../../../variables/components/buttons" as *;
+
+
+$_key-tokens: module-variables("key-tokens");
+$button-frame-x: pick-keys($_key-tokens, text-frame-x);
+$_colors: module-variables("colors");
+$_colorNamePrefix: getColorPrefix();
+
+@mixin base-rules($color: #{$button-default-color}, $background-color: #{$button-default-bg}) {
+    @include output-props($button-frame-x...);
+    --button-background-color: #{$background-color};
+    --button-color: #{$color};
+    --button-border-color: var(--button-background-color);
+    @each $key, $value in $button-base-rules {
+        #{$key}: #{$value};
+    }
+}
+
+@mixin gen-button-color-variations() {
+    @each $color in $colorIncludes {
+        @if(map-has-key($_colors, $color)) {
+            &.button--#{$color} {
+                --button-color: var(--#{$_colorNamePrefix}#{$color}-fg);
+                --button-background-color: var(--#{$_colorNamePrefix}#{$color});
+            }
+        }
+    }
+}
+
+@mixin inverted-rules($color: #{$button-default-bg}, $background-color: #{$button-default-color}) {
+    --button-background-color: #{$background-color};
+    --button-color: #{$color};    
+}
+
+@mixin gen-inverted-button-color-variations() {
+    @each $color in $colorIncludes {
+        @if(map-has-key($_colors, $color)) {
+            &.button--#{$color} {
+                --button-color: var(--#{$_colorNamePrefix}#{$color});
+            }
+        }
+    }
+}
+
+@mixin outline-rules($color: #{$button-outline-default-color}, $background-color: #{$button-outline-default-bg}) {
+    --button-background-color: #{$background-color};
+    --button-color: #{$color};    
+    --button-border-color: var(--button-color);
+}
+
+@mixin gen-outline-color-variations() {
+    @each $color in $colorIncludes {
+        @if(map-has-key($_colors, $color)) {
+            &.button--#{$color} {
+                --button-color: var(--#{$_colorNamePrefix}#{$color});
+            }
+        }
+    }
+}
+
+@mixin inverted-outline-rules($color: #{$button-inverted-outline-default-color}, $background-color: #{$button-inverted-outline-default-bg}) {
+    --button-background-color: #{$background-color};
+    --button-color: #{$color};    
+    --button-border-color: var(--button-color);
+}
+
+@mixin sm-rules() {
+    --text-frame-y: 0.5em;
+    --text-frame-ratio: 2.25;
+}

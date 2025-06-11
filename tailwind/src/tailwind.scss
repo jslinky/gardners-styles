@@ -1,0 +1,133 @@
+@use "../../../gardners-styles/scss/base/variables/components/typography/headings" as headings;
+@use "../../../gardners-styles/scss/theme" as *;
+@import "tailwindcss/preflight.css" layer(tw-base);
+@import "tailwindcss/theme.css" layer(tw.theme);
+@import "tailwindcss/utilities.css" layer(tw.utilities);
+
+@layer tw.theme {
+    @theme {
+        --color-primary: var(--primary);
+        --color-secondary: var(--secondary);
+        --color-tertiary: var(--tertiary);
+        --color-dark: var(--dark);
+        
+        --color-primary-0: var(--primary-0);
+        --color-primary-1: var(--primary-1);
+        --color-primary-2: var(--primary-2);
+        --color-primary-3: var(--primary-3);
+        --color-primary-4: var(--primary-4);
+        --color-primary-5: var(--primary-5);
+        --color-primary-6: var(--primary-6);
+        --color-primary-7: var(--primary-7);
+        --color-primary-8: var(--primary-8);
+        --color-primary-9: var(--primary-9);
+        --color-primary-10: var(--primary-10);
+        --color-primary-11: var(--primary-11);
+        
+        --color-primary-fg: var(--primary-fg);
+        --color-primary-fg-muted: var(--primary-fg-muted);
+        --color-secondary-fg: var(--secondary-fg);
+        --color-secondary-fg-muted: var(--secondary-fg-muted);
+        --color-tertiary-fg: var(--tertiary-fg);
+        --color-tertiary-fg-muted: var(--tertiary-fg-muted);
+        --color-dark-fg: var(--dark-fg);
+        --color-dark-fg-muted: var(--dark-fg-muted);
+        
+        --spacing-3xs: var(--space-3xs);
+        --spacing-2xs: var(--space-2xs);
+        --spacing-xs: var(--space-xs);
+        --spacing-sm: var(--space-sm);
+        --spacing-md: var(--space-md);
+        --spacing-lg: var(--space-lg);
+        --spacing-xl: var(--space-xl);
+        --spacing-2xl: var(--space-2xl);
+        --spacing-3xl: var(--space-3xl);
+        --spacing-4xl: var(--space-4xl);
+        --spacing-5xl: var(--space-5xl);
+        --spacing-6xl: var(--space-6xl);
+        --spacing-layout-gap: var(--layout-gap);
+        --spacing-huge: 3rem;
+        
+        --font-size-xxs: var(--xxs);
+        --font-size-xs: var(--xs);
+        --font-size-sm: var(--sm);
+        --font-size-md: var(--md);
+        --font-size-lg: var(--lg);
+        --font-size-xl: var(--xl);
+        --font-size-display-xs: var(--display-xs);
+        --font-size-display-sm: var(--display-sm);
+        --font-size-display-md: var(--display-md);
+        --font-size-display-lg: var(--display-lg);
+        --font-size-display-xl: var(--display-xl);
+        --font-size-display-2xl: var(--display-2xl);
+        
+        --radius-default: var(--radius);
+        
+        --font-family-base: var(--font-family-base);
+        --font-family-heading: var(--font-family-heading);
+    }
+}
+
+@layer tw.utilities {
+
+ 
+
+@each $key, $value in $headings {
+
+    $selector: if(map-has-key($value, 'size'), 'heading-' + map-get($value, 'size'), null);
+
+    @if($selector) {
+
+        @utility #{$selector} {
+
+            @if(map-has-key($value, 'size')) {
+                $size: map-get($value , "size");
+                @include heading-size($size, $heading-sizes);            
+            }
+
+            @if(map-has-key($value , 'text-transform')) {
+                $text-transform: map-get($value , 'text-transform');
+
+                @if($text-transform !='') {
+                    --text-transform: #{$text-transform};
+                }
+            }
+
+            @if(map-has-key($value , 'letter-spacing')) {
+                $letter-spacing: map-get($value , 'letter-spacing');
+
+                @if($letter-spacing !='') {
+                    --letter-spacing: #{$letter-spacing};
+                }
+            }
+
+            @if(map-has-key($value , 'line-height')) {
+                $line-height: map-get($value , 'line-height');
+
+                @if($line-height !='') {
+                    --line-height: #{$line-height};
+                }
+            }
+
+            @if(map-has-key($value , 'color')) {
+                $color: map-get($value , 'color');
+
+                @if($color !='') {
+                    --color: #{$color};
+                }
+            }
+
+            @if(map-has-key($value , 'font-family')) {
+                $font-family: map-get($value , 'font-family');
+
+                @if($font-family !='') {
+                    --font-family: #{$font-family};
+                }
+            }
+        }
+
+
+    }
+
+}
+}

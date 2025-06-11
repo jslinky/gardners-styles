@@ -1,0 +1,24 @@
+@import "../../theme/";
+
+$use-typo-scale: if(global-variable-exists(use-typo-scale), $use-typo-scale, true) !default;
+$text-size-increment: if(global-variable-exists(text-size-increment), $text-size-increment, 1.25) !default;
+$font-size-base-px: if(global-variable-exists(font-size-base-px), $font-size-base-px, 16) !default;
+$font-size-base: calc((var(--font-size-base-px) / 16) * 1rem);
+
+$base-font-size-marker: if(global-variable-exists(base-font-size-marker), $base-font-size-marker, 'md') !default;
+
+/// Values are for if $use-type-scale is false
+$font-size-list: (
+    xxs: 10,
+    xs: 12,
+    sm: 14,
+    md: 16,
+    lg: 18,
+    xl: 20,
+    display-xs: 24,
+    display-sm: 30,
+    display-md: 36,
+    display-lg: 48,
+    display-xl: 60,
+    display-2xl: 72
+);

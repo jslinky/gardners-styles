@@ -1,0 +1,40 @@
+@use "sass:string";
+@use "sass:list";
+
+$include-form-input-states: true;
+
+$input-sizes: 'sm' 'lg';
+$input-text-types: 'text' 'search' 'url' 'tel' 'email' 'password' 'number';
+
+$form-layout-selector: string.unquote('.form-layout');
+$form-row-selector: string.unquote('.form__row, :where(div:has(> input, > select))');
+
+$input-text-selectors: ();
+$input-text-selectors-sans-number: ();
+
+@each $item in $input-text-types {
+    $input-text-selectors: list.append($input-text-selectors, '[type="#{$item}"]', comma);
+    @if($item != 'number') {
+        $input-text-selectors-sans-number: list.append($input-text-selectors-sans-number, '[type="#{$item}"]', comma);
+    }
+}
+
+$input-text-rules: (
+    "padding-inline": var(--input-text-frame-x, var(--text-frame-x)),
+    "padding-block": var(--input-text-frame-y, var(--text-frame-y)),
+    "outline": var(--input-outline, var(--input-outline-width, 1px) solid var(--input-outline-color, var(--_outline-color))),
+);
+
+$input-box-rules: (
+    "accent-color": var(--input-accent-color, var(--accent-color, initial)),
+    "width": var(--_fs),
+    "height": var(--_fs),
+    "padding-inline": var(--input-box-frame-x, 1em),
+    "padding-block": var(--input-box-frame-y, 1em),    
+);
+
+$input-base-color: var(--input-color, var(--color, CanvasText));
+$input-base-bg: var(--input-bg, Canvas); 
+$input-base-fs: var(--input-fs, 1em);     
+$input-base-outline-color: color-mix(in oklch, var(--_bg) 90%, black);
+$input-base-outline-color-focused: color-mix(in oklch, var(--input-outline-color, var(--_outline-color)) 90%, black);

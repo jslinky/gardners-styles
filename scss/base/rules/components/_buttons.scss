@@ -1,0 +1,33 @@
+// @use "../../variables" as *;
+@use "../../../theme" as *;
+@use "../../mixins/rules/components/buttons" as buttons;
+
+// https://css-tricks.com/organizing-design-system-component-patterns-with-css-cascade-layers/?utm_source=CSS-Weekly&utm_campaign=Issue-606&utm_medium=web
+:where(.button, button) {
+    // Component base layer
+    @layer base {
+        @include buttons.base-rules();
+    }
+    // Component modifiers layer
+    @layer modifiers {
+        @include buttons.gen-button-color-variations();
+        &.button--outline {
+            @include buttons.outline-rules();
+            @include buttons.gen-outline-color-variations()
+        }           
+        &.button--inverted {
+            @include buttons.inverted-rules();
+            @include buttons.gen-inverted-button-color-variations();
+            &.button--outline {
+                @include buttons.inverted-outline-rules();
+            }            
+        }
+        &.button--sm {
+            @include buttons.sm-rules();
+        }
+    }
+    // Component states layer
+    @layer states {
+
+    }    
+}

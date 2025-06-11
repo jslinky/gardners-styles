@@ -1,0 +1,26 @@
+@import "../../theme/";
+
+$layout-column-min: if(global-variable-exists(layout-column-min), $layout-column-min, 30ch) !default;
+$layout-gap: if(global-variable-exists(layout-gap), $layout-gap, max(3vmax, var(--space-xl, 1rem))) !default;
+// $layout-gap: var(--spacing-gutter);
+
+// Grid layout
+$layout-grid-min: var(--layout-column-min);
+$layout-grid-gap: var(--layout-gap);
+$layout-grid-template-columns: repeat(
+  var(--layout-grid-auto-repeat, auto-fit),
+  minmax(min(100%, var(--layout-grid-min)), 1fr)
+);
+
+/// Grid layout - define column variation
+$column-count: if(global-variable-exists(column-count), $column-count, 4) !default;
+/* calculations */
+$breakpoint: calc(
+  var(--layout-grid-min) * var(--column-count) +
+    (var(--layout-grid-gap) * (var(--column-count) - 1))
+);
+$column-size: calc((100% / var(--column-count)) - var(--layout-grid-gap));
+
+// Flex layout
+$flex-grid-min: var(--layout-column-min);
+$flex-grid-gap: var(--layout-gap);

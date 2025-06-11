@@ -1,0 +1,81 @@
+@use "sass:meta";
+@use "sass:map";
+@use "sass:list";
+@use "../../../variables/config" as config;
+@use "../../../../theme/overrides" as overrides;
+@use "../../../../theme" as *;
+// @use "../../../variables" as *;
+
+@use "../../../props/colors" as colors;
+
+/// These are @forwarded or @included in theme/overrides. Importing them here to remove them from the scope.
+$_overrides: meta.module-variables("overrides");
+$_config: meta.module-variables("config");
+$_merged-excludes: map.merge($_config , $_overrides );
+$exclude-count: list.length($_merged-excludes);
+
+$_colorNamePrefix: getColorPrefix();
+$_colors: meta.module-variables("colors");
+$color-map-keys: map.keys($_colors);
+
+$color-loop-output: ();
+$color-loop-output-flat: ();
+
+
+@function checkIfColorDefined($colorName, $map: $_colors) {
+    @return map.has-key($map, $colorName);
+}
+
+@function getColorPropValue($colorName, $map: $_colors) {
+    @return map.get($map, $colorName);
+}
+
+// Removes the leaky variables which are @forwarded and get outputted
+@for $i from 1 through $exclude-count {
+  $key-to-remove: list.nth($color-map-keys, $i);
+  $key-to-remove-starts-with: list.nth(str-explode($key-to-remove, '-'), 1);
+    $inColorIncludes: list.index($colorIncludes, $key-to-remove-starts-with);  
+    @if not ($inColorIncludes) {
+        $_colors: map.remove($_colors, $key-to-remove);
+    } 
+}
+
+
+/// Populate $color-loop-output with top level keys from $colorInclues
+@each $color in $colorIncludes {
+    @if(map.has-key($_colors, $color)) {
+        $color-loop-output: map-deep-set($color-loop-output, "#{$color}", ());
+    }
+}
+
+/// Loop through keys of $_colors and populate each top level of $color-loop-output with all colors with keys that match $colorIncludes values
+@for $i from 1 through list.length($color-map-keys) - 1 {
+    $current-key: list.nth($color-map-keys, $i);
+    $current-key-starts-with: list.nth(str-explode($current-key, '-'), 1);
+    $inColorIncludes: list.index($colorIncludes, $current-key-starts-with);
+    $current-value: map.get($_colors , $current-key );
+
+    @if($inColorIncludes) {
+        $color-loop-output: map-deep-set($color-loop-output, "#{$current-key-starts-with}" "#{$current-key}", #{$current-value});
+    }
+}
+
+/// Flatten all values in one map
+@each $key, $value in $color-loop-output {
+    $color-loop-output-flat: map.merge($color-loop-output-flat, $value);
+}
+
+// Color related variables
+:root:is(.#{$scopeClassName}) {
+    @include output-props("#{$_colorNamePrefix}", exclude-keys($_colors, map.keys($color-loop-output-flat))...);
+    @include output-props("#{$_colorNamePrefix}", $color-loop-output-flat...);
+
+    @each $color in $colorIncludes {
+        @if(map.has-key($_colors, $color)) {
+            $lightness: if(checkIfColorDefined("#{$_colorNamePrefix}#{$color}-l"), getColorPropValue("#{$_colorNamePrefix}#{$color}-l"), 0.56);
+            @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);
+            @include generate-color-surface-text("#{$color}", 12);
+        }
+    }
+    // @include generate-color-surface-text("#{$_colorNamePrefix}primary", 12);
+}

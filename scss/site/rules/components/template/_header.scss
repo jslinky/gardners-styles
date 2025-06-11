@@ -1,0 +1,177 @@
+@use "../../../../base/mixins/utils/breakpoints" as bp;
+@use "../../../../base/mixins/rules/components/buttons" as buttons;
+
+:root {
+  --header-height: 95px;
+  @include bp.respond-to(lg) {
+    --header-height: 130px;
+  }
+}
+
+#mainHeader {
+  --edge-content-width: auto;
+  height: var(--header-height);
+  background: var(--color-primary);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  
+  @include bp.respond-to(lg) {
+    --edge-content-width: 350px;
+  }
+  /// remove bootstrap grid
+  *:is([class*="grid_"]:not(.headerMenu)) {
+    all: unset !important;
+  }
+  *:is([style]) {
+    font-size: unset;
+    margin: unset !important;
+    line-height: unset !important;
+  }
+  *:is([class*="grid_"]):not(.headerMenu) {
+    display: contents !important;
+  }
+  #logo {
+    align-self: center;
+    width: max(150px, clamp(150px, (100px + 10vw), 250px));
+    aspect-ratio: 28.7 / 6.3;
+    background: url("/src/content/img/gardners-logo.png") no-repeat center;
+    background-size: contain;
+    grid-area: logo;
+    > a {
+      display: block;
+      height:100%;
+    }
+    @include bp.respond-to(lg) {
+      margin-inline: auto;
+    }
+  }
+  > div {
+    --gap-x: var(--space-lg);
+    --gap-y: var(--space-sm);
+    --template-areas: "logo login" "contact contact";    
+    display: flex;
+    justify-content: space-between;
+    display: grid;
+    grid-template-areas: var(--template-areas);
+    grid-template-columns: 1fr max-content;
+    place-content: center;
+    width: min(var(--max-wrapper-width), calc(100% - (var(--space-lg) * 2)));
+    gap: var(--gap-y) var(--gap-x);
+    @include bp.respond-to(sm) {
+        --template-areas: "logo login" "logo contact";
+    }
+    @include bp.respond-to(lg) {
+      padding-inline-start: var(--edge-content-width);
+    }
+  }
+}
+
+.headerMenu {
+  display: inline-flex;
+  display: contents;
+  width: var(--edge-content-width);
+  // border: 1px solid blue;
+  flex-shrink: 0;
+  .loggedOut {
+    display: flex;
+    display: contents;
+    flex-direction: column-reverse;
+    flex: 1 1 auto;
+  }
+}
+
+:is(.headerMenuRight, .headerMenuLeft) {
+//   flex: 1 1 auto;
+    width: var(--edge-content-width);
+}
+
+.headerMenuRight {
+  --gap-x: var(--space-md);
+  --gap-y: var(--space-xs);
+  list-style-type: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: var(--gap-x);
+  grid-area: login;
+  li {
+    span {
+      display: none;
+    }
+    &:nth-child(1) {
+      a {
+        @include buttons.inverted-outline-rules();
+        &:before {
+          content: "Log in";
+        }
+      }
+    }
+    &:nth-child(2) {
+      a {
+        &:before {
+          content: "Sign up";
+        }
+      }
+    }
+    a {
+      @include buttons.base-rules();
+      @include buttons.inverted-rules();
+      @include buttons.sm-rules();
+      text-transform: uppercase;
+      border-radius: var(--radius);
+      font-family: var(--font-family-heading);
+      font-weight: var(--font-heading-weight);
+      text-indent: -999em;
+      display: inline-flex;
+      &:before {
+        font-size: 1rem;
+        text-indent: 0;
+      }
+    }
+  }
+}
+
+.headerMenuLeft {
+//   --gap-y: var(--space-xs);
+  --gap-x: var(--space-xs);
+  grid-area: contact;
+  display: flex;
+  color: #fff; // replace with var
+//   margin-block: var(--gap-y);
+  justify-content: center;
+  gap: var(--gap-x);
+  @include bp.respond-to(sm-and-down) {
+    padding-top: var(--gap-y);
+    border-top: 1px solid rgb(255 255 255 / 0.3);
+  }
+  @include bp.respond-to(sm) {
+    justify-content: flex-end;
+  }
+  p:nth-of-type(1) {
+    width: max-content;
+    &:after {
+      content: "";
+      display: inline-block;
+      width: 1px;
+      height: 1em;
+      background: #fff;
+      transform: translateX(calc(var(--gap-x) / 2));
+    }
+  }
+  p:nth-of-type(2) {
+    font-size: 0 !important;
+    > a {
+      font-size: var(--sm) !important;
+    }
+  }
+  a:last-of-type {
+    display: none;
+  }
+  > p {
+    text-align: right !important;
+    font-size: var(--sm) !important;
+    display: inline-flex;
+    align-items: center;
+  }
+}

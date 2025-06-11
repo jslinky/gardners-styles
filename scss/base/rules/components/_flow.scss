@@ -1,0 +1,5 @@
+@use "../../mixins/rules/components/flow" as *;
+
+.flow > * + * {
+  @include flow()
+}

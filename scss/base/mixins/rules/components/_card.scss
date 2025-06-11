@@ -1,0 +1,313 @@
+@use "../../../../theme" as *;
+@use "../../../variables/components/cards" as *;
+
+@mixin default-rules() {
+    // --color-surface-bg: transparent;
+    // --card-two-columns: var(--card-left-col, 1fr) var(--card-right-col, 1fr);
+    // --card-gutter-stacked: var(--spacing-gutter);
+    grid-template-columns: var(--card-columns, 1fr);
+    background-color: var(--card-background-color, var(--surface-bg-color));
+    position: relative;
+    border: var(--card-border-width, var(--field-border-width, 1px)) var(--card-border-style, solid) var(--card-border-color, var(--field-border-color, transparent));
+    border-radius: var(--card-radius, var(--radius));
+    height: 100%;
+    gap: var(--card-gap, var(--card-gap-stacked));
+    aspect-ratio: var(--card-aspect, none);
+    display: grid;
+    padding-inline: var(--card-padding-inline, 0);
+    padding-block: var(--card-padding-block, 0);
+
+    :is(h2, h3):not(.heading) {
+        text-wrap: balance;
+    }
+}
+
+@mixin stacked() {
+    --card-columns: 1fr;
+    --card-gap: var(--card-gap-stacked);
+    grid-auto-flow: row;
+}
+
+@mixin link() {
+
+    // text-decoration: none;
+    // font-size: inherit;
+    &:focus-visible {
+        --outline-color: transparent;
+    }
+
+    // &:not(.button)::before {
+    &:only-of-type::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+    }
+}
+
+@mixin two-column-layout() {
+    --card-columns: var(--card-two-columns);
+    --card-gap: calc(var(--card-padding-inline) * 2);
+    grid-auto-flow: column;
+}
+
+@mixin text-align($direction: column) {
+    &:is([data-card-#{$direction}-text-align="start"]) {
+        :is(#{$card-content-selectors}) {
+            text-align: start;
+        }
+    }
+
+    &:is([data-card-#{$direction}-text-align="center"]) {
+        :is(#{$card-content-selectors}) {
+            text-align: center;
+        }
+    }
+
+    &:is([data-card-#{$direction}-text-align="end"]) {
+        :is(#{$card-content-selectors}) {
+            text-align: end;
+        }
+    }
+}
+
+@mixin justify-content($direction: column) {
+    &:where([data-card-#{$direction}-justify]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            display: flex;
+            flex-wrap: wrap;
+
+            > :is(#{$card-caption-selectors}, #{$card-body-selectors}, #{$card-footer-selectors}) {
+                flex: 1 1 100%;
+            }
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="start"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: start;
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="center"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: center;
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="end"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: end;
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="stretch"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: stretch;
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="space-between"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: space-between;
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="space-around"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: space-around;
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="space-evenly"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: space-evenly;
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="safe"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: safe center;
+        }
+    }
+
+    &:is([data-card-#{$direction}-justify="unsafe"]) {
+        :is(#{$card-body-selectors}, #{$card-content-selectors}) {
+            justify-content: unsafe center;
+        }
+    }
+
+}
+
+@mixin align-items($direction: column) {
+    &:is([data-card-#{$direction}-align="start"]) {
+        align-items: start;
+    }
+
+    &:is([data-card-#{$direction}-align="center"]) {
+        align-items: center;
+    }
+
+    &:is([data-card-#{$direction}-align="end"]) {
+        align-items: end;
+    }
+
+    &:is([data-card-#{$direction}-align="stretch"]) {
+        align-items: stretch;
+    }
+
+    &:is([data-card-#{$direction}-align="baseline"]) {
+        align-items: baseline;
+    }
+
+    &:is([data-card-#{$direction}-align="first"]) {
+        align-items: first baseline;
+    }
+
+    &:is([data-card-#{$direction}-align="last"]) {
+        align-items: last baseline;
+    }
+
+    &:is([data-card-#{$direction}-align="safe"]) {
+        align-items: safe center;
+    }
+
+    &:is([data-card-#{$direction}-align="unsafe"]) {
+        align-items: unsafe center;
+    }
+
+    &:is([data-card-#{$direction}-align="self-start"]) {
+        align-self: start;
+    }
+
+    &:is([data-card-#{$direction}-align="self-center"]) {
+        align-self: center;
+    }
+
+    &:is([data-card-#{$direction}-align="self-end"]) {
+        align-self: end;
+    }
+
+    &:is([data-card-#{$direction}-align="self-stretch"]) {
+        align-self: stretch;
+    }
+
+    &:is([data-card-#{$direction}-align="self-baseline"]) {
+        align-self: baseline;
+    }
+
+    &:is([data-card-#{$direction}-align="self-first"]) {
+        align-self: first baseline;
+    }
+
+    &:is([data-card-#{$direction}-align="self-last"]) {
+        align-self: last baseline;
+    }
+
+    &:is([data-card-#{$direction}-align="self-safe"]) {
+        align-self: safe center;
+    }
+
+    &:is([data-card-#{$direction}-align="self-unsafe"]) {
+        align-self: unsafe center;
+    }
+
+    &:is([data-card-#{$direction}-align="self-auto"]) {
+        align-self: auto;
+    }
+
+    &:is([data-card-#{$direction}-align="self-normal"]) {
+        align-self: normal;
+    }
+
+}
+
+@mixin image-align-self($direction: column) {
+    &:is([data-card-#{$direction}-image-align-self="start"]) {
+        :is(#{$card-picture-selectors}) {
+            align-self: start;
+        }
+    }
+
+    &:is([data-card-#{$direction}-image-align-self="center"]) {
+        :is(#{$card-picture-selectors}) {
+            align-self: center;
+        }
+    }
+
+    &:is([data-card-#{$direction}-image-align-self="end"]) {
+        :is(#{$card-picture-selectors}) {
+            align-self: end;
+        }
+    }
+
+    &:is([data-card-#{$direction}-image-align-self="stretch"]) {
+        :is(#{$card-picture-selectors}) {
+            align-self: stretch;
+        }
+    }
+}
+
+
+@mixin column-rules() {
+    @include text-align(column);
+    @include justify-content(column);
+    @include align-items(column);
+    @include image-align-self(column);
+
+    &:where([data-card-column-reverse-order]) {
+        &:has(#{$card-picture-selectors}:first-child) {
+            #{$card-body-selectors} {
+                order: 0;
+            }
+
+            #{$card-picture-selectors} {
+                order: 1;
+            }
+        }
+    }
+
+    &:where([data-card-column-reverse-order]) {
+        &:has(#{$card-picture-selectors}:not(:first-child)) {
+            #{$card-body-selectors} {
+                order: 1;
+            }
+
+            #{$card-picture-selectors} {
+                order: 0;
+            }
+        }
+    }
+}
+
+@mixin row-rules() {
+    @include text-align(row);
+    @include justify-content(row);
+    @include align-items(row);
+    @include image-align-self(row);
+
+    &:where([data-card-row-reverse-order]) {
+        &:has(#{$card-picture-selectors}:first-child) {
+            --card-auto-row: max-content auto;
+            #{$card-body-selectors} {
+                order: 0;
+            }
+
+            #{$card-picture-selectors} {
+                order: 1;
+            }
+        }
+    }
+
+    &:where([data-card-row-reverse-order]) {
+        &:has(#{$card-picture-selectors}:not(:first-child)) {
+            --card-auto-row: auto max-content;
+            #{$card-body-selectors} {
+                order: 1;
+            }
+
+            #{$card-picture-selectors} {
+                order: 0;
+            }
+        }
+    }
+}

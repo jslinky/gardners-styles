@@ -1,0 +1,116 @@
+@use "../../../theme" as *;
+@use "../../variables/components/typography/headings" as *;
+@use "../../variables/components/cards" as *;
+@use "../../mixins/rules/components/card" as card;
+@use "../../mixins/rules/components/flow" as *;
+@use "../../mixins/rules/components/typography/fluid-type" as fluid;
+
+@layer base {
+    :where(#{$card-component-selectors}) {
+        --card-two-columns: 50% 50%; /// temp - move this
+        --card-body-padding-inline: var(--layout-gap);
+        --card-body-padding-block: var(--layout-gap);
+        --card-auto-row: auto;
+        --fluid-headings: false;
+
+        @include card.default-rules();
+
+        :where(.button, button) {
+            @include card.link();
+        }
+
+        &:is(.card--layout-cols) {
+            @include card.column-rules();
+
+            &:has(#{$card-picture-selectors}) {
+                @include card.two-column-layout();
+            }
+        }
+
+        &:not(.card--layout-cols) {
+            grid-auto-flow: row;
+            align-items: flex-start;
+            justify-content: start;
+            aspect-ratio: unset;
+
+            &:has(#{$card-picture-selectors}) {
+                grid-auto-flow: row;
+                grid-auto-rows: var(--card-auto-row);
+            }
+
+            &:has(#{$card-picture-selectors}:first-child) {
+                --card-auto-row: auto max-content;
+            }
+
+            &:has(#{$card-picture-selectors}:not(:first-child)) {
+                --card-auto-row: max-content auto;
+            }            
+
+        }
+
+        @container (inline-size > 80ch) {
+            &:has(#{$card-picture-selectors}:not(:empty)) {
+                @include card.two-column-layout();
+            }
+        }
+
+    }
+
+    :where(#{$card-body-selectors}) {
+        padding-inline: var(--card-body-padding-inline);
+        padding-block: var(--card-body-padding-block);
+        display: block;
+        > * + * {
+            @include flow();
+        }
+    }
+
+    :where(#{$card-picture-selectors}) {
+        max-width: 100%;
+    }
+
+    :where(#{$card-picture-selectors}):not(:empty) {
+        // this casuses issues when row type
+        align-self: stretch;         
+        display: flex;
+        justify-content: center;
+
+        :where(img) {
+            aspect-ratio: var(--card-picture-aspect, var(--aspect-video));
+            width: 100%;
+            object-fit: cover;
+        }
+
+    }
+
+    :where(#{$card-title-selectors}):is(h1, h2, h3, h4, h5, h6) {
+        $has-size: map-has-key($heading-sizes, $card-title-heading-size);
+
+        @if($has-size) {
+            $size: map-get($heading-sizes , $card-title-heading-size);
+            @include heading-size($card-title-heading-size, $heading-sizes);
+
+            @container style(--fluid-headings: true) {
+                @include fluid.fluid-type();
+            }
+        }
+    }
+}
+
+@layer modifiers {
+
+    @container (inline-size <=80ch) {
+
+        :where(#{$card-component-selectors}):not(.card--layout-cols) {
+            @include card.row-rules();
+        }
+
+    }
+
+    @container (inline-size > 80ch) {
+        :where(#{$card-component-selectors}) {
+            --card-auto-row: auto;
+            @include card.column-rules();
+        }
+    }
+}

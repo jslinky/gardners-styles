@@ -1,0 +1,40 @@
+@use "../../../theme" as *;
+@use "../../props/colors" as color-props;
+
+
+[data-surface] {
+    --color: var(--surface-color);
+    --bg-color: var(--surface-bg-color);
+    color: var(--color);
+    background-color: var(--bg-color);
+}
+
+/// create a color includes 
+$surface-colors: 'primary' 'secondary' 'tertiary';
+
+
+$_color-prefix: getColorPrefix();
+
+// @debug $_color-prefix;
+
+@each $color in $surface-colors {
+    @layer base {
+        [data-surface="#{$color}"] {
+            --surface-bg-color: var(--#{$_color-prefix}#{$color});
+            --surface-color: var(--#{$_color-prefix}#{$color}-fg);
+            :where(.button, button) {
+                --button-background-color: var(--surface-color);
+                --button-color: var(--surface-bg-color);
+            }
+        }
+    }
+    @layer modifiers {
+        [data-surface="#{$color}"] {
+            :where(.button, button).button--outline {
+                --button-color: var(--surface-color);
+                --button-background-color: transparent;
+                --button-border-color: var(--button-color); /// this should be baked into button rules
+            }
+        }
+    }
+}

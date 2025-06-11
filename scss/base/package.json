@@ -1,0 +1,35 @@
+{
+  "name": "@your-org/base-scss",
+  "version": "1.0.0",
+  "description": "Reusable base SCSS package with foundational styles and components",
+  "main": "_base.scss",
+  "files": [
+    "*.scss",
+    "functions/",
+    "mixins/",
+    "props/",
+    "rules/",
+    "variables/",
+    "README.md"
+  ],
+  "keywords": [
+    "scss",
+    "sass",
+    "css",
+    "styles",
+    "base",
+    "framework"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/base-scss.git"
+  },
+  "peerDependencies": {
+    "sass": "^1.0.0"
+  },
+  "devDependencies": {
+    "sass": "^1.77.8"
+  }
+}

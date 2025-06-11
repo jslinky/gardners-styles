@@ -1,0 +1,38 @@
+@use "sass:map";
+@use "sass:list";
+
+@function get-font-size-px-values($font-size-list, $base-font-size-marker, $include-fallback:true, $use-typo-scale: true) {
+
+    $map: ();
+    $base-font-size-map-index: list.index(map.keys($font-size-list), $base-font-size-marker);
+
+    $font-size-keys: map.keys($font-size-list);
+    $font-size-values: map.values($font-size-list);
+    $font-size-map-length: list.length($font-size-list);
+
+    @for $i from 1 through $font-size-map-length {
+        $font-size-key: list.nth($font-size-keys, $i);
+        $font-size-value: list.nth($font-size-values, $i);
+        $font-level: $i - $base-font-size-map-index;
+
+        @if ($font-level > 0) {            
+            $loop-guard: $i - 1 > $font-size-map-length;
+            $next-font-size-key: if($loop-guard, $font-size-key, list.nth($font-size-keys, $i - 1));
+            $fallback-value: if($use-typo-scale, calc(var(--#{$next-font-size-key}-px) * var(--text-size-increment)), $font-size-value);
+            $pow-support-value: if($use-typo-scale, calc(var(--font-size-base-px) * pow(var(--text-size-increment), var(--font-level, #{$font-level}))), $font-size-value);
+
+            $map: if($include-fallback, map.merge($map, (--#{$font-size-key}-px: #{$fallback-value})), map.merge($map, (--#{$font-size-key}-px: #{$pow-support-value})));
+        } @else if($font-level == 0) {
+            $fallback-value: ($use-typo-scale, var(--font-size-base-px), var(--font-size-base-px));
+            $pow-support-value: if($use-typo-scale, calc(var(--font-size-base-px) * pow(var(--text-size-increment), var(--font-level, #{$font-level}))), var(--font-size-base-px));
+            $map: if($include-fallback, map.merge($map, (--#{$font-size-key}-px: #{$fallback-value})), map.merge($map, (--#{$font-size-key}-px: #{$pow-support-value})));
+        } @else {
+            $next-font-size-key: list.nth($font-size-keys, $i + 1);
+            $fallback-value: if($use-typo-scale, calc(var(--#{$next-font-size-key}-px) / var(--text-size-increment)), $font-size-value);
+            $pow-support-value: if($use-typo-scale, calc(var(--font-size-base-px) * pow(var(--text-size-increment), var(--font-level, $font-level))), $font-size-value);
+            $map: if($include-fallback, map.merge($map, (--#{$font-size-key}-px: #{$fallback-value})), map.merge($map, (--#{$font-size-key}-px: #{$pow-support-value})));
+        }
+    }    
+    @return $map;
+
+}

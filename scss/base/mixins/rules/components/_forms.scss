@@ -1,0 +1,54 @@
+@use "../../../../theme" as *;
+@use "../../../variables/components/forms" as *;
+@use "../../../props/forms" as *;
+@use '../../../props/font-size' as fs;
+
+@mixin output-input-base-props($props-to-include: $input-base-props) {
+    @include output-props('_', $props-to-include...);
+}
+
+@mixin input-base-rules() {
+    @include output-input-base-props();
+    background-color: var(--_bg);
+    color: var(--_color);
+    font-size: var(--_fs);    
+}
+
+@mixin input-text-rules() {
+    @each $key, $value in $input-text-rules {
+       #{$key}: $value;
+    }  
+}
+
+@mixin input-box-rules() {
+    @each $key, $value in $input-box-rules {
+       #{$key}: $value;
+    }   
+}
+
+@mixin input-size-variants($pre-selector: null, $selector: '.input', $props: 'font-size') {
+    @each $size in $input-sizes {
+        @if(map-has-key(fs.$font-size-list , $size)) {
+            @if($pre-selector) {
+                #{$pre-selector} {
+                    &#{$selector}--#{$size} {
+                        @each $prop in $props {
+                            #{$prop}: var(--#{$size});
+                        } 
+                    }                    
+                }
+            } @else {
+                #{$selector}--#{$size} {
+                    @each $prop in $props {
+                        #{$prop}: var(--#{$size});
+                    } 
+                }
+            }
+
+        }
+    }
+}
+
+@mixin default-layout-label-rules() {
+    padding-block-start: map-get($input-text-rules , 'padding-block');
+}

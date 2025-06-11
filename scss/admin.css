@@ -1,0 +1,13 @@
+textarea[data-css-id] {
+    position:absolute;
+    inset:0;
+    background: rgba(255,255,255,.7);
+    z-index: 20;
+    width: 50vw;
+    &:first-of-type {
+        right:auto;
+    }
+    &:last-of-type {
+        left:auto;
+    }    
+}

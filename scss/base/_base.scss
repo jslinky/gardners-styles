@@ -1,0 +1,50 @@
+// @use "variables" as *;
+@use "../theme" as *;
+
+// @debug 'base.scss $scopeClassName: #{$scopeClassName}';
+
+@layer tw-base, base, site, tw;
+
+@layer base {
+    @layer reset, props, components;
+
+    @layer components {
+        @layer base, modifiers, states;
+    }
+}
+
+@layer site {
+    @layer components {
+        @layer base, modifiers, states;
+    }
+}
+
+@layer tw {
+    @layer theme, components, utilities;
+}
+
+@layer base.reset {
+    :root:is(.#{$scopeClassName}) {
+
+        @media (prefers-reduced-motion: no-preference) {
+            interpolate-size: allow-keywords;
+        }
+
+        @import "./reset";
+    }
+}
+
+@layer base.props {
+    @import "./prop-rules";
+}
+
+@layer base.components {
+    @import "./rules/components/typography/headings";
+    @import "./rules/components/typography/fluid-type";
+    @import "./rules/components/layout";
+    @import "./rules/components/buttons";
+    @import "./rules/components/forms";
+    @import "./rules/components/flow";
+    @import "./rules/components/surface";
+    @import "./rules/components/card";
+}

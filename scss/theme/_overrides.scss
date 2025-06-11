@@ -1,0 +1,15 @@
+// This file contains user-customizable overrides for the base theme
+// Copy this file to your project and modify the values as needed
+// These variables will override the defaults defined in the base package
+
+// Example overrides (customize as needed):
+$secondary-l: 0.41;
+$font-family-base: 'Source Sans';
+$font-size-base-px: 18;
+$max-wrapper-width: 1200px;
+$layout-gap: max(2vmax, var(--space-lg, 1rem));
+
+// Add your custom overrides below:
+// $primary-color: #your-color;
+// $spacing-base: 1rem;
+// etc...

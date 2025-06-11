@@ -1,0 +1,104 @@
+@use "sass:math";
+@use "../../variables/breakpoints" as bp;
+
+// https://adamdurrant.co.uk/blog/scss-mixins
+@mixin respond-to($query) {
+  @if $query == sm {
+    @media only screen and (min-width: bp.$breakpoint-sm) {
+      @content;
+    }
+  }
+  @if $query == sm-and-down {
+    @media only screen and (max-width: bp.$breakpoint-sm - math.div(1, 16)) {
+      @content;
+    }
+  } @else if $query == md {
+    @media only screen and (min-width: bp.$breakpoint-md) {
+      @content;
+    }
+  } @else if $query == md-and-down {
+    @media only screen and (max-width: bp.$breakpoint-md - math.div(1, 16)) {
+      @content;
+    }
+  } @else if $query == lg {
+    @media only screen and (min-width: bp.$breakpoint-lg) {
+      @content;
+    }
+  } @else if $query == lg-and-down {
+    @media only screen and (max-width: bp.$breakpoint-lg - math.div(1, 16)) {
+      @content;
+    }
+  } @else if $query == xl {
+    @media only screen and (min-width: bp.$breakpoint-xl) {
+      @content;
+    }
+  } @else if $query == xl-and-down {
+    @media only screen and (max-width: bp.$breakpoint-xl - math.div(1, 16)) {
+      @content;
+    }
+  }
+  @else if $query == 2xl {
+    @media only screen and (min-width: bp.$breakpoint-2xl) {
+      @content;
+    }
+  } @else if $query == 2xl-and-down {
+    @media only screen and (max-width: bp.$breakpoint-2xl - math.div(1, 16)) {
+      @content;
+    }
+  }  
+}
+
+
+
+// @mixin respond-to-container($query, $container-name: '', $container-type: inline-size) {
+//   @if $query == 3xs {
+//     @if $container-name != '' {
+//       @container #{$container-name} (width > bp.$container-3xl) {
+//         @content;
+//       }
+//     } @else {
+//       @container (width > bp.$container-3xl) {
+//         @content;
+//       }      
+//     }     
+//   }
+// }
+
+@mixin respond-to-container($query, $container-name: '', $container-type: inline-size) {
+  @if $query == 3xs {
+    @if $container-name != '' {
+      @container #{$container-name} (width > #{bp.$container-3xs}) {
+        @content;
+      }
+    } @else {
+      @container (width > #{bp.$container-3xs}) {
+        @content;
+      }      
+    }     
+  }
+
+  @if $query == 2xl {
+    @if $container-name != '' {
+      @container #{$container-name} (width > #{bp.$container-2xl}) {
+        @content;
+      }
+    } @else {
+      @container (width > #{bp.$container-2xl}) {
+        @content;
+      }      
+    }     
+  }
+
+  @if $query == 3xl {
+    @if $container-name != '' {
+      @container #{$container-name} (width > #{bp.$container-3xl}) {
+        @content;
+      }
+    } @else {
+      @container (width > #{bp.$container-3xl}) {
+        @content;
+      }      
+    }     
+  }  
+
+}

@@ -1,0 +1,9 @@
+@use "../../../props/font" as font;
+@use "../../../../theme" as *;
+
+$_font: module-variables("font");
+
+// Font family related variables
+:root:is(.#{$scopeClassName}) {
+    @include output-props(pick-keys($_font, 'font-family-base' 'font-family-heading' 'font-heading-weight')...); 
+}

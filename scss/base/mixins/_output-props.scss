@@ -1,0 +1,11 @@
+@use "sass:meta";
+
+@mixin output-props($prefix: null, $args...) {
+    @each $prop-name, $prop-val in keywords($args) {
+        // Check if $prop-val is not a map
+        @if meta.type-of($prop-val) != map {
+            $full-prop-name: if($prefix, $prefix + $prop-name, $prop-name);
+            --#{$full-prop-name}: #{$prop-val};
+        }
+    }
+}

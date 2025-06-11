@@ -1,0 +1,125 @@
+
+@use "../../../../base/mixins/utils/breakpoints" as bp;
+
+.sticky-wrapper {
+    background: var(--color-primary-1);
+    height: fit-content!important;
+    position: sticky;
+    top:0;
+    z-index: 10;
+}
+
+:is(.navMenu, .navMenu .primary, .quickSearch) {
+    list-style-type: none;
+}
+
+.navMenu {
+    // margin-inline: auto;
+    flex: 1 1 auto;
+    display: grid;    
+}
+
+#navMenu {
+    --edge-content-width: clamp(220px, 200px + 10vw, 320px);
+    .loggedOut {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding:0;
+        @include bp.respond-to(md-and-down) {
+            flex-direction: column;
+        }
+        // flex-wrap: wrap;
+    }
+}
+
+ul.primary {
+    display: flex;
+    // margin-inline: 0;
+    padding:0;
+    @include bp.respond-to(lg) {
+        margin-inline: auto;
+    }
+    a {
+        --text-frame-y: 1.2em;
+        display: inline-flex;
+        color: white;
+        padding: var(--text-frame-y) var(--text-frame-x);
+        text-transform: uppercase;
+        font-family: var(--font-family-heading);
+        font-weight: var(--font-heading-weight);
+        letter-spacing: 0.050em;
+        text-align: center;
+        line-height: 1;
+    }
+}
+
+#search {
+    display: flex;
+    flex-direction: row-reverse;
+    input {
+        /// move this to input module styles
+        // height:100%;
+        appearance: none;
+        border-color: transparent;        
+        border-radius: var(--radius) 0 0 var(--radius);
+        background-color: #fff;
+
+        min-height: 3em;
+        font-size: var(--sm);
+        padding-block: calc((var(--sm) / 3));
+        border: 0;
+        padding-inline: calc(var(--text-frame-x) / 2);        
+        width:100%;
+    }
+    div:has(> button) {
+        visibility: hidden;
+        position: absolute;
+    }
+}
+
+.quickSearch {
+    display: flex;
+    align-items: center;
+    flex: 0 1 var(--edge-content-width);
+    justify-content: center;
+    @include bp.respond-to(md-and-down) {
+        width:100%;
+        flex-basis: auto;
+        flex-grow:1;
+        margin-bottom: calc(var(--space-md) / 2); /// tie this to container width constraint
+    }
+    :is(form, #searchPrefix + div, .loggedOutSearch, .loggedOutSearch > span) {
+        flex:1 1 auto;
+    }
+}
+
+#searchControls {
+    display: contents;
+}
+
+:is(#searchControls > div, #searchPrefix) {
+    display: flex;
+}
+
+#searchPrefix {
+    &:before {
+        content: '';
+        display: inline-block;
+        width: 2rem;
+        aspect-ratio: 1/1;
+        border-radius: 0 var(--radius) var(--radius) 0;
+        background: #fff;
+    }
+    span {
+        display: none; /// visually hide this
+    }
+}
+
+.navInner {
+    width: min(var(--max-wrapper-width), 100% - var(--space-md));
+    margin-inline: auto;
+    @include bp.respond-to(lg) {        
+        padding-inline-start: var(--edge-content-width);
+    }
+}
