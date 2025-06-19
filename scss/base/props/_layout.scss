@@ -1,7 +1,7 @@
 @import "../../theme/";
 
 $layout-column-min: if(global-variable-exists(layout-column-min), $layout-column-min, 30ch) !default;
-$layout-gap: if(global-variable-exists(layout-gap), $layout-gap, max(3vmax, var(--space-xl, 1rem))) !default;
+$layout-gap: if(global-variable-exists(layout-gap), $layout-gap, min(3vmax, var(--space-xl, 1rem))) !default;
 // $layout-gap: var(--spacing-gutter);
 
 // Grid layout
