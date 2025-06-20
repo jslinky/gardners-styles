@@ -1,3 +1,4 @@
+@use 'open-props-scss' as op;
 @use "../../../theme" as *;
 @use "../../variables/components/typography/headings" as *;
 @use "../../variables/components/cards" as *;
@@ -95,6 +96,11 @@
 }
 
 @layer modifiers {
+
+  :where(#{$card-component-selectors}[data-card-outer-shadow="1"]) {
+    box-shadow: op.shadow(1);
+  }
+
   :where(#{$card-component-selectors}[data-card-layout="overlay"]) {
     #{$card-body-selectors} {
       grid-row: 1 / -1;
