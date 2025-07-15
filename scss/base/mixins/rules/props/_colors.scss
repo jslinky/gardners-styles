@@ -4,7 +4,7 @@
 @use "../../../variables/config" as config;
 @use "../../../../theme/overrides" as overrides;
 @use "../../../../theme" as *;
-// @use "../../../variables" as *;
+@use "../../../functions/get-color-prefix" as colorPrefix;
 
 @use "../../../props/colors" as colors;
 
@@ -14,13 +14,11 @@ $_config: meta.module-variables("config");
 $_merged-excludes: map.merge($_config , $_overrides );
 $exclude-count: list.length($_merged-excludes);
 
-$_colorNamePrefix: getColorPrefix();
 $_colors: meta.module-variables("colors");
 $color-map-keys: map.keys($_colors);
 
 $color-loop-output: ();
 $color-loop-output-flat: ();
-
 
 @function checkIfColorDefined($colorName, $map: $_colors) {
     @return map.has-key($map, $colorName);
@@ -65,17 +63,80 @@ $color-loop-output-flat: ();
     $color-loop-output-flat: map.merge($color-loop-output-flat, $value);
 }
 
-// Color related variables
-:root:is(.#{$scopeClassName}) {
-    @include output-props("#{$_colorNamePrefix}", exclude-keys($_colors, map.keys($color-loop-output-flat))...);
-    @include output-props("#{$_colorNamePrefix}", $color-loop-output-flat...);
+@mixin generateAllColors() {
+    $colorNamePrefix: colorPrefix.getColorPrefix(); // Get fresh value each time
+    @include output-props("#{$colorNamePrefix}", exclude-keys($_colors, map.keys($color-loop-output-flat))...);
+    @include output-props("#{$colorNamePrefix}", $color-loop-output-flat...);
 
     @each $color in $colorIncludes {
         @if(map.has-key($_colors, $color)) {
-            $lightness: if(checkIfColorDefined("#{$_colorNamePrefix}#{$color}-l"), getColorPropValue("#{$_colorNamePrefix}#{$color}-l"), 0.56);
+            $lightness: if(checkIfColorDefined("#{$colorNamePrefix}#{$color}-l"), getColorPropValue("#{$colorNamePrefix}#{$color}-l"), 0.56);
             @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);
             @include generate-color-surface-text("#{$color}", 12);
         }
+        // grey ranage colors are derived from one of the defined colors.
+        // Dont't define grey in color props, only it's inclusion in $colorIncludes
+        @if($color == "grey") {
+            @include generate-grey-range-colors("grey", 12, "primary", 0.020, $colorNamePrefix);
+        }        
     }
-    // @include generate-color-surface-text("#{$_colorNamePrefix}primary", 12);
+}
+
+@mixin generateTailwindColors() {
+    // This mixin outputs colors without the :root selector for use in Tailwind's @theme block
+    $colorNamePrefix: colorPrefix.getColorPrefix(); // Get fresh value each time
+    
+    // First manually output the base component variables for each color
+    @each $color in $colorIncludes {
+        @if(map.has-key($_colors, $color)) {
+            @if(checkIfColorDefined("#{$color}-l")) {
+                --#{$colorNamePrefix}#{$color}-l: #{getColorPropValue("#{$color}-l")};
+            }
+            @if(checkIfColorDefined("#{$color}-c")) {
+                --#{$colorNamePrefix}#{$color}-c: #{getColorPropValue("#{$color}-c")};
+            }
+            @if(checkIfColorDefined("#{$color}-h")) {
+                --#{$colorNamePrefix}#{$color}-h: #{getColorPropValue("#{$color}-h")};
+            }
+        }
+    }
+    
+    // Then output the range variables for each color
+    @each $color in $colorIncludes {
+        @if(map.has-key($_colors, $color)) {
+            $lightness: if(checkIfColorDefined("#{$color}-l"), getColorPropValue("#{$color}-l"), 0.56);
+            @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);
+        }
+    }
+    
+    // Finally output the main composed color variables that reference the component variables
+    @each $color in $colorIncludes {
+        @if(map.has-key($_colors, $color)) {
+            @if(checkIfColorDefined("#{$color}")) {
+                --#{$colorNamePrefix}#{$color}: #{getColorPropValue("#{$color}")};
+            }
+        }
+        @if($color == "grey") {
+            @include generate-grey-range-colors("grey", 12, "primary", 0.020, $colorNamePrefix);
+        }
+    }
+    
+}
+
+@mixin generateTailwindSurfaceText() {
+    // This mixin outputs surface text variables outside the @theme block
+    @each $color in $colorIncludes {
+        @if(map.has-key($_colors, $color)) {
+            @include generate-color-surface-text("#{$color}", 12);
+        }
+    }
+}
+
+// Color related variables
+@if config.$useTailwindForColorOutput == false {
+    :root:is(.#{$scopeClassName}) {
+        @include generateAllColors();
+    }
+} @else {
+    @debug 'Using Tailwind for color output';
 }

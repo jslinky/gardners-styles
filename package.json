@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "build": "sass scss/style.scss:dist/style.css --style=compressed --load-path=node_modules",
+    "build:colors": "sass scss/base/compiled-modules/_colors.scss:dist/compiled-modules/colors.css --style=compressed --load-path=node_modules",
     "watch": "sass scss/style.scss:dist/style.css --watch --load-path=node_modules"
   },
   "devDependencies": {

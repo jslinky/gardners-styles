@@ -1,12 +1,8 @@
 @use "sass:meta";
-// @use "../variables" as *;
+@use "../variables/config" as config;
 
 @function getColorPrefix() {
-    @if(meta.global-variable-exists(colorNamePrefix)) {
-        $_colorNamePrefix: if($colorNamePrefix == '', '', '#{$colorNamePrefix}-');
-        @return $_colorNamePrefix;
-    } @else {
-        @return '';
-    }
-
+    $colorNamePrefix: config.$colorNamePrefix;
+    $_colorNamePrefix: if($colorNamePrefix == '', '', '#{$colorNamePrefix}');
+    @return $_colorNamePrefix;
 }

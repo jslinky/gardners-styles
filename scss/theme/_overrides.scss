@@ -3,7 +3,7 @@
 // These variables will override the defaults defined in the base package
 
 // Example overrides (customize as needed):
-$secondary-l: 0.41;
+$colorIncludes: 'primary' 'tertiary' 'dark' 'grey';
 $font-family-base: 'Source Sans';
 $font-size-base-px: 18;
 $max-wrapper-width: 1200px;

@@ -2,7 +2,7 @@
 @use "../../../../base/mixins/utils/breakpoints" as bp;
 
 .sticky-wrapper {
-    background: var(--color-primary-1);
+    background: var(--color-secondary);
     height: fit-content!important;
     position: sticky;
     top:0;

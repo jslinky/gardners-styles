@@ -1,0 +1,22 @@
+
+@mixin generate-grey-range-colors(  
+  $class-name: "l",
+  $steps: 12,
+  $reference_color: primary,
+  $chroma: 0.05,
+  $prefix: getColorPrefix(),
+  $dark-class-name: dark
+) {
+
+  @for $i from 0 through ($steps - 1) {
+    // Output the color
+    --#{$prefix}#{$class-name}-#{$i}: oklch(from var(--#{$prefix}#{$reference_color}-#{$i}) l var(--#{$prefix}#{$class-name}-c, #{$chroma}) h);
+
+
+    --#{$prefix}#{$class-name}-#{$i}-fg: oklch(from var(--color, var(--#{$prefix}#{$class-name}-#{$i})) clamp(var(--#{$prefix}#{$class-name}-#{$i}-fg-lightest-text, var(--fg-lightest-text, 0)), (l / var(--fg-threshold, 0.623) - 1) * -infinity, var(--#{$prefix}#{$class-name}-#{$i}-fg-darkest-text, var(--fg-darkest-text, 1))) 0 h);
+
+//   --#{$prefix}#{$class-name}-#{$i}-fg-muted: oklch(from var(--color, var(--#{$prefix}#{$class-name}-#{$i})) clamp(var(--#{$prefix}#{$class-name}-#{$i}-fg-muted-lightest-text, var(--fg-muted-lightest-text, 0)), (l / var(--fg-threshold, 0.623) - 1) * -infinity, var(--#{$prefix}#{$class-name}-#{$i}-fg-muted-darkest-text, var(--fg-muted-darkest-text, 1))) c h);    
+
+
+  }
+}

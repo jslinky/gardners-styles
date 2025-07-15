@@ -36,3 +36,10 @@ $dark-c: if(meta.global-variable-exists(dark-c), $dark-c, 0) !default;
 $dark-h: if(meta.global-variable-exists(dark-h), $dark-h, 0) !default;
 
 $dark: oklch(var(--#{$_colorNamePrefix}dark-l) var(--#{$_colorNamePrefix}dark-c) var(--#{$_colorNamePrefix}dark-h))!default; 
+
+// $grey-l: if(meta.global-variable-exists(grey-l), $grey-l, $primary-l) !default;
+// $grey-c: if(meta.global-variable-exists(grey-c), $grey-c, 0.050) !default;
+// $grey-h: if(meta.global-variable-exists(grey-h), $grey-h, $primary) !default;
+
+// $grey: oklch(var(--#{$_colorNamePrefix}grey-l) var(--#{$_colorNamePrefix}grey-c) var(--#{$_colorNamePrefix}grey-h))!default; 
+

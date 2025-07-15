@@ -1,3 +1,4 @@
 $scopeClassName: 'new'!default; 
-$colorNamePrefix: ''!default;
-$colorIncludes: 'primary' 'secondary' 'tertiary' 'dark'!default;
+$colorNamePrefix: 'color-'!default;
+$colorIncludes: 'primary' 'secondary' 'tertiary' 'dark' 'grey'!default;
+$useTailwindForColorOutput: true !default;
