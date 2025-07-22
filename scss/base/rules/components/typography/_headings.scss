@@ -38,7 +38,7 @@ $heading-size-tags: (
             line-height: 1;
         }
 
-        &:has(span:nth-of-type(1):not(:last-of-type)) {
+        &:has(span:nth-of-type(1):not(:last-of-type), span:only-of-type) {
             &.heading--underline {
                 >span:last-of-type {
                     &:after {

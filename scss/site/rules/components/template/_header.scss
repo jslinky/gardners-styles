@@ -4,7 +4,7 @@
 :root {
   --header-height: 95px;
   @include bp.respond-to(lg) {
-    --header-height: 130px;
+    --header-height: 112px;
   }
 }
 

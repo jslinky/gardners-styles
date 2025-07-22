@@ -1,22 +1,25 @@
 :root {
-    --hero-min-height: 250px;
-    --hero-max-height: 330px;
+    --hero-min-height: 200px;
+    --hero-max-height: 250px;
     --hero-fluid-height: 50vi;    
+    
+    --hero-after-height: 166px;
+    --line-width: var(--space-sm);
 }
 
 .hero {
     --color: #fff;
-    background: linear-gradient(to bottom, var(--color-primary) clamp((var(--hero-min-height) + 2px), calc(var(--hero-fluid-height) + 2vi), calc(var(--hero-max-height) + 5px)), transparent clamp((var(--hero-min-height) + 2px), calc(var(--hero-fluid-height) + 2vi), calc(var(--hero-max-height) + 5px)));
+    background: linear-gradient(to bottom, var(--color-primary) calc(100% - var(--hero-after-height)), transparent calc(100% - var(--hero-after-height)));
     display: grid;
     align-content: flex-start;
     justify-content: center;
     position: relative;
-    grid-template-columns: 1fr;
-    grid-template-rows: clamp(var(--hero-min-height), var(--hero-fluid-height), var(--hero-max-height)) 200px;   
+    grid-template-columns: 1fr; 
+    grid-template-rows: auto var(--hero-after-height);
     overflow: clip; 
     padding-bottom: 1.5rem;
     &:after, &:before {
-        clip-path: polygon(100% 100%, 100% 0, 0 0, 0 100%, 50% 30%);
+        clip-path: polygon(100% 100%, 100% 0, 0 0, 0 calc(100% - var(--line-width)), 50% 10%);
         isolation: isolate;
         content:'';
         display: block;
@@ -24,7 +27,7 @@
         height:100%;      
         grid-row: 2/2;
         grid-column: 1/-1; 
-        max-height: 200px;
+        max-height: var(--hero-after-height);
         align-self: flex-end;        
         inset:0;        
         min-width: var(--max-wrapper-width);
@@ -35,10 +38,10 @@
     &:after {
         z-index: -1;
         background:var(--color-tertiary);
-        transform: translateY(var(--space-md));
+        transform: translateY(var(--line-width));
     }
     > * {
-        grid-row: 1/-1;
+        // grid-row: 1/-1;
         grid-column: 1/-1; 
         z-index: 1;        
     }
@@ -54,7 +57,7 @@
 }
 
 .hero__container {
-    padding-block-start: var(--space-3xl);
+    padding-block-start: var(--space-lg);
     width: min(var(--max-wrapper-width), calc(100vw - (var(--space-lg) * 2)));
     margin-inline: auto;
 }
@@ -66,7 +69,7 @@
 
 :where(.hero.hero--pullup) {
     + * {
-        margin-top: calc(-1 * var(--hero-max-height));
+        margin-top: calc(-1 * (var(--hero-max-height)/1.5));
         z-index:1;
         position: relative;
     }

@@ -20,36 +20,8 @@
       @include card.link();
     }
 
-    &:is(.card--layout-cols) {
-      @include card.column-rules();
-
-      &:has(#{$card-picture-selectors}) {
-        @include card.two-column-layout();
-      }
-    }
-
-    &:not(.card--layout-cols) {
-      grid-auto-flow: row;
-      align-items: flex-start;
-      justify-content: start;
-      aspect-ratio: unset;
-
-      &:has(#{$card-picture-selectors}) {
-        grid-auto-flow: row;
-        grid-auto-rows: var(--card-auto-row);
-      }
-
-      &:has(#{$card-picture-selectors}:first-child) {
-        --card-auto-row: auto max-content;
-      }
-
-      &:has(#{$card-picture-selectors}:not(:first-child)) {
-        --card-auto-row: max-content auto;
-      }
-    }
-
     @container (inline-size > 80ch) {
-      &:has(#{$card-picture-selectors}:not(:empty)) {
+      &:not([data-card-layout="row"]):has(#{$card-picture-selectors}:not(:empty)) {
         @include card.two-column-layout();
       }
     }
@@ -96,6 +68,35 @@
 }
 
 @layer modifiers {
+
+  :where(#{$card-component-selectors}):is([data-card-layout="col"]) {
+      @include card.column-rules();
+
+      &:has(#{$card-picture-selectors}) {
+        @include card.two-column-layout();
+      }
+  }
+
+
+  :where(#{$card-component-selectors}):not([data-card-layout="col"]) {
+      grid-auto-flow: row;
+      align-items: flex-start;
+      justify-content: start;
+      aspect-ratio: unset;
+
+      &:has(#{$card-picture-selectors}) {
+        grid-auto-flow: row;
+        grid-auto-rows: var(--card-auto-row);
+      }
+
+      &:has(#{$card-picture-selectors}:first-child) {
+        --card-auto-row: auto 1fr;
+      }
+
+      &:has(#{$card-picture-selectors}:not(:first-child)) {
+        --card-auto-row: max-content auto;
+      }
+  }  
 
   :where(#{$card-component-selectors}[data-card-outer-shadow="1"]) {
     box-shadow: op.shadow(1);
@@ -150,14 +151,23 @@
     }
   }
 
+  :where(#{$card-component-selectors}):is([data-card-layout="col"]) {
+    @include card.column-rules();
+  }
+
+  :where(#{$card-component-selectors}):is([data-card-layout="row"]) {
+    @include card.row-rules();
+  }  
+
+
   @container (inline-size <=80ch) {
-    :where(#{$card-component-selectors}):not(.card--layout-cols) {
+    :where(#{$card-component-selectors}):not([data-card-layout="col"]) {
       @include card.row-rules();
     }
   }
 
   @container (inline-size > 80ch) {
-    :where(#{$card-component-selectors}) {
+    :where(#{$card-component-selectors}):not([data-card-layout="row"]) {
       --card-auto-row: auto;
       @include card.column-rules();
     }
