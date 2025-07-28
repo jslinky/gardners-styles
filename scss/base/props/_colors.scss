@@ -1,41 +1,47 @@
 // replace with oklch when lightningcss is in place
 @use "sass:meta";
 @use "../../theme/_index" as *;
+@use "../../theme/overrides" as overrides;
+@use "../functions/overrides" as *;
+@use "../variables/config" as config;
 
 $_colorNamePrefix: getColorPrefix();
 
-// Use global-variable-exists to allow for overrides
-$fg-threshold: if(meta.global-variable-exists(fg-threshold), $fg-threshold, 0.7) !default;
-$fg-lightest-text: if(meta.global-variable-exists(fg-lightest-text), $fg-lightest-text, 0) !default;
-$fg-darkest-text: if(meta.global-variable-exists(fg-darkest-text), $fg-darkest-text, 1) !default;
-$fg-muted-lightest-text: if(meta.global-variable-exists(fg-muted-lightest-text), $fg-muted-lightest-text, 0.4) !default;
-$fg-muted-darkest-text: if(meta.global-variable-exists(fg-muted-darkest-text), $fg-muted-darkest-text, 0.90) !default;
+/// Get overrides for checking color component values
+$_overrides: meta.module-variables("overrides");
 
-$primary-l: if(meta.global-variable-exists(primary-l), $primary-l, 0.59) !default;
-$primary-c: if(meta.global-variable-exists(primary-c), $primary-c, 0.14) !default;
-$primary-h: if(meta.global-variable-exists(primary-h), $primary-h, 242) !default;
+// Use override system for color component variables with fallbacks
+$fg-threshold: get-override("fg-threshold", 0.7, $_overrides);
+$fg-lightest-text: get-override("fg-lightest-text", 0, $_overrides);
+$fg-darkest-text: get-override("fg-darkest-text", 1, $_overrides);
+$fg-muted-lightest-text: get-override("fg-muted-lightest-text", 0.4, $_overrides);
+$fg-muted-darkest-text: get-override("fg-muted-darkest-text", 0.90, $_overrides);
 
-$primary: oklch(var(--#{$_colorNamePrefix}primary-l) var(--#{$_colorNamePrefix}primary-c) var(--#{$_colorNamePrefix}primary-h))!default;
+$primary-l: get-override("primary-l", 0.59, $_overrides);
+$primary-c: get-override("primary-c", 0.14, $_overrides);
+$primary-h: get-override("primary-h", 242, $_overrides);
+
+$primary: oklch(var(--#{$_colorNamePrefix}primary-l) var(--#{$_colorNamePrefix}primary-c) var(--#{$_colorNamePrefix}primary-h));
 
 // $secondary-l: var(--#{$_colorNamePrefix}primary-l-1);
-$secondary-l: if(meta.global-variable-exists(secondary-l), $secondary-l, $primary-l) !default;
-$secondary-c: if(meta.global-variable-exists(secondary-c), $secondary-c, var(--#{$_colorNamePrefix}primary-c-1, var(--#{$_colorNamePrefix}primary-c))) !default;
-$secondary-h: if(meta.global-variable-exists(secondary-h), $secondary-h, var(--#{$_colorNamePrefix}primary-h-1, var(--#{$_colorNamePrefix}primary-h))) !default;
+$secondary-l: get-override("secondary-l", $primary-l, $_overrides);
+$secondary-c: get-override("secondary-c", var(--#{$_colorNamePrefix}primary-c-1, var(--#{$_colorNamePrefix}primary-c)), $_overrides);
+$secondary-h: get-override("secondary-h", var(--#{$_colorNamePrefix}primary-h-1, var(--#{$_colorNamePrefix}primary-h)), $_overrides);
 
-$secondary: oklch(var(--#{$_colorNamePrefix}secondary-l) var(--#{$_colorNamePrefix}secondary-c) var(--#{$_colorNamePrefix}secondary-h))!default; 
+$secondary: oklch(var(--#{$_colorNamePrefix}secondary-l) var(--#{$_colorNamePrefix}secondary-c) var(--#{$_colorNamePrefix}secondary-h)); 
 
-// $tertiary-l: calc(var(--#{$_colorNamePrefix}primary-l-11) + 0.18)!default;
-$tertiary-l: if(meta.global-variable-exists(tertiary-l), $tertiary-l, $primary-l + 0.28) !default;
-$tertiary-c: if(meta.global-variable-exists(tertiary-c), $tertiary-c, calc(var(--#{$_colorNamePrefix}primary-c) - 0.080)) !default;
-$tertiary-h: if(meta.global-variable-exists(tertiary-h), $tertiary-h, var(--#{$_colorNamePrefix}primary-h-11, var(--#{$_colorNamePrefix}primary-h))) !default;
+// $tertiary-l: calc(var(--#{$_colorNamePrefix}primary-l-11) + 0.18);
+$tertiary-l: get-override("tertiary-l", $primary-l + 0.28, $_overrides);
+$tertiary-c: get-override("tertiary-c", calc(var(--#{$_colorNamePrefix}primary-c) - 0.080), $_overrides);
+$tertiary-h: get-override("tertiary-h", var(--#{$_colorNamePrefix}primary-h-11, var(--#{$_colorNamePrefix}primary-h)), $_overrides);
 
-$tertiary: oklch(var(--#{$_colorNamePrefix}tertiary-l) var(--#{$_colorNamePrefix}tertiary-c) var(--#{$_colorNamePrefix}tertiary-h))!default; 
+$tertiary: oklch(var(--#{$_colorNamePrefix}tertiary-l) var(--#{$_colorNamePrefix}tertiary-c) var(--#{$_colorNamePrefix}tertiary-h)); 
 
-$dark-l: if(meta.global-variable-exists(dark-l), $dark-l, 0.23) !default;
-$dark-c: if(meta.global-variable-exists(dark-c), $dark-c, 0) !default;
-$dark-h: if(meta.global-variable-exists(dark-h), $dark-h, 0) !default;
+$dark-l: get-override("dark-l", 0.23, $_overrides);
+$dark-c: get-override("dark-c", 0, $_overrides);
+$dark-h: get-override("dark-h", 0, $_overrides);
 
-$dark: oklch(var(--#{$_colorNamePrefix}dark-l) var(--#{$_colorNamePrefix}dark-c) var(--#{$_colorNamePrefix}dark-h))!default; 
+$dark: oklch(var(--#{$_colorNamePrefix}dark-l) var(--#{$_colorNamePrefix}dark-c) var(--#{$_colorNamePrefix}dark-h)); 
 
 // $grey-l: if(meta.global-variable-exists(grey-l), $grey-l, $primary-l) !default;
 // $grey-c: if(meta.global-variable-exists(grey-c), $grey-c, 0.050) !default;

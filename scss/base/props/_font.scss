@@ -1,7 +1,7 @@
-@use "sass:meta";
 @use "sass:string";
-@use "../../theme";
+// Import theme overrides first
+@import "../../theme/overrides";
 
-$font-family-base: if(meta.global-variable-exists(font-family-base), $font-family-base, 'system-ui, sans-serif')!default;
-$font-family-heading: if(meta.global-variable-exists(font-family-heading), $font-family-heading, string.unquote("Calibri, Seravek, 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', source-sans-pro, sans-serif")) !default;
-$font-heading-weight: if(meta.global-variable-exists(font-heading-weight), $font-heading-weight, 600) !default;
+$font-family-base: 'system-ui, sans-serif' !default;
+$font-family-heading: string.unquote("Calibri, Seravek, 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', source-sans-pro, sans-serif") !default;
+$font-heading-weight: 600 !default;

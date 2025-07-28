@@ -3,13 +3,17 @@
 // These variables will override the defaults defined in the base package
 
 // Example overrides (customize as needed):
-$colorIncludes: 'primary' 'tertiary' 'dark' 'grey';
-$font-family-base: 'Source Sans';
+// $colorIncludes: 'primary' 'tertiary' 'dark' 'grey';
+$font-family-base: var(--font-source-sans);
+$font-family-heading: var(--font-source-sans);
 $font-size-base-px: 18;
 $max-wrapper-width: 1200px;
 $layout-gap: max(2vmax, var(--space-lg, 1rem));
+$layout-gap: max(min(2vmax, var(--space-xl)), var(--space-lg, 1rem));
+$space-increment: 1.38;
 
 // Add your custom overrides below:
-// $primary-color: #your-color;
-// $spacing-base: 1rem;
-// etc...
+// Example color component overrides:
+// $primary-l: 0.75;
+// $primary-c: 0.2;
+// $primary-h: 180;

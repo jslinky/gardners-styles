@@ -1,11 +1,12 @@
-@import "../../theme/";
+// Import theme overrides first
+@import "../../theme/overrides";
 
-$use-typo-scale: if(global-variable-exists(use-typo-scale), $use-typo-scale, true) !default;
-$text-size-increment: if(global-variable-exists(text-size-increment), $text-size-increment, 1.25) !default;
-$font-size-base-px: if(global-variable-exists(font-size-base-px), $font-size-base-px, 16) !default;
+$use-typo-scale: true !default;
+$text-size-increment: 1.25 !default;
+$font-size-base-px: 16 !default;
 $font-size-base: calc((var(--font-size-base-px) / 16) * 1rem);
 
-$base-font-size-marker: if(global-variable-exists(base-font-size-marker), $base-font-size-marker, 'md') !default;
+$base-font-size-marker: 'md' !default;
 
 /// Values are for if $use-type-scale is false
 $font-size-list: (

@@ -1,15 +1,15 @@
-@use "sass:meta";
-@use "../../theme/" as *;
+// Import theme overrides first
+@import "../../theme/overrides";
 
-$space-3xs: if(meta.global-variable-exists(space-3xs), $space-3xs, calc(var(--space-2xs) / var(--space-increment))) !default;
-$space-2xs: if(meta.global-variable-exists(space-2xs), $space-2xs, calc(var(--space-xs) / var(--space-increment))) !default;
-$space-xs: if(meta.global-variable-exists(space-xs), $space-xs, calc(var(--space-sm) / var(--space-increment))) !default;
-$space-sm: if(meta.global-variable-exists(space-sm), $space-sm, var(--unit)) !default;
-$space-md: if(meta.global-variable-exists(space-md), $space-md, calc(var(--space-sm) * var(--space-increment))) !default;
-$space-lg: if(meta.global-variable-exists(space-lg), $space-lg, calc(var(--space-md) * var(--space-increment))) !default;
-$space-xl: if(meta.global-variable-exists(space-xl), $space-xl, calc(var(--space-lg) * var(--space-increment))) !default;
-$space-2xl: if(meta.global-variable-exists(space-2xl), $space-2xl, calc(var(--space-xl) * var(--space-increment))) !default;
-$space-3xl: if(meta.global-variable-exists(space-3xl), $space-3xl, calc(var(--space-2xl) * var(--space-increment))) !default;
-$space-4xl: if(meta.global-variable-exists(space-4xl), $space-4xl, calc(var(--space-3xl) * var(--space-increment))) !default;
-$space-5xl: if(meta.global-variable-exists(space-5xl), $space-5xl, calc(var(--space-4xl) * var(--space-increment))) !default;
-$space-6xl: if(meta.global-variable-exists(space-6xl), $space-6xl, calc(var(--space-5xl) * var(--space-increment))) !default;
+$space-3xs: calc(var(--space-2xs) / var(--space-increment)) !default;
+$space-2xs: calc(var(--space-xs) / var(--space-increment)) !default;
+$space-xs: calc(var(--space-sm) / var(--space-increment)) !default;
+$space-sm: var(--unit) !default;
+$space-md: calc(var(--space-sm) * var(--space-increment)) !default;
+$space-lg: calc(var(--space-md) * var(--space-increment)) !default;
+$space-xl: calc(var(--space-lg) * var(--space-increment)) !default;
+$space-2xl: calc(var(--space-xl) * var(--space-increment)) !default;
+$space-3xl: calc(var(--space-2xl) * var(--space-increment)) !default;
+$space-4xl: calc(var(--space-3xl) * var(--space-increment)) !default;
+$space-5xl: calc(var(--space-4xl) * var(--space-increment)) !default;
+$space-6xl: calc(var(--space-5xl) * var(--space-increment)) !default;

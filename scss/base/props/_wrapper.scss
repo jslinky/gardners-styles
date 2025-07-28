@@ -1,14 +1,10 @@
-@import "../../theme/";
+// Import theme overrides first
+@import "../../theme/overrides";
 
-$max-wrapper-width: if(global-variable-exists(max-wrapper-width), $max-wrapper-width, 1440px) !default;
-$wrapper-padding: if(global-variable-exists(wrapper-padding), $wrapper-padding, var(--layout-gap)) !default;
-$wrapper-padding-min: if(global-variable-exists(wrapper-padding-min), $wrapper-padding-min, clamp(var(
-    --layout-gap), 2vw, (var(--layout-gap) * 2))) !default;
-$wrapper-inline: if(global-variable-exists(wrapper-inline), $wrapper-inline, max(
-    var(--wrapper-padding-min, 1rem),
-    calc(50vw - var(--wrapper-width) / 2 + var(--wrapper-padding) * 2 / 2)
-)) !default;
-
-$wrapper-width: if(global-variable-exists(wrapper-width), $wrapper-width, calc(var(--max-wrapper-width) + (var(--wrapper-padding) * 2))) !default;
-
-$grid-wrapper-columns: if(global-variable-exists(grid-wrapper-columns), $grid-wrapper-columns, var(--start-col, var(--wrapper-inline)) var(--center-col, 1fr) var(--end-col, var(--wrapper-inline))) !default;
+// Set defaults with potential overrides from theme
+$max-wrapper-width: 1440px !default;
+$wrapper-padding: var(--layout-gap) !default;
+$wrapper-padding-min: clamp(var(--layout-gap), 2vw, (var(--layout-gap) * 2)) !default;
+$wrapper-inline: max(var(--wrapper-padding-min, 1rem), calc(50vw - var(--wrapper-width) / 2 + var(--wrapper-padding) * 2 / 2)) !default;
+$wrapper-width: calc(var(--max-wrapper-width) + (var(--wrapper-padding) * 2)) !default;
+$grid-wrapper-columns: var(--start-col, var(--wrapper-inline)) var(--center-col, 1fr) var(--end-col, var(--wrapper-inline)) !default;

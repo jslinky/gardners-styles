@@ -1,9 +1,9 @@
-// @use "../variables" as *;
-// @use "../variables" as *;
 @use "../variables/components/forms" as *;
-@use "../../theme" as *;
+@use "../variables/config" as *;
+// Import theme overrides first
+@import "../../theme/overrides";
 
-$accent-color: if(global-variable-exists(accent-color), $accent-color, var(--#{$colorNamePrefix}primary)) !default;
+$accent-color: var(--#{$colorNamePrefix}primary) !default;
 
 /// Scoped
 $input-base-props: (

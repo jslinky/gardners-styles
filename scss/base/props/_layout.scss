@@ -1,7 +1,8 @@
-@import "../../theme/";
+// Import theme overrides first
+@import "../../theme/overrides";
 
-$layout-column-min: if(global-variable-exists(layout-column-min), $layout-column-min, 30ch) !default;
-$layout-gap: if(global-variable-exists(layout-gap), $layout-gap, min(3vmax, var(--space-xl, 1rem))) !default;
+$layout-column-min: 30ch !default;
+$layout-gap: min(3vmax, var(--space-xl, 1rem)) !default;
 // $layout-gap: var(--spacing-gutter);
 
 // Grid layout
@@ -13,7 +14,7 @@ $layout-grid-template-columns: repeat(
 );
 
 /// Grid layout - define column variation
-$column-count: if(global-variable-exists(column-count), $column-count, 4) !default;
+$column-count: 4 !default;
 /* calculations */
 $breakpoint: calc(
   var(--layout-grid-min) * var(--column-count) +

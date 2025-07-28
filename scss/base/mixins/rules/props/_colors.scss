@@ -5,12 +5,17 @@
 @use "../../../../theme/overrides" as overrides;
 @use "../../../../theme" as *;
 @use "../../../functions/get-color-prefix" as colorPrefix;
+@use "../../../functions/overrides" as *;
 
 @use "../../../props/colors" as colors;
 
-/// These are @forwarded or @included in theme/overrides. Importing them here to remove them from the scope.
+/// Override colorIncludes with the value from overrides if available
 $_overrides: meta.module-variables("overrides");
 $_config: meta.module-variables("config");
+
+// Use the utility function for clean override handling
+$colorIncludes: get-override("colorIncludes", config.$colorIncludes, $_overrides);
+$useTailwindForColorOutput: get-override("useTailwindForColorOutput", config.$useTailwindForColorOutput, $_overrides);
 $_merged-excludes: map.merge($_config , $_overrides );
 $exclude-count: list.length($_merged-excludes);
 
@@ -65,7 +70,8 @@ $color-loop-output-flat: ();
 
 @mixin generateAllColors() {
     $colorNamePrefix: colorPrefix.getColorPrefix(); // Get fresh value each time
-    @include output-props("#{$colorNamePrefix}", exclude-keys($_colors, map.keys($color-loop-output-flat))...);
+    
+    // Only output the colors that are included in $colorIncludes
     @include output-props("#{$colorNamePrefix}", $color-loop-output-flat...);
 
     @each $color in $colorIncludes {
@@ -133,7 +139,7 @@ $color-loop-output-flat: ();
 }
 
 // Color related variables
-@if config.$useTailwindForColorOutput == false {
+@if $useTailwindForColorOutput == false {
     :root:is(.#{$scopeClassName}) {
         @include generateAllColors();
     }
