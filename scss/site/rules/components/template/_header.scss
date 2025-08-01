@@ -16,7 +16,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  
+
   @include bp.respond-to(lg) {
     --edge-content-width: 350px;
   }
@@ -41,7 +41,7 @@
     grid-area: logo;
     > a {
       display: block;
-      height:100%;
+      height: 100%;
     }
     @include bp.respond-to(lg) {
       margin-inline: auto;
@@ -50,7 +50,7 @@
   > div {
     --gap-x: var(--space-lg);
     --gap-y: var(--space-sm);
-    --template-areas: "logo login" "contact contact";    
+    --template-areas: "logo login" "contact contact";
     display: flex;
     justify-content: space-between;
     display: grid;
@@ -60,7 +60,7 @@
     width: min(var(--max-wrapper-width), calc(100% - (var(--space-lg) * 2)));
     gap: var(--gap-y) var(--gap-x);
     @include bp.respond-to(sm) {
-        --template-areas: "logo login" "logo contact";
+      --template-areas: "logo login" "logo contact";
     }
     @include bp.respond-to(lg) {
       padding-inline-start: var(--edge-content-width);
@@ -83,8 +83,8 @@
 }
 
 :is(.headerMenuRight, .headerMenuLeft) {
-//   flex: 1 1 auto;
-    width: var(--edge-content-width);
+  //   flex: 1 1 auto;
+  width: var(--edge-content-width);
 }
 
 .headerMenuRight {
@@ -121,8 +121,7 @@
       @include buttons.sm-rules();
       text-transform: uppercase;
       border-radius: var(--radius);
-      font-family: var(--font-family-heading);
-      font-weight: var(--font-heading-weight);
+      line-height: 1;
       text-indent: -999em;
       display: inline-flex;
       &:before {
@@ -134,12 +133,12 @@
 }
 
 .headerMenuLeft {
-//   --gap-y: var(--space-xs);
+  //   --gap-y: var(--space-xs);
   --gap-x: var(--space-xs);
   grid-area: contact;
   display: flex;
   color: #fff; // replace with var
-//   margin-block: var(--gap-y);
+  //   margin-block: var(--gap-y);
   justify-content: center;
   gap: var(--gap-x);
   @include bp.respond-to(sm-and-down) {

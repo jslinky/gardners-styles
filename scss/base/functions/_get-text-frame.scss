@@ -1,0 +1,82 @@
+@use "sass:list" as list;
+
+@function set-custom-prop-with-fallback($value, $fallback) {
+  $result: "";
+
+  @if $value == null {
+    @return $fallback;
+  }
+
+  @if type-of($value) == "string" {
+    @return "var(--#{$value}, var(--#{$fallback}))";
+  }
+
+  @if type-of($value) == "number" {
+    @return "var(--#{unquote("#{$value}")}, var(--#{$fallback}))";
+  }
+
+  @if type-of($value) != "list" {
+    @error "Expected a list, string, or number but got #{type-of($value)}";
+  }
+
+  @if length($value) == 0 {
+    @error "Expected a non-empty list, but got an empty list";
+  }
+
+  @for $i from 1 through length($value) {
+    $item: list.nth($value, $i);
+    $processed_item: if(type-of($item) == "number", unquote("#{$item}"), $item);
+
+    @if type-of($processed_item) != "string" {
+      @error "Expected a string or number value for value '#{$item}', but got #{type-of($item)}";
+    }
+
+    $result: if(
+      $i < length($value),
+      #{$result}
+        if(
+          type-of($item) == "number",
+          #{$processed_item},
+          "var(--#{$processed_item}, "
+        ),
+      #{$result}
+        if(
+          type-of($item) == "number",
+          #{$processed_item},
+          "var(--#{$processed_item}, var(--#{$fallback}))"
+        )
+    );
+  }
+
+  @return $result;
+}
+
+@function get-text-frame-y(
+  $text-frame-y: null,
+  $text-frame-ratio: null,
+  $include-fallback: true
+) {
+  $y-value: null;
+  $ratio-value: null;
+
+  @if ($include-fallback) {
+    $y-value: if(
+      $text-frame-y == null,
+      "var(--text-frame-y)",
+      set-custom-prop-with-fallback($text-frame-y, "text-frame-y")
+    );
+    $ratio-value: if(
+      $text-frame-ratio == null,
+      "var(--text-frame-ratio)",
+      set-custom-prop-with-fallback($text-frame-ratio, "text-frame-ratio")
+    );
+  } @else {
+    $y-value: if($text-frame-y == null, "var(--text-frame-y)", $text-frame-y);
+    $ratio-value: if(
+      $text-frame-ratio == null,
+      "var(--text-frame-ratio)",
+      $text-frame-ratio
+    );
+  }
+  @return #{"calc("} #{$y-value} #{" * "} #{$ratio-value} #{"))"};
+}

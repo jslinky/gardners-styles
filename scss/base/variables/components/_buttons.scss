@@ -7,18 +7,23 @@ $button-base-rules: (
   "justify-content": center,
   "color": var(--button-color),
   "background-color": var(--button-background-color),
-  "border": var(--button-border-width, 1px) var(--button-border-style, solid) var(--button-border-color),
+  "border": var(--button-border-width, 1px) var(--button-border-style, solid)
+    var(--button-border-color),
   "padding": var(--button-padding-block-start, var(--text-frame-y))
     var(--button-padding-inline-end, var(--text-frame-x))
     var(--button-padding-block-end, var(--text-frame-y))
     var(--button-padding-inline-start, var(--text-frame-x)),
-);
+) !default;
 
 $button-default-color: var(--#{$_colorNamePrefix}primary-fg) !default;
 $button-default-bg: var(--#{$_colorNamePrefix}primary) !default;
 
-$button-outline-default-color: $button-default-bg!default;
-$button-outline-default-bg: transparent!default;
+$button-outline-default-color: $button-default-bg !default;
+$button-outline-default-bg: transparent !default;
 
-$button-inverted-outline-default-color: $button-default-color!default;
-$button-inverted-outline-default-bg: transparent!default;
+$button-inverted-outline-default-color: $button-default-color !default;
+$button-inverted-outline-default-bg: transparent !default;
+
+$button-sm-padding-frame-y: 0.5em !default;
+$button-sm-padding-frame-y: 0.5em !default;
+$button-sm-padding-frame-ratio: 1.2 !default;
