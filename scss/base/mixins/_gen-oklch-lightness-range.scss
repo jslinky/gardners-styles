@@ -1,5 +1,6 @@
 @use "sass:math";
 @use "../functions/get-color-prefix" as *;
+@use "../functions/type-check" as *;
 
 @mixin generate-oklch-centered-lightness-range(
   $class-name: "l",
@@ -41,3 +42,53 @@
     }
   }
 }
+
+@mixin generate-oklch-centered-property-fallback-range(
+  $class-name: "l",
+  $lightness: 0.56,
+  $chroma,
+  $hue,  
+  $steps: 12,
+  $lightest: 0.95,
+  $darkest: 0.10,
+  $include-color-output: true,
+  $prefix: getColorPrefix(),  
+) {
+  // Extract the decimal part to determine position in range
+  $decimal-part: $lightness - math.floor($lightness);
+  
+  // Calculate which step the original lightness should be at
+  $original-step: math.round($decimal-part * ($steps - 1));
+  
+  // Calculate the full range span
+  $range-span: $lightest - $darkest;
+  
+  // Calculate step size based on the full range
+  $step-size: math.div($range-span, ($steps - 1));
+  
+  @for $i from 0 through ($steps - 1) {
+    $adjusted-lightness: $darkest + ($i * $step-size);
+    
+    // If this is the step where the original color should be, use the exact original lightness
+    @if $i == $original-step {
+      $adjusted-lightness: $lightness;
+    }
+    
+    $adjusted-lightness: if($adjusted-lightness < 0, 0, if($adjusted-lightness > 1, 1, $adjusted-lightness));
+    $formatted: math.div(math.round($adjusted-lightness * 100), 100);
+
+    @if(is-number($formatted) and is-number($chroma) and is-number($hue)) {
+      @property --#{$prefix}#{$class-name}-#{$i} {
+          syntax: "<color>";
+          inherits: false;
+          initial-value: oklch($formatted $chroma $hue);
+      }
+      @debug is-number($chroma) $class-name;
+    } @else {
+        @warn "Invalid parameters for --#{$prefix}#{$class-name}-#{$i}. Expected number values for lightness, chroma, and hue.";
+    }
+
+
+  }
+}
+

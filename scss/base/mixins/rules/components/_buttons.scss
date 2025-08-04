@@ -26,7 +26,7 @@ $_colorNamePrefix: getColorPrefix();
   @each $color in $colorIncludes {
     @if (map-has-key($_colors, $color)) {
       &.button--#{$color} {
-        --button-color: var(--#{$_colorNamePrefix}#{$color}-fg);
+        --button-color: var(--#{$_colorNamePrefix}#{$color}-contrast);
         --button-background-color: var(--#{$_colorNamePrefix}#{$color});
       }
     }

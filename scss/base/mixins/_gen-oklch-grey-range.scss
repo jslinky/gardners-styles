@@ -13,9 +13,9 @@
     --#{$prefix}#{$class-name}-#{$i}: oklch(from var(--#{$prefix}#{$reference_color}-#{$i}) l var(--#{$prefix}#{$class-name}-c, #{$chroma}) h);
 
 
-    --#{$prefix}#{$class-name}-#{$i}-fg: oklch(from var(--color, var(--#{$prefix}#{$class-name}-#{$i})) clamp(var(--#{$prefix}#{$class-name}-#{$i}-fg-lightest-text, var(--fg-lightest-text, 0)), (l / var(--fg-threshold, 0.623) - 1) * -infinity, var(--#{$prefix}#{$class-name}-#{$i}-fg-darkest-text, var(--fg-darkest-text, 1))) 0 h);
+    --#{$prefix}#{$class-name}-#{$i}-contrast: oklch(from var(--color, var(--#{$prefix}#{$class-name}-#{$i})) clamp(var(--#{$prefix}#{$class-name}-#{$i}-contrast-lightest-text, var(--contrast-lightest-text, 0)), (l / var(--contrast-threshold, 0.623) - 1) * -infinity, var(--#{$prefix}#{$class-name}-#{$i}-contrast-darkest-text, var(--contrast-darkest-text, 1))) 0 h);
 
-//   --#{$prefix}#{$class-name}-#{$i}-fg-muted: oklch(from var(--color, var(--#{$prefix}#{$class-name}-#{$i})) clamp(var(--#{$prefix}#{$class-name}-#{$i}-fg-muted-lightest-text, var(--fg-muted-lightest-text, 0)), (l / var(--fg-threshold, 0.623) - 1) * -infinity, var(--#{$prefix}#{$class-name}-#{$i}-fg-muted-darkest-text, var(--fg-muted-darkest-text, 1))) c h);    
+//   --#{$prefix}#{$class-name}-#{$i}-contrast-muted: oklch(from var(--color, var(--#{$prefix}#{$class-name}-#{$i})) clamp(var(--#{$prefix}#{$class-name}-#{$i}-contrast-muted-lightest-text, var(--contrast-muted-lightest-text, 0)), (l / var(--contrast-threshold, 0.623) - 1) * -infinity, var(--#{$prefix}#{$class-name}-#{$i}-contrast-muted-darkest-text, var(--contrast-muted-darkest-text, 1))) c h);    
 
 
   }

@@ -15,7 +15,7 @@ $button-base-rules: (
     var(--button-padding-inline-start, var(--text-frame-x)),
 ) !default;
 
-$button-default-color: var(--#{$_colorNamePrefix}primary-fg) !default;
+$button-default-color: var(--#{$_colorNamePrefix}primary-contrast) !default;
 $button-default-bg: var(--#{$_colorNamePrefix}primary) !default;
 
 $button-outline-default-color: $button-default-bg !default;

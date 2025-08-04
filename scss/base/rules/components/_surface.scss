@@ -21,7 +21,7 @@ $_color-prefix: getColorPrefix();
     @layer base {
         [data-surface="#{$color}"] {
             --surface-bg-color: var(--#{$_color-prefix}#{$color});
-            --surface-color: var(--#{$_color-prefix}#{$color}-fg);
+            --surface-color: var(--#{$_color-prefix}#{$color}-contrast);
             :where(.button, button) {
                 --button-background-color: var(--surface-color);
                 --button-color: var(--surface-bg-color);

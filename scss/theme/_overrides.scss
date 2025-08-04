@@ -10,7 +10,7 @@ $max-wrapper-width: 1200px;
 $layout-gap: max(2vmax, var(--space-lg, 1rem));
 $layout-gap: max(min(2vmax, var(--space-xl)), var(--space-lg, 1rem));
 $space-increment: 1.38;
-
+$wrapper-padding-min: clamp(calc(var(--layout-gap) * 1.5), 2vw, var(--layout-gap) * 2);
 // Add your custom overrides below:
 // Example color component overrides:
 // $primary-l: 0.75;

@@ -69,6 +69,7 @@ $color-loop-output-flat: ();
 }
 
 @mixin generateAllColors() {
+
     $colorNamePrefix: colorPrefix.getColorPrefix(); // Get fresh value each time
     
     // Only output the colors that are included in $colorIncludes
@@ -76,19 +77,26 @@ $color-loop-output-flat: ();
 
     @each $color in $colorIncludes {
         @if(map.has-key($_colors, $color)) {
-            $lightness: if(checkIfColorDefined("#{$colorNamePrefix}#{$color}-l"), getColorPropValue("#{$colorNamePrefix}#{$color}-l"), 0.56);
-            @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);
-            @include generate-color-surface-text("#{$color}", 12);
+            /// TODO - conditional check if steps are required - output steps if grey
+            @if ($generateSteppedColors) {
+                $lightness: if(checkIfColorDefined("#{$colorNamePrefix}#{$color}-l"), getColorPropValue("#{$colorNamePrefix}#{$color}-l"), 0.56);
+                @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);            
+                @include generate-color-surface-text-steps("#{$color}", 12);
+            }
+            @include generate-color-surface-text("#{$color}");
         }
-        // grey ranage colors are derived from one of the defined colors.
-        // Dont't define grey in color props, only it's inclusion in $colorIncludes
+        
+        // Special handling for grey - always generate range regardless of $generateSteppedColors  
         @if($color == "grey") {
-            @include generate-grey-range-colors("grey", 12, "primary", 0.020, $colorNamePrefix);
-        }        
+            $grey-tint-color: get-override("grey-tint-color", config.$grey-tint-color, $_overrides);
+            @include generate-grey-range-colors("grey", 12, #{$grey-tint-color}, 0.020, $colorNamePrefix);
+        }
     }
 }
 
 @mixin generateTailwindColors() {
+
+
     // This mixin outputs colors without the :root selector for use in Tailwind's @theme block
     $colorNamePrefix: colorPrefix.getColorPrefix(); // Get fresh value each time
     
@@ -110,9 +118,19 @@ $color-loop-output-flat: ();
     // Then output the range variables for each color
     @each $color in $colorIncludes {
         @if(map.has-key($_colors, $color)) {
-            $lightness: if(checkIfColorDefined("#{$color}-l"), getColorPropValue("#{$color}-l"), 0.56);
-            @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);
+            @if ($generateSteppedColors) {
+                $lightness: if(checkIfColorDefined("#{$color}-l"), getColorPropValue("#{$color}-l"), 0.56);
+                @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);                
+            }
         }
+        
+        // Special handling for grey - always generate range regardless of $generateSteppedColors
+        @if($color == "grey") {
+            $grey-tint-color: get-override("grey-tint-color", config.$grey-tint-color, $_overrides);
+            $lightness: if(checkIfColorDefined("#{$grey-tint-color}-l"), getColorPropValue("#{$grey-tint-color}-l"), 0.56);
+            @include generate-oklch-centered-lightness-range("#{$grey-tint-color}", $lightness, 12);
+            @include generate-grey-range-colors("grey", 12, #{$grey-tint-color}, 0.020, $colorNamePrefix);
+        }        
     }
     
     // Finally output the main composed color variables that reference the component variables
@@ -122,9 +140,6 @@ $color-loop-output-flat: ();
                 --#{$colorNamePrefix}#{$color}: #{getColorPropValue("#{$color}")};
             }
         }
-        @if($color == "grey") {
-            @include generate-grey-range-colors("grey", 12, "primary", 0.020, $colorNamePrefix);
-        }
     }
     
 }
@@ -133,7 +148,10 @@ $color-loop-output-flat: ();
     // This mixin outputs surface text variables outside the @theme block
     @each $color in $colorIncludes {
         @if(map.has-key($_colors, $color)) {
-            @include generate-color-surface-text("#{$color}", 12);
+            @include generate-color-surface-text("#{$color}");
+            @if ($generateSteppedColors or $color == "grey") {
+                @include generate-color-surface-text-steps("#{$color}", 12);
+            }
         }
     }
 }
@@ -146,3 +164,22 @@ $color-loop-output-flat: ();
 } @else {
     @debug 'Using Tailwind for color output';
 }
+
+:root:is(.#{$scopeClassName}) {
+    /// style query for if stepped colors will be generated
+    $value: if(get-override("generateSteppedColors", config.$generateSteppedColors, $_overrides), 1, 0);
+    --has-stepped-colors: #{$value};
+}
+
+
+/// Output fallback @properties for all colors - uses static values as custom props can't be used in initial-value 
+    @each $color in $colorIncludes {
+        @if(map.has-key($_colors, $color)) {            
+            $lightness: if(checkIfColorDefined("#{$color}-l"), getColorPropValue("#{$color}-l"), 0.56);
+            $chroma: if(checkIfColorDefined("#{$color}-c"), getColorPropValue("#{$color}-c"), 0.25);
+            $hue: if(checkIfColorDefined("#{$color}-h"), getColorPropValue("#{$color}-h"), 210);
+            @if(is-number($lightness) and is-number($chroma) and is-number($hue)) {
+                @include generate-oklch-centered-property-fallback-range("#{$color}", $lightness, $chroma, $hue, 12);
+            }
+        }
+    }
