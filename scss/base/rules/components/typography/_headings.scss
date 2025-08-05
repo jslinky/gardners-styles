@@ -1,4 +1,5 @@
 @use "../../../mixins/headings" as *;
+@use "../../../mixins/output-rules-with-scope" as *;
 @use "../../../variables/components/typography/headings" as *;
 
 $heading-tags: (
@@ -19,93 +20,95 @@ $heading-size-tags: (
     }
 }
 
-@layer base {
-    :where(#{$heading-tags}, #{$heading-size-tags}) {
-        @each $key, $value in $heading-base {
-            #{$key}: $value;
-        }
-    }
-
-    // / For sub text sizing 
-    :where(#{$heading-tags}, #{$heading-size-tags}) {
-        >span {
-            margin-trim: block;
+@include output-rules-with-scope() {
+    @layer base {
+        :where(#{$heading-tags}, #{$heading-size-tags}) {
+            @each $key, $value in $heading-base {
+                #{$key}: $value;
+            }
         }
 
-        >span:nth-of-type(1):not(:last-of-type) {
-            font-size: 0.5em;
-            display: block;
-            line-height: 1;
-        }
+        // / For sub text sizing 
+        :where(#{$heading-tags}, #{$heading-size-tags}) {
+            >span {
+                margin-trim: block;
+            }
 
-        &:has(span:nth-of-type(1):not(:last-of-type), span:only-of-type) {
-            &.heading--underline {
-                >span:last-of-type {
-                    &:after {
-                        content: '';
-                        display: block;
-                        width: min(10rem, calc(100% - 2em));
-                        background: currentColor;
-                        height: 0.675rem;
-                        margin-inline: auto;
-                        margin-block-start: 0.5em;
+            >span:nth-of-type(1):not(:last-of-type) {
+                font-size: 0.5em;
+                display: block;
+                line-height: 1;
+            }
+
+            &:has(span:nth-of-type(1):not(:last-of-type), span:only-of-type) {
+                &.heading--underline {
+                    >span:last-of-type {
+                        &:after {
+                            content: '';
+                            display: block;
+                            width: min(10rem, calc(100% - 2em));
+                            background: currentColor;
+                            height: 0.675rem;
+                            margin-inline: auto;
+                            margin-block-start: 0.5em;
+                        }
                     }
                 }
-            }
 
+            }
         }
-    }
 
 
-    
-    /// Build in a switch which outputs in tailwind only - useful for specifity 
+        
+        /// Build in a switch which outputs in tailwind only - useful for specifity 
 
-    @each $key, $value in $headings {
-        $selector: if(map-has-key($value, 'size'), '#{$key},' '.heading-' + map-get($value, 'size'), #{$key});
+        @each $key, $value in $headings {
+            $selector: if(map-has-key($value, 'size'), '#{$key},' '.heading-' + map-get($value, 'size'), #{$key});
 
-        :where(#{$selector}) {
-            @if(map-has-key($value, 'size')) {
-                $size: map-get($value , "size");
-                @include heading-size($size, $heading-sizes);
-            }
-
-            @if(map-has-key($value , 'text-transform')) {
-                $text-transform: map-get($value , 'text-transform');
-
-                @if($text-transform !='') {
-                    --text-transform: #{$text-transform};
+            :where(#{$selector}) {
+                @if(map-has-key($value, 'size')) {
+                    $size: map-get($value , "size");
+                    @include heading-size($size, $heading-sizes);
                 }
-            }
 
-            @if(map-has-key($value , 'letter-spacing')) {
-                $letter-spacing: map-get($value , 'letter-spacing');
+                @if(map-has-key($value , 'text-transform')) {
+                    $text-transform: map-get($value , 'text-transform');
 
-                @if($letter-spacing !='') {
-                    --letter-spacing: #{$letter-spacing};
+                    @if($text-transform !='') {
+                        --text-transform: #{$text-transform};
+                    }
                 }
-            }
 
-            @if(map-has-key($value , 'line-height')) {
-                $line-height: map-get($value , 'line-height');
+                @if(map-has-key($value , 'letter-spacing')) {
+                    $letter-spacing: map-get($value , 'letter-spacing');
 
-                @if($line-height !='') {
-                    --line-height: #{$line-height};
+                    @if($letter-spacing !='') {
+                        --letter-spacing: #{$letter-spacing};
+                    }
                 }
-            }
 
-            @if(map-has-key($value , 'color')) {
-                $color: map-get($value , 'color');
+                @if(map-has-key($value , 'line-height')) {
+                    $line-height: map-get($value , 'line-height');
 
-                @if($color !='') {
-                    --color: #{$color};
+                    @if($line-height !='') {
+                        --line-height: #{$line-height};
+                    }
                 }
-            }
 
-            @if(map-has-key($value , 'font-family')) {
-                $font-family: map-get($value , 'font-family');
+                @if(map-has-key($value , 'color')) {
+                    $color: map-get($value , 'color');
 
-                @if($font-family !='') {
-                    --font-family: #{$font-family};
+                    @if($color !='') {
+                        --color: #{$color};
+                    }
+                }
+
+                @if(map-has-key($value , 'font-family')) {
+                    $font-family: map-get($value , 'font-family');
+
+                    @if($font-family !='') {
+                        --font-family: #{$font-family};
+                    }
                 }
             }
         }

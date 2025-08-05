@@ -1,0 +1,11 @@
+@use "../functions/get-scope-class" as *;
+
+@mixin output-rules-with-scope($scopeClassName: getScopeClass()) {
+    @if $scopeClassName == '' {
+        @content;
+    } @else {
+        :root:is(.#{$scopeClassName}) {
+            @content;
+        }
+    }
+}

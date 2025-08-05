@@ -12,14 +12,14 @@ $_layout: module-variables("layout");
 $_wrapper: module-variables("wrapper");
 
 // Layout related variables
-:root:is(.#{$scopeClassName}) {
+@include output-rules-with-scope() {
     @include output-props(pick-keys($_key-tokens, $_valid-key-tokens-keys)...);
 }
 
-:root:is(.#{$scopeClassName}) {
+@include output-rules-with-scope() {
     @include output-props(pick-keys($_layout, $_valid-layout-keys)...);
 }
 
-:root:is(.#{$scopeClassName}) {
+@include output-rules-with-scope() {
     @include output-props(pick-keys($_wrapper, $_valid-wrapper-keys)...);
 }

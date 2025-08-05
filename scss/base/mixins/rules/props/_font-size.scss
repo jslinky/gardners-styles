@@ -11,7 +11,7 @@ $base-font-size-marker: font-size.$base-font-size-marker;
 $font-size-list: list.nth(map.values(pick-keys($_font-size, font-size-list)), 1);
 
 // Font-size related variables
-:root:is(.#{$scopeClassName}) {
+@include output-rules-with-scope() {
 
     @each $key, $value in pick-keys($_font-size, text-size-increment font-size-base-px font-size-base) {
         --#{$key}: #{$value};

@@ -161,7 +161,7 @@ $color-loop-output-flat: ();
 
 // Color related variables
 @if $useTailwindForColorOutput == false {
-    :root:is(.#{$scopeClassName}) {
+    @include output-rules-with-scope() {
         @include generateAllColors();
     }
 } @else {

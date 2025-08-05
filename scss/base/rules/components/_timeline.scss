@@ -1,6 +1,8 @@
 @use "../../variables/components/timeline" as *;
+@use "../../mixins/output-rules-with-scope" as *;
 
-#{$timeline-component-selector} {
+@include output-rules-with-scope() {
+  #{$timeline-component-selector} {
     --gap: #{$timeline-gap};
     --total-gap: #{$timeline-total-gap};
     counter-reset: c-timeline-counter;
@@ -12,99 +14,108 @@
     width: #{$timeline-width};
     margin-inline: auto;
 
-    &[data-timeline-counter='true'] {
-        .c-timeline__item {
-            &:before {
-                counter-increment: c-timeline-counter;
-                content: counter(c-timeline-counter);
-                padding: #{$timeline-counter-padding};
-                font-size: #{$timeline-counter-font-size};
-            }
+    &[data-timeline-counter="true"] {
+      .c-timeline__item {
+        &:before {
+          counter-increment: c-timeline-counter;
+          content: counter(c-timeline-counter);
+          padding: #{$timeline-counter-padding};
+          font-size: #{$timeline-counter-font-size};
         }
+      }
     }
 
-    &[data-timeline-counter='false'] {
-        .c-timeline__item {
-            &:before {
-                content: '';
-            }
+    &[data-timeline-counter="false"] {
+      .c-timeline__item {
+        &:before {
+          content: "";
         }
+      }
     }
 
-    &[data-timeline-branch='true'] {
-        .c-timeline__item {
-            &:before {
-                content: '';
-                width: var(--timeline-branch-width, 2px);
-                height: 100%;
-                background: var(--timeline-branch-bg, var(--color-accent, var(--color-primary)));
-                position: absolute;
-                left: calc(50% - 1px);
-            }
-
-            &:nth-of-type(odd) {
-                .c-timeline__item-inner {
-                    &:before {
-                        right: calc(-1 * var(--total-gap));
-                    }
-                }
-            }
-
-            &:nth-of-type(even) {
-                .c-timeline__item-inner {
-                    &:before {
-                        left: calc(-1 * var(--total-gap));
-                    }
-                }
-            }
+    &[data-timeline-branch="true"] {
+      .c-timeline__item {
+        &:before {
+          content: "";
+          width: var(--timeline-branch-width, 2px);
+          height: 100%;
+          background: var(
+            --timeline-branch-bg,
+            var(--color-accent, var(--color-primary))
+          );
+          position: absolute;
+          left: calc(50% - 1px);
         }
-    }
-}
 
-#{$timeline-item-selector} {
+        &:nth-of-type(odd) {
+          .c-timeline__item-inner {
+            &:before {
+              right: calc(-1 * var(--total-gap));
+            }
+          }
+        }
+
+        &:nth-of-type(even) {
+          .c-timeline__item-inner {
+            &:before {
+              left: calc(-1 * var(--total-gap));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #{$timeline-item-selector} {
     display: contents;
 
     &:nth-of-type(odd) {
-        > #{$timeline-item-inner-selector} {
-            grid-column: 1/1;
-            text-align: right;
-        }
+      > #{$timeline-item-inner-selector} {
+        grid-column: 1/1;
+        text-align: right;
+      }
     }
 
     &:nth-of-type(even) {
-        > #{$timeline-item-inner-selector} {
-            grid-column: 3/3;
-            text-align: left;
-        }
+      > #{$timeline-item-inner-selector} {
+        grid-column: 3/3;
+        text-align: left;
+      }
     }
     &:before {
-        font-weight: bold;
-        display: grid;
-        place-content: center;
-        grid-column: 2/2;
-        background: var(--timeline-marker-bg, var(--accent-color, var(--color-primary)));
-        z-index: 1;
-        aspect-ratio: 1/1;
-        align-self: center;
-        width: var(--timeline-marker-size, #{$timeline-marker-size});
-        height: var(--timeline-marker-size, #{$timeline-marker-size});
-        border-radius: 50%;
-
+      font-weight: bold;
+      display: grid;
+      place-content: center;
+      grid-column: 2/2;
+      background: var(
+        --timeline-marker-bg,
+        var(--accent-color, var(--color-primary))
+      );
+      z-index: 1;
+      aspect-ratio: 1/1;
+      align-self: center;
+      width: var(--timeline-marker-size, #{$timeline-marker-size});
+      height: var(--timeline-marker-size, #{$timeline-marker-size});
+      border-radius: 50%;
     }
-}
+  }
 
-#{$timeline-item-inner-selector} {
-        position: relative;
-        background: var(--bg-color, transparent);
-        grid-row: var(--index) / var(--index);    
-}
+  #{$timeline-item-inner-selector} {
+    position: relative;
+    background: var(--bg-color, transparent);
+    grid-row: var(--index) / var(--index);
+  }
 
-#{$timeline-vertical-line-selector} {
+  #{$timeline-vertical-line-selector} {
     grid-column: 2/2;
-    grid-row: 1/var(--timeline-length, -1);
+    grid-row: 1 / var(--timeline-length, -1);
     width: var(--timeline-line-width, #{$timeline-line-width});
     height: 100%;
-    background: var(--timeline-line-bg, var(--accent-color, var(--color-primary)));
+    background: var(
+      --timeline-line-bg,
+      var(--accent-color, var(--color-primary))
+    );
     position: absolute;
     left: calc(50% - 1px);
+  }
 }

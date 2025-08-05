@@ -4,6 +4,7 @@
 @forward "./mixins/gen-oklch-grey-range";
 @forward "./mixins/headings";
 @forward "./mixins/output-props";
+@forward "./mixins/output-rules-with-scope";
 
 @forward "./mixins/utils/pick-keys";
 @forward "./mixins/utils/pow";

@@ -1,4 +1,4 @@
-@use 'open-props-scss' as op;
+@use "open-props-scss" as op;
 @use "../../../theme" as *;
 @use "../../variables/components/typography/headings" as *;
 @use "../../variables/components/cards" as *;
@@ -6,79 +6,80 @@
 @use "../../mixins/rules/components/flow" as *;
 @use "../../mixins/rules/components/typography/fluid-type" as fluid;
 
-@layer base {
-  :where(#{$card-component-selectors}) {
-    --card-two-columns: 50% 50%; /// temp - move this
-    --card-body-padding-inline: var(--layout-gap);
-    --card-body-padding-block: var(--layout-gap);
-    --card-auto-row: auto;
-    --fluid-headings: false;
+@include output-rules-with-scope() {
+  @layer base {
+    :where(#{$card-component-selectors}) {
+      --card-two-columns: 50% 50%; /// temp - move this
+      --card-body-padding-inline: var(--layout-gap);
+      --card-body-padding-block: var(--layout-gap);
+      --card-auto-row: auto;
+      --fluid-headings: false;
 
-    @include card.default-rules();
+      @include card.default-rules();
 
-    :where(.button, button) {
-      @include card.link();
+      :where(.button, button) {
+        @include card.link();
+      }
+
+      @container (inline-size > 80ch) {
+        &:not([data-card-layout="row"]):has(
+            #{$card-picture-selectors}:not(:empty)
+          ) {
+          @include card.two-column-layout();
+        }
+      }
     }
 
-    @container (inline-size > 80ch) {
-      &:not([data-card-layout="row"]):has(#{$card-picture-selectors}:not(:empty)) {
-        @include card.two-column-layout();
+    :where(#{$card-body-selectors}) {
+      padding-inline: var(--card-body-padding-inline);
+      padding-block: var(--card-body-padding-block);
+      display: block;
+      > * + * {
+        @include flow();
+      }
+    }
+
+    :where(#{$card-picture-selectors}) {
+      max-width: 100%;
+    }
+
+    :where(#{$card-picture-selectors}):not(:empty) {
+      // this casuses issues when row type
+      align-self: stretch;
+      display: flex;
+      justify-content: center;
+
+      :where(img) {
+        aspect-ratio: var(--card-picture-aspect, var(--aspect-video));
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    :where(#{$card-title-selectors}):is(h1, h2, h3, h4, h5, h6) {
+      $has-size: map-has-key($heading-sizes, $card-title-heading-size);
+
+      @if ($has-size) {
+        $size: map-get($heading-sizes, $card-title-heading-size);
+        @include heading-size($card-title-heading-size, $heading-sizes);
+
+        @container style(--fluid-headings: true) {
+          @include fluid.fluid-type();
+        }
       }
     }
   }
 
-  :where(#{$card-body-selectors}) {
-    padding-inline: var(--card-body-padding-inline);
-    padding-block: var(--card-body-padding-block);
-    display: block;
-    > * + * {
-      @include flow();
-    }
-  }
-
-  :where(#{$card-picture-selectors}) {
-    max-width: 100%;
-  }
-
-  :where(#{$card-picture-selectors}):not(:empty) {
-    // this casuses issues when row type
-    align-self: stretch;
-    display: flex;
-    justify-content: center;
-
-    :where(img) {
-      aspect-ratio: var(--card-picture-aspect, var(--aspect-video));
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-
-  :where(#{$card-title-selectors}):is(h1, h2, h3, h4, h5, h6) {
-    $has-size: map-has-key($heading-sizes, $card-title-heading-size);
-
-    @if ($has-size) {
-      $size: map-get($heading-sizes, $card-title-heading-size);
-      @include heading-size($card-title-heading-size, $heading-sizes);
-
-      @container style(--fluid-headings: true) {
-        @include fluid.fluid-type();
-      }
-    }
-  }
-}
-
-@layer modifiers {
-
-  :where(#{$card-component-selectors}):is([data-card-layout="col"]) {
+  @layer modifiers {
+    :where(#{$card-component-selectors}):is([data-card-layout="col"]) {
       @include card.column-rules();
 
       &:has(#{$card-picture-selectors}) {
         @include card.two-column-layout();
       }
-  }
+    }
 
-
-  :where(#{$card-component-selectors}):not([data-card-layout="col"]) {
+    :where(#{$card-component-selectors}):not([data-card-layout="col"]) {
       grid-auto-flow: row;
       align-items: flex-start;
       justify-content: start;
@@ -96,80 +97,82 @@
       &:has(#{$card-picture-selectors}:not(:first-child)) {
         --card-auto-row: max-content auto;
       }
-  }  
-
-  :where(#{$card-component-selectors}[data-card-outer-shadow="1"]) {
-    box-shadow: op.shadow(1);
-  }
-
-  :where(#{$card-component-selectors}[data-card-layout="overlay"]) {
-    #{$card-body-selectors} {
-      grid-row: 1 / -1;
-      grid-column: 1/ -1;
-      z-index: 1;
-      margin-inline: var(--card-body-padding-inline);
-      margin-block: var(--card-body-padding-block);
-    }
-    #{$card-picture-selectors} {
-      grid-column: 1/-1;
-      grid-row: 1/-1;
     }
 
-    @container (inline-size <= 80ch) {
-      grid-auto-rows: 1fr;
+    :where(#{$card-component-selectors}[data-card-outer-shadow="1"]) {
+      box-shadow: op.shadow(1);
+    }
+
+    :where(#{$card-component-selectors}[data-card-layout="overlay"]) {
+      #{$card-body-selectors} {
+        grid-row: 1 / -1;
+        grid-column: 1/ -1;
+        z-index: 1;
+        margin-inline: var(--card-body-padding-inline);
+        margin-block: var(--card-body-padding-block);
+      }
+      #{$card-picture-selectors} {
+        grid-column: 1/-1;
+        grid-row: 1/-1;
+      }
+
+      @container (inline-size <= 80ch) {
+        grid-auto-rows: 1fr;
+      }
+
+      @container (inline-size > 80ch) {
+        --card-auto-row: max-content auto;
+        grid-auto-columns: 1fr;
+
+        /* Default is pic on left, body on right */
+        &:is(
+            :has(:not(#{$card-picture-selectors}:first-child)),
+            :is([data-card-column-reverse-order]):has(
+                #{$card-picture-selectors}:first-child
+              )
+          ) {
+          .card-body {
+            grid-column: 1/1;
+            margin-inline-start: var(--card-body-padding-inline);
+            margin-inline-end: 0;
+          }
+        }
+
+        /* This is default */
+        &:is(
+            :has(#{$card-picture-selectors}:first-child),
+            :is([data-card-column-reverse-order]):has(
+                :not(#{$card-picture-selectors}:first-child)
+              )
+          ) {
+          #{$card-body-selectors} {
+            grid-column: 2/2;
+            margin-inline-end: var(--card-body-padding-inline);
+            margin-inline-start: 0;
+          }
+        }
+      }
+    }
+
+    :where(#{$card-component-selectors}):is([data-card-layout="col"]) {
+      @include card.column-rules();
+    }
+
+    :where(#{$card-component-selectors}):is([data-card-layout="row"]) {
+      @include card.row-rules();
+    }
+
+    @container (inline-size <=80ch) {
+      :where(#{$card-component-selectors}):not([data-card-layout="col"]) {
+        @include card.row-rules();
+      }
     }
 
     @container (inline-size > 80ch) {
-      --card-auto-row: max-content auto;
-      grid-auto-columns: 1fr;
-
-      /* Default is pic on left, body on right */
-      &:is(
-          :has(:not(#{$card-picture-selectors}:first-child)),
-          :is([data-card-column-reverse-order]):has(#{$card-picture-selectors}:first-child)
-        ) {
-        .card-body {
-          grid-column: 1/1;
-          margin-inline-start: var(--card-body-padding-inline);
-          margin-inline-end: 0;
-        }
+      :where(#{$card-component-selectors}):not([data-card-layout="row"]) {
+        --card-auto-row: auto;
+        @include card.column-rules();
       }
-
-      /* This is default */
-      &:is(
-          :has(#{$card-picture-selectors}:first-child),
-          :is([data-card-column-reverse-order]):has(
-              :not(#{$card-picture-selectors}:first-child)
-            )
-        ) {
-        #{$card-body-selectors} {
-          grid-column: 2/2;
-          margin-inline-end: var(--card-body-padding-inline);
-          margin-inline-start: 0;
-        }
-      }
-    }
-  }
-
-  :where(#{$card-component-selectors}):is([data-card-layout="col"]) {
-    @include card.column-rules();
-  }
-
-  :where(#{$card-component-selectors}):is([data-card-layout="row"]) {
-    @include card.row-rules();
-  }  
-
-
-  @container (inline-size <=80ch) {
-    :where(#{$card-component-selectors}):not([data-card-layout="col"]) {
-      @include card.row-rules();
-    }
-  }
-
-  @container (inline-size > 80ch) {
-    :where(#{$card-component-selectors}):not([data-card-layout="row"]) {
-      --card-auto-row: auto;
-      @include card.column-rules();
     }
   }
 }

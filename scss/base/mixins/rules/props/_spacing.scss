@@ -15,6 +15,6 @@ $_spacing: meta.module-variables("spacing");
 }
 
 // Spacing related variables
-:root:is(.#{$scopeClassName}) {
+@include output-rules-with-scope() {
     @include output-props($_spacing...); 
 }

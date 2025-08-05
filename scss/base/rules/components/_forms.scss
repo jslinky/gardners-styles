@@ -2,108 +2,113 @@
 @use "../../../theme" as *;
 @use "../../mixins/rules/components/forms" as forms;
 
-#{$form-layout-selector} {
-  --row-gap: var(--space-sm);
-  --column-gap: var(--space-sm);
-  --hint-fs: var(--xs);
-  --half-row-gap: calc(var(--row-gap) / 2);
-  --quarter-row-gap: calc(var(--row-gap) / 4);
-  display: grid;
-  grid-template-columns: max(25%, 120px) 1fr;
-  gap: var(--row-gap) var(--column-gap);
-  &:has(.hint) {
-    row-gap: max(var(--half-row-gap), calc(var(--hint-fs) + var(--half-row-gap)));
-    :is(#{$form-row-selector}) {
-      row-gap: max(var(--quarter-row-gap), 4px);
-      &:not(:has(.hint)) {
-        margin-block-start: var(--row-gap);
+@include output-rules-with-scope() {
+  #{$form-layout-selector} {
+    --row-gap: var(--space-sm);
+    --column-gap: var(--space-sm);
+    --hint-fs: var(--xs);
+    --half-row-gap: calc(var(--row-gap) / 2);
+    --quarter-row-gap: calc(var(--row-gap) / 4);
+    display: grid;
+    grid-template-columns: max(25%, 120px) 1fr;
+    gap: var(--row-gap) var(--column-gap);
+    &:has(.hint) {
+      row-gap: max(
+        var(--half-row-gap),
+        calc(var(--hint-fs) + var(--half-row-gap))
+      );
+      :is(#{$form-row-selector}) {
+        row-gap: max(var(--quarter-row-gap), 4px);
+        &:not(:has(.hint)) {
+          margin-block-start: var(--row-gap);
+        }
+        &:has(.hint) {
+          + :is(#{$form-row-selector}) {
+            margin-block-start: 0;
+          }
+        }
       }
-      &:has(.hint) {
-        + :is(#{$form-row-selector}) {
-          margin-block-start: 0;
+    }
+    :where(.hint) {
+      visibility: hidden;
+      grid-column-start: 2;
+      font-size: var(--hint-fs);
+    }
+    :is(#{$form-row-selector}) {
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-column: 1 / -1;
+    }
+    :is(
+        div:has(> input[type="radio"], > input[type="checkbox"]),
+        button[type="submit"]
+      ) {
+      grid-column-start: 2;
+      grid-template-columns: max-content 1fr;
+      column-gap: min(var(--column-gap), var(--space-xs));
+      align-items: center;
+    }
+  }
+  :where(label:has(+ input:is(#{$input-text-selectors}))) {
+    @include forms.default-layout-label-rules();
+  }
+
+  :where(
+      div:has(> input[type="radio"], > input[type="checkbox"]):has(
+          label:first-child
+        )
+    ) {
+    label {
+      order: 2;
+    }
+  }
+
+  :where(input) {
+    @layer base {
+      @include forms.input-base-rules();
+      &:is(#{$input-text-selectors}) {
+        @include forms.input-text-rules();
+      }
+      &:is([type="radio"], [type="checkbox"]) {
+        @include forms.input-box-rules();
+      }
+    }
+    @layer modifiers {
+      @include forms.input-size-variants();
+    }
+    @layer states {
+      @if ($include-form-input-states) {
+        &:is(#{$input-text-selectors-sans-number}):is(
+            [minlength],
+            [pattern],
+            [required]
+          ) {
+          &:focus-within {
+            outline-color: var(
+              --input-outline-color-focused,
+              var(--_outline-color-focused)
+            );
+          }
+          &:invalid:not(:placeholder-shown) {
+            outline-color: red;
+          }
+          &:valid {
+            outline-color: green;
+          }
         }
       }
     }
   }
-  :where(.hint) {
-    visibility: hidden;
-    grid-column-start: 2;
-    font-size: var(--hint-fs);
-  }
-  :is(#{$form-row-selector}) {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: 1 / -1;
-  }
-  :is(
-      div:has(> input[type="radio"], > input[type="checkbox"]),
-      button[type="submit"]
-    ) {
-    grid-column-start: 2;
-    grid-template-columns: max-content 1fr;
-    column-gap: min(var(--column-gap), var(--space-xs));
-    align-items: center;
-  }
-}
-:where(label:has(+ input:is(#{$input-text-selectors}))) {
-    @include forms.default-layout-label-rules();    
-}
 
-:where(
-    div:has(> input[type="radio"], > input[type="checkbox"]):has(
-        label:first-child
-      )
-  ) {
-  label {
-    order: 2;
-  }
-}
-
-:where(input) {
-  @layer base {
-    @include forms.input-base-rules();
-    &:is(#{$input-text-selectors}) {
+  :where(textarea) {
+    @layer base {
       @include forms.input-text-rules();
     }
-    &:is([type="radio"], [type="checkbox"]) {
-      @include forms.input-box-rules();
-    }
   }
-  @layer modifiers {
-    @include forms.input-size-variants();
-  }
-  @layer states {
-    @if ($include-form-input-states) {
-      &:is(#{$input-text-selectors-sans-number}):is(
-          [minlength],
-          [pattern],
-          [required]
-        ) {
-        &:focus-within {
-          outline-color: var(
-            --input-outline-color-focused,
-            var(--_outline-color-focused)
-          );
-        }
-        &:invalid:not(:placeholder-shown) {
-          outline-color: red;
-        }
-        &:valid {
-          outline-color: green;
-        }
-      }
-    }
-  }
-}
 
-:where(textarea) {
-  @layer base {
-    @include forms.input-text-rules();
-  }
+  @include forms.input-size-variants(
+    ':where(input:is([type="radio"], [type="checkbox"]))',
+    ".input",
+    "width" "height"
+  );
 }
-
-@include forms.input-size-variants(
-  ':where(input:is([type="radio"], [type="checkbox"]))',
-  ".input",
-  "width" "height"
-);

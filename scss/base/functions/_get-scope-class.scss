@@ -1,0 +1,8 @@
+@use "sass:meta";
+@use "../variables/config" as config; // update this to include overrides
+
+@function getScopeClass() {
+    $scopeClassName: config.$scopeClassName;
+    $_scopeClassName: if($scopeClassName == '', '', '#{$scopeClassName}');
+    @return $_scopeClassName;
+}
