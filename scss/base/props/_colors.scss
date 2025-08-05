@@ -17,23 +17,23 @@ $fg-darkest-text: get-override("fg-darkest-text", 1, $_overrides);
 $fg-muted-lightest-text: get-override("fg-muted-lightest-text", 0.4, $_overrides);
 $fg-muted-darkest-text: get-override("fg-muted-darkest-text", 0.90, $_overrides);
 
-$primary-l: get-override("primary-l", 0.59, $_overrides);
-$primary-c: get-override("primary-c", 0.14, $_overrides);
-$primary-h: get-override("primary-h", 242, $_overrides);
+$primary-l: get-override("primary-l", 0.7, $_overrides);
+$primary-c: get-override("primary-c", 0.15, $_overrides);
+$primary-h: get-override("primary-h", 265, $_overrides);
 
 $primary: oklch(var(--#{$_colorNamePrefix}primary-l) var(--#{$_colorNamePrefix}primary-c) var(--#{$_colorNamePrefix}primary-h));
 
 // $secondary-l: var(--#{$_colorNamePrefix}primary-l-1);
-$secondary-l: get-override("secondary-l", $primary-l, $_overrides);
-$secondary-c: get-override("secondary-c", var(--#{$_colorNamePrefix}primary-c-1, var(--#{$_colorNamePrefix}primary-c)), $_overrides);
-$secondary-h: get-override("secondary-h", var(--#{$_colorNamePrefix}primary-h-1, var(--#{$_colorNamePrefix}primary-h)), $_overrides);
+$secondary-l: get-override("secondary-l", 0.72, $_overrides);
+$secondary-c: get-override("secondary-c", 0.14, $_overrides);
+$secondary-h: get-override("secondary-h", 145, $_overrides);
 
 $secondary: oklch(var(--#{$_colorNamePrefix}secondary-l) var(--#{$_colorNamePrefix}secondary-c) var(--#{$_colorNamePrefix}secondary-h)); 
 
 // $tertiary-l: calc(var(--#{$_colorNamePrefix}primary-l-11) + 0.18);
-$tertiary-l: get-override("tertiary-l", $primary-l + 0.28, $_overrides);
-$tertiary-c: get-override("tertiary-c", calc(var(--#{$_colorNamePrefix}primary-c) - 0.080), $_overrides);
-$tertiary-h: get-override("tertiary-h", var(--#{$_colorNamePrefix}primary-h-11, var(--#{$_colorNamePrefix}primary-h)), $_overrides);
+$tertiary-l: get-override("tertiary-l", 0.75, $_overrides);
+$tertiary-c: get-override("tertiary-c", 0.16, $_overrides);
+$tertiary-h: get-override("tertiary-h", 55, $_overrides);
 
 $tertiary: oklch(var(--#{$_colorNamePrefix}tertiary-l) var(--#{$_colorNamePrefix}tertiary-c) var(--#{$_colorNamePrefix}tertiary-h)); 
 

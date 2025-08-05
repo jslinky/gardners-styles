@@ -15,6 +15,7 @@ $_config: meta.module-variables("config");
 
 // Use the utility function for clean override handling
 $colorIncludes: get-override("colorIncludes", config.$colorIncludes, $_overrides);
+$generateSteppedColors: get-override("generateSteppedColors", config.$generateSteppedColors, $_overrides);
 $useTailwindForColorOutput: get-override("useTailwindForColorOutput", config.$useTailwindForColorOutput, $_overrides);
 $_merged-excludes: map.merge($_config , $_overrides );
 $exclude-count: list.length($_merged-excludes);
@@ -78,11 +79,12 @@ $color-loop-output-flat: ();
     @each $color in $colorIncludes {
         @if(map.has-key($_colors, $color)) {
             /// TODO - conditional check if steps are required - output steps if grey
-            @if ($generateSteppedColors) {
+            @if(index($generateSteppedColors, $color)) {
                 $lightness: if(checkIfColorDefined("#{$colorNamePrefix}#{$color}-l"), getColorPropValue("#{$colorNamePrefix}#{$color}-l"), 0.56);
                 @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);            
                 @include generate-color-surface-text-steps("#{$color}", 12);
             }
+
             @include generate-color-surface-text("#{$color}");
         }
         
@@ -118,7 +120,8 @@ $color-loop-output-flat: ();
     // Then output the range variables for each color
     @each $color in $colorIncludes {
         @if(map.has-key($_colors, $color)) {
-            @if ($generateSteppedColors) {
+
+            @if(index($generateSteppedColors, $color)) {
                 $lightness: if(checkIfColorDefined("#{$color}-l"), getColorPropValue("#{$color}-l"), 0.56);
                 @include generate-oklch-centered-lightness-range("#{$color}", $lightness, 12);                
             }
@@ -149,7 +152,7 @@ $color-loop-output-flat: ();
     @each $color in $colorIncludes {
         @if(map.has-key($_colors, $color)) {
             @include generate-color-surface-text("#{$color}");
-            @if ($generateSteppedColors or $color == "grey") {
+            @if(index($generateSteppedColors, $color) or $color == "grey") {
                 @include generate-color-surface-text-steps("#{$color}", 12);
             }
         }
@@ -165,11 +168,11 @@ $color-loop-output-flat: ();
     @debug 'Using Tailwind for color output';
 }
 
-:root:is(.#{$scopeClassName}) {
-    /// style query for if stepped colors will be generated
-    $value: if(get-override("generateSteppedColors", config.$generateSteppedColors, $_overrides), 1, 0);
-    --has-stepped-colors: #{$value};
-}
+// :root:is(.#{$scopeClassName}) {
+//     /// style query for if stepped colors will be generated
+//     $value: if(get-override("generateSteppedColors", config.$generateSteppedColors, $_overrides), 1, 0);
+//     --has-stepped-colors: #{$value};
+// }
 
 
 /// Output fallback @properties for all colors - uses static values as custom props can't be used in initial-value 
