@@ -1,13 +1,37 @@
+@use "sass:meta";
 @use "../../../../theme" as *;
 // @use "../../variables" as *;
 @use "../../../props/key-tokens" as key-tokens;
 @use "../../../props/colors" as colors;
 @use "../../../variables/components/buttons" as *;
 
-$_key-tokens: module-variables("key-tokens");
+$_key-tokens: meta.module-variables("key-tokens");
 $button-frame-x: pick-keys($_key-tokens, text-frame-x);
-$_colors: module-variables("colors");
+$_colors: meta.module-variables("colors");
 $_colorNamePrefix: getColorPrefix();
+
+$button-padding-frame-ratios: (
+  xs: $button-xs-padding-frame-ratio,
+  sm: $button-sm-padding-frame-ratio,
+  lg: $button-lg-padding-frame-ratio,
+  xl: $button-xl-padding-frame-ratio
+);
+
+$button-padding-frame-y: (
+  xs: $button-xs-padding-frame-y,
+  sm: $button-sm-padding-frame-y,
+  lg: $button-lg-padding-frame-y,
+  xl: $button-xl-padding-frame-y
+);
+
+$button-font-size: (
+  xs: $button-xs-font-size,
+  sm: $button-sm-font-size,
+  lg: $button-lg-font-size,
+  xl: $button-xl-font-size
+);
+
+// Default rules
 
 @mixin base-rules(
   $color: #{$button-default-color},
@@ -33,9 +57,62 @@ $_colorNamePrefix: getColorPrefix();
   }
 }
 
+// Default states
+
+@mixin base-hover-rules(
+  $color: #{$button-ghost-default-color},
+  $background-color: unquote('oklch(from #{$button-ghost-default-bg-hover} l c h / #{$button-ghost-bg-hover-opacity})')
+) {
+  --button-background-color: #{$background-color};
+  --button-color: #{$color};
+}
+
+@mixin gen-base-state-color-variations($states...) {  
+  @each $color in $colorIncludes {    
+    @if (map-has-key($_colors, $color)) {
+      @each $key, $state in meta.keywords($states) {        
+        @if $state == hover or $state == focus {
+          &.button--#{$color} {
+            &:#{$state} {
+              $fg: unquote('var(--#{$_colorNamePrefix}#{$color}-contrast)');
+              $bg: unquote('oklch(from var(--#{$_colorNamePrefix}#{$color}) l c h / #{$button-ghost-bg-hover-opacity})');            
+                --button-color: #{$fg};
+                --button-background-color: #{$bg};                        
+              }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+@mixin soft-rules(
+  $color: #{$button-soft-default-color},
+  $background-color: #{$button-soft-default-bg}
+) {
+  --button-background-color: #{$background-color};
+  --button-color: #{$color};
+}
+
+@mixin gen-soft-button-color-variations() {
+  @each $color in $colorIncludes {
+    @if (map-has-key($_colors, $color)) {
+      $fg: unquote('var(--#{$_colorNamePrefix}#{$color})');
+      $bg: unquote('oklch(from #{$fg} l c h / #{$button-soft-opacity})');
+      &.button--#{$color} {
+        --button-color: #{$fg};
+        --button-background-color: #{$bg};
+      }
+    }
+  }
+}
+
 @mixin inverted-rules(
-  $color: #{$button-default-bg},
-  $background-color: #{$button-default-color}
+  $color: #{$button-inverted-default-bg},
+  $background-color: #{$button-inverted-default-color}
 ) {
   --button-background-color: #{$background-color};
   --button-color: #{$color};
@@ -79,20 +156,56 @@ $_colorNamePrefix: getColorPrefix();
   --button-border-color: var(--button-color);
 }
 
-@mixin sm-rules() {
+@mixin ghost-rules(
+  $color: #{$button-ghost-default-color},
+  $background-color: #{$button-ghost-default-bg}
+) {
+  --button-background-color: #{$background-color};
+  --button-color: #{$color};
+  // --button-border-color: transparent;
+}
+
+@mixin ghost-hover-rules(
+  $color: #{$button-ghost-default-color},
+  $background-color: unquote('oklch(from #{$button-ghost-default-bg-hover} l c h / #{$button-ghost-bg-hover-opacity})')
+) {
+  --button-background-color: #{$background-color};
+  --button-color: #{$color};
+}
+
+@mixin gen-ghost-state-color-variations($states...) {  
+  @each $color in $colorIncludes {    
+    @if (map-has-key($_colors, $color)) {
+      @each $key, $state in meta.keywords($states) {        
+        @if $state == hover or $state == focus {
+          &.button--#{$color} {
+            &:#{$state} {
+              $fg: unquote('var(--#{$_colorNamePrefix}#{$color}-contrast)');
+              $bg: unquote('oklch(from var(--#{$_colorNamePrefix}#{$color}) l c h / #{$button-ghost-bg-hover-opacity})');            
+                --button-color: #{$fg};
+                --button-background-color: #{$bg};                        
+              }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin size-rules($size) {
   /// list of values for inline start padding - string (custom prop name) or number value
-  $inline-start-list: button-sm-padding-inline-start;
+  $inline-start-list: button-#{$size}-padding-inline-start;
   /// list of values for inline start ratio - string (custom prop name) or number value
   $inline-start-ratio: (
-    button-sm-padding-inline-ratio,
-    $button-sm-padding-frame-ratio
+    button-#{$size}-padding-inline-ratio,
+    map-get($button-padding-frame-ratios , $size)
   );
   /// list of values for inline end padding - string (custom prop name) or number value
   $inline-end-list: button-sm-padding-inline-end;
   /// list of values for inline end ratio - string (custom prop name) or number value
   $inline-end-ratio: (
-    button-sm-padding-inline-ratio,
-    $button-sm-padding-frame-ratio
+    button-#{$size}-padding-inline-ratio,
+    map-get($button-padding-frame-ratios , $size)
   );
 
   $padding-inline-start: get-text-frame-y(
@@ -101,15 +214,20 @@ $_colorNamePrefix: getColorPrefix();
   );
 
   $padding-inline-end: get-text-frame-y($inline-end-list, $inline-end-ratio);
-
-  --button-padding-block-start: var(
-    --button-sm-padding-block-start,
-    #{$button-sm-padding-frame-y}
-  );
-  --button-padding-block-end: var(
-    --button-sm-padding-block-end,
-    #{$button-sm-padding-frame-y}
-  );
+  $button-padding-block-start: var(--button-#{$size}-padding-block-start, map-get($button-padding-frame-y, $size));
+  $button-padding-block-end: var(--button-#{$size}-padding-block-end, map-get($button-padding-frame-y, $size));
+  
+  --button-padding-block-start: #{$button-padding-block-start};
+  --button-padding-block-end: #{$button-padding-block-end};
   --button-padding-inline-start: #{$padding-inline-start};
   --button-padding-inline-end: #{$padding-inline-end};
+  font-size: var(--button-#{$size}-font-size, map-get($button-font-size, $size));
+}
+
+@mixin gen-button-size-variations() {
+  @each $size in ("xs", "sm", "lg", "xl") {
+    &.button--#{$size} {
+      @include size-rules($size);
+    }
+  }
 }

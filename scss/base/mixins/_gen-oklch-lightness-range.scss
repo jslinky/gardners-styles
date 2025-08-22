@@ -83,7 +83,7 @@
           inherits: false;
           initial-value: oklch($formatted $chroma $hue);
       }
-      @debug is-number($chroma) $class-name;
+      // @debug is-number($chroma) $class-name;
     } @else {
         @warn "Invalid parameters for --#{$prefix}#{$class-name}-#{$i}. Expected number values for lightness, chroma, and hue.";
     }

@@ -1,3 +1,5 @@
+@use 'sass:list';
+@use "sass:map";
 @use "../../../mixins/headings" as *;
 @use "../../../mixins/output-rules-with-scope" as *;
 @use "../../../variables/components/typography/headings" as *;
@@ -8,7 +10,7 @@ $heading-size-tags: (
 );
 
 @each $item in map-keys($headings) {
-    $heading-tags: append($heading-tags, '#{$item}', comma);
+    $heading-tags: list.append($heading-tags, '#{$item}', comma);
 }
 
 @each $key, $value in $headings {
@@ -16,7 +18,7 @@ $heading-size-tags: (
 
     @if($has-size) {
         $size: map-get($value , 'size');
-        $heading-size-tags: append($heading-size-tags, '.heading-#{$size}', comma);
+        $heading-size-tags: list.append($heading-size-tags, '.heading-#{$size}', comma);
     }
 }
 

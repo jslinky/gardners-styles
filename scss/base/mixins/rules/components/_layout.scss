@@ -1,9 +1,10 @@
+@use "sass:meta";
 @use "../../../../theme" as *;
 @use "../../../props/wrapper" as wrapper;
 @use "../../../props/layout" as layout;
 
-$_layout: module-variables("layout");
-$_wrapper: module-variables("wrapper");
+$_layout: meta.module-variables("layout");
+$_wrapper: meta.module-variables("wrapper");
 
 $wrapper-props: pick-keys(
   $_wrapper,

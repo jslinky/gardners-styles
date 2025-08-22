@@ -15,15 +15,41 @@ $button-base-rules: (
     var(--button-padding-inline-start, var(--text-frame-x)),
 ) !default;
 
-$button-default-color: var(--#{$_colorNamePrefix}primary-contrast) !default;
-$button-default-bg: var(--#{$_colorNamePrefix}primary) !default;
+$button-default-color: var(--#{$_colorNamePrefix}grey-10-contrast) !default;
+$button-default-bg: var(--#{$_colorNamePrefix}grey-10) !default;
+
+$button-soft-opacity: 0.125 !default;
+
+$button-soft-default-color: #{$button-default-color} !default;
+$button-soft-default-bg: unquote('oklch(from #{$button-default-bg} l c h / #{$button-soft-opacity})') !default;
+
+$button-inverted-default-color: var(--#{$_colorNamePrefix}grey-5-contrast) !default;
+$button-inverted-default-bg: var(--#{$_colorNamePrefix}grey-5) !default;
 
 $button-outline-default-color: $button-default-bg !default;
 $button-outline-default-bg: transparent !default;
 
-$button-inverted-outline-default-color: $button-default-color !default;
+$button-inverted-outline-default-color: var(--#{$_colorNamePrefix}grey-10) !default;
 $button-inverted-outline-default-bg: transparent !default;
 
-$button-sm-padding-frame-y: 0.5em !default;
+$button-ghost-default-color: #{$button-default-color} !default;
+$button-ghost-default-bg: transparent !default;
+
+$button-ghost-default-bg-hover: #{$button-default-bg} !default;
+$button-ghost-bg-hover-opacity: 0.75 !default;
+
+$button-xs-font-size: var(--xs) !default;
+$button-xs-padding-frame-y: 0.25em !default;
+$button-xs-padding-frame-ratio: 1.2 !default;
+
+$button-sm-font-size: var(--sm) !default;
 $button-sm-padding-frame-y: 0.5em !default;
 $button-sm-padding-frame-ratio: 1.2 !default;
+
+$button-lg-font-size: var(--lg) !default;
+$button-lg-padding-frame-y: 0.725em !default;
+$button-lg-padding-frame-ratio: 3 !default;
+
+$button-xl-font-size: var(--xl) !default;
+$button-xl-padding-frame-y: 0.725em !default;
+$button-xl-padding-frame-ratio: 3.25 !default;

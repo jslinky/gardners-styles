@@ -1,7 +1,8 @@
+@use "sass:meta";
 @use "../../../props/font" as font;
 @use "../../../../theme" as *;
 
-$_font: module-variables("font");
+$_font: meta.module-variables("font");
 
 // Font family related variables
 @include output-rules-with-scope() {

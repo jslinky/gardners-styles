@@ -118,7 +118,7 @@
     a {
       @include buttons.base-rules();
       @include buttons.inverted-rules();
-      @include buttons.sm-rules();
+      @include buttons.size-rules(sm);
       text-transform: uppercase;
       border-radius: var(--radius);
       line-height: 1;

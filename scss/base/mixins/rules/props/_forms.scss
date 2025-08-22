@@ -1,8 +1,9 @@
- @use "../../../../theme" as *;
+@use "sass:meta";
+@use "../../../../theme" as *;
 @use "../../../variables" as *;
 @use "../../../props/forms" as forms;
 
-$_forms: module-variables("forms");
+$_forms: meta.module-variables("forms");
 
 // Font family related variables
 @include output-rules-with-scope() {

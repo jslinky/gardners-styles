@@ -1,3 +1,4 @@
+@use "sass:meta";
 @use "../../../../theme" as *;
 @use "../../../props/key-tokens" as key-tokens;
 @use "../../../props/layout" as layout;
@@ -7,9 +8,9 @@ $_valid-key-tokens-keys: 'text-frame-ratio' 'text-frame-y' 'text-frame-x' 'space
 $_valid-layout-keys: 'layout-column-min' 'layout-gap' 'layout-grid-min' 'layout-grid-gap' 'layout-grid-template-columns' 'column-count' 'breakpoint' 'column-size' 'flex-grid-min' 'flex-grid-gap';
 $_valid-wrapper-keys: 'max-wrapper-width' 'wrapper-padding' 'wrapper-padding-min' 'wrapper-inline' 'wrapper-width' 'grid-wrapper-columns';
 
-$_key-tokens: module-variables("key-tokens");
-$_layout: module-variables("layout");
-$_wrapper: module-variables("wrapper");
+$_key-tokens: meta.module-variables("key-tokens");
+$_layout: meta.module-variables("layout");
+$_wrapper: meta.module-variables("wrapper");
 
 // Layout related variables
 @include output-rules-with-scope() {

@@ -16,6 +16,10 @@
         @include buttons.outline-rules();
         @include buttons.gen-outline-color-variations();
       }
+      &.button--soft {
+        @include buttons.soft-rules();
+        @include buttons.gen-soft-button-color-variations();
+      }
       &.button--inverted {
         @include buttons.inverted-rules();
         @include buttons.gen-inverted-button-color-variations();
@@ -23,12 +27,23 @@
           @include buttons.inverted-outline-rules();
         }
       }
-      &.button--sm {
-        @include buttons.sm-rules();
+      &.button--ghost {
+        @include buttons.ghost-rules();
+        // @include buttons.gen-ghost-button-color-variations();
       }
+      @include buttons.gen-button-size-variations();       
     }
     // Component states layer
     @layer states {
+      &.button--ghost {
+        &:hover, &:focus {
+          @include buttons.ghost-hover-rules();          
+        }
+        @include buttons.gen-ghost-state-color-variations($hover: hover, $focus: focus);
+        // &:active {
+        //   @include buttons.ghost-active-rules();
+        // }         
+      }
     }
   }
 }
