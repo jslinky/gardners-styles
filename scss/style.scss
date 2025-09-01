@@ -8,7 +8,7 @@
 
   @import "./site/rules/components/typography/fonts";  
 
-  :where(a) {
+  :where(a):not(.button, button) {
     text-decoration: none;
   }
 

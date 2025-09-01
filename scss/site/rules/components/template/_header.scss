@@ -102,7 +102,8 @@
     }
     &:nth-child(1) {
       a {
-        @include buttons.inverted-outline-rules();
+        // @include buttons.inverted-outline-rules();
+        @include buttons.outline-rules();
         &:before {
           content: "Log in";
         }
@@ -118,7 +119,7 @@
     a {
       @include buttons.base-rules();
       @include buttons.inverted-rules();
-      @include buttons.size-rules(sm);
+      @include buttons.size-rules(sm);      
       text-transform: uppercase;
       border-radius: var(--radius);
       line-height: 1;

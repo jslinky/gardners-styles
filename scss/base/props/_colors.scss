@@ -43,6 +43,12 @@ $dark-h: get-override("dark-h", 0, $_overrides);
 
 $dark: oklch(var(--#{$_colorNamePrefix}dark-l) var(--#{$_colorNamePrefix}dark-c) var(--#{$_colorNamePrefix}dark-h)); 
 
+$light-l: get-override("light-l", 0.97, $_overrides);
+$light-c: get-override("light-c", 0, $_overrides);
+$light-h: get-override("light-h", 0, $_overrides);
+
+$light: oklch(var(--#{$_colorNamePrefix}light-l) var(--#{$_colorNamePrefix}light-c) var(--#{$_colorNamePrefix}light-h)); 
+
 // $grey-l: if(meta.global-variable-exists(grey-l), $grey-l, $primary-l) !default;
 // $grey-c: if(meta.global-variable-exists(grey-c), $grey-c, 0.050) !default;
 // $grey-h: if(meta.global-variable-exists(grey-h), $grey-h, $primary) !default;

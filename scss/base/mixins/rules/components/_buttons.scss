@@ -33,25 +33,26 @@ $button-font-size: (
 
 // Default rules
 
-@mixin base-rules(
-  $color: #{$button-default-color},
-  $background-color: #{$button-default-bg}
-) {
+@mixin base-rules() {
   @include output-props($button-frame-x...);
-  --button-background-color: #{$background-color};
-  --button-color: #{$color};
-  --button-border-color: var(--button-background-color);
+  @include output-props($button-base-props...);
   @each $key, $value in $button-base-rules {
     #{$key}: #{$value};
   }
+}
+
+@mixin gen-button-color($color) {
+  --button-color: var(--#{$_colorNamePrefix}#{$color});
+  --button-color-contrast: var(--#{$_colorNamePrefix}#{$color}-contrast);  
 }
 
 @mixin gen-button-color-variations() {
   @each $color in $colorIncludes {
     @if (map-has-key($_colors, $color)) {
       &.button--#{$color} {
-        --button-color: var(--#{$_colorNamePrefix}#{$color}-contrast);
-        --button-background-color: var(--#{$_colorNamePrefix}#{$color});
+        @include gen-button-color($color);
+        --button-fg: var(--button-fg-#{$color}, var(--button-color-contrast));
+        --button-bg: var(--button-bg-#{$color}, var(--button-color));
       }
     }
   }
@@ -59,26 +60,31 @@ $button-font-size: (
 
 // Default states
 
-@mixin base-hover-rules(
-  $color: #{$button-ghost-default-color},
-  $background-color: unquote('oklch(from #{$button-ghost-default-bg-hover} l c h / #{$button-ghost-bg-hover-opacity})')
-) {
-  --button-background-color: #{$background-color};
-  --button-color: #{$color};
+@mixin base-state-rules($states...) {
+  @each $key, $state in meta.keywords($states) {
+    @if $state == hover or $state == focus {
+      &:#{$state} {
+        --_button-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+        --_button-border-#{$state}: color-mix(in oklab, var(--button-border-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+        --button-bg: var(--button-bg-#{$state}, var(--_button-bg-#{$state}));
+        --button-fg: var(--button-fg-#{$state}, var(--button-color-contrast));
+        --button-border: var(--button-border-#{$state}, var(--_button-border-#{$state}));
+      }
+    }
+  }
 }
 
-@mixin gen-base-state-color-variations($states...) {  
-  @each $color in $colorIncludes {    
+@mixin base-state-color-variations($states...) {  
+  @each $color in $colorIncludes {
     @if (map-has-key($_colors, $color)) {
-      @each $key, $state in meta.keywords($states) {        
+      @each $key, $state in meta.keywords($states) {
         @if $state == hover or $state == focus {
-          &.button--#{$color} {
-            &:#{$state} {
-              $fg: unquote('var(--#{$_colorNamePrefix}#{$color}-contrast)');
-              $bg: unquote('oklch(from var(--#{$_colorNamePrefix}#{$color}) l c h / #{$button-ghost-bg-hover-opacity})');            
-                --button-color: #{$fg};
-                --button-background-color: #{$bg};                        
-              }
+          &.button--#{$color}:#{$state} {            
+            --_button-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+            --_button-border-#{$state}: color-mix(in oklab, var(--button-border-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+            --button-bg: var(--button-bg-#{$color}-#{$state}, var(--_button-bg-#{$state}));
+            --button-fg: var(--button-fg-#{$color}-#{$state}, var(--button-color-contrast));
+            --button-border: var(--button-border-#{$color}-#{$state}, var(--_button-border-#{$state}));
           }
         }
       }
@@ -86,111 +92,136 @@ $button-font-size: (
   }
 }
 
+/// Inverted buttons
 
-
-
-@mixin soft-rules(
-  $color: #{$button-soft-default-color},
-  $background-color: #{$button-soft-default-bg}
-) {
-  --button-background-color: #{$background-color};
-  --button-color: #{$color};
+@mixin inverted-rules() {
+  --button-fg: var(--button-inverted-default-fg, var(--button-color));
+  --button-bg: var(--button-inverted-default-bg, var(--button-color-contrast));
+  --button-border-color: var(--button-inverted-default-border-color, var(--button-color-contrast));
 }
 
-@mixin gen-soft-button-color-variations() {
-  @each $color in $colorIncludes {
-    @if (map-has-key($_colors, $color)) {
-      $fg: unquote('var(--#{$_colorNamePrefix}#{$color})');
-      $bg: unquote('oklch(from #{$fg} l c h / #{$button-soft-opacity})');
-      &.button--#{$color} {
-        --button-color: #{$fg};
-        --button-background-color: #{$bg};
+@mixin inverted-state-rules($states...) {
+  @each $key, $state in meta.keywords($states) {
+    @if $state == hover or $state == focus {
+      &:#{$state} {
+        --_button-inverted-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+        --_button-inverted-border-#{$state}: color-mix(in oklab, var(--button-bg), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+        --button-bg: var(--button-inverted-bg-#{$state}, var(--_button-inverted-bg-#{$state}));
+        --button-fg: var(--button-inverted-fg-#{$state}, var(--button-color-contrast));
+        --button-border: var(--button-inverted-border-#{$state}, var(--_button-inverted-border-#{$state}));
       }
     }
   }
 }
 
-@mixin inverted-rules(
-  $color: #{$button-inverted-default-bg},
-  $background-color: #{$button-inverted-default-color}
-) {
-  --button-background-color: #{$background-color};
-  --button-color: #{$color};
-}
-
-@mixin gen-inverted-button-color-variations() {
+@mixin inverted-state-color-variations($states...) {  
   @each $color in $colorIncludes {
     @if (map-has-key($_colors, $color)) {
-      &.button--#{$color} {
-        --button-color: var(--#{$_colorNamePrefix}#{$color});
-      }
-    }
-  }
-}
-
-@mixin outline-rules(
-  $color: #{$button-outline-default-color},
-  $background-color: #{$button-outline-default-bg}
-) {
-  --button-background-color: #{$background-color};
-  --button-color: #{$color};
-  --button-border-color: var(--button-color);
-}
-
-@mixin gen-outline-color-variations() {
-  @each $color in $colorIncludes {
-    @if (map-has-key($_colors, $color)) {
-      &.button--#{$color} {
-        --button-color: var(--#{$_colorNamePrefix}#{$color});
-      }
-    }
-  }
-}
-
-@mixin inverted-outline-rules(
-  $color: #{$button-inverted-outline-default-color},
-  $background-color: #{$button-inverted-outline-default-bg}
-) {
-  --button-background-color: #{$background-color};
-  --button-color: #{$color};
-  --button-border-color: var(--button-color);
-}
-
-@mixin ghost-rules(
-  $color: #{$button-ghost-default-color},
-  $background-color: #{$button-ghost-default-bg}
-) {
-  --button-background-color: #{$background-color};
-  --button-color: #{$color};
-  // --button-border-color: transparent;
-}
-
-@mixin ghost-hover-rules(
-  $color: #{$button-ghost-default-color},
-  $background-color: unquote('oklch(from #{$button-ghost-default-bg-hover} l c h / #{$button-ghost-bg-hover-opacity})')
-) {
-  --button-background-color: #{$background-color};
-  --button-color: #{$color};
-}
-
-@mixin gen-ghost-state-color-variations($states...) {  
-  @each $color in $colorIncludes {    
-    @if (map-has-key($_colors, $color)) {
-      @each $key, $state in meta.keywords($states) {        
+      @each $key, $state in meta.keywords($states) {
         @if $state == hover or $state == focus {
-          &.button--#{$color} {
-            &:#{$state} {
-              $fg: unquote('var(--#{$_colorNamePrefix}#{$color}-contrast)');
-              $bg: unquote('oklch(from var(--#{$_colorNamePrefix}#{$color}) l c h / #{$button-ghost-bg-hover-opacity})');            
-                --button-color: #{$fg};
-                --button-background-color: #{$bg};                        
-              }
+          &.button--#{$color}:#{$state} {
+            --_button-inverted-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+            --_button-inverted-border-#{$state}: color-mix(in oklab, var(--button-bg), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+            --button-bg: var(--button-inverted-bg-#{$color}-#{$state}, var(--_button-inverted-bg-#{$state}));
+            --button-fg: var(--button-inverted-fg-#{$color}-#{$state}, var(--button-color-contrast));
+            --button-border: var(--button-inverted-border-#{$color}-#{$state}, var(--_button-inverted-border-#{$state}));
           }
         }
       }
     }
   }
 }
+
+/// Soft Buttons - TODO - finish off below variations
+
+@mixin soft-rules() {
+  --button-fg: var(--button-soft-default-fg, var(--button-color));
+  --button-bg: var(--button-soft-default-bg, oklch(from var(--button-color) l c h / var(--button-soft-default-bg-opacity, #{$button-soft-opacity}) ));  
+  --button-border-color: var(--button-soft-default-border-color, oklch(from var(--button-color) l c h / var(--button-soft-default-border-opacity, 0) ));    
+}
+
+@mixin soft-state-color-variations($states...) {  
+  @each $color in $colorIncludes {
+    @if (map-has-key($_colors, $color)) {
+      @each $key, $state in meta.keywords($states) {
+        @if $state == hover or $state == focus {
+          &.button--#{$color}:#{$state} {
+            --button-bg: var(--button-soft-bg-#{$color}-#{$state}, oklch(from var(--button-color) l c h / var(--button-soft-#{$color}-#{$state}-bg-opacity, #{$button-soft-hover-opacity})));
+            --button-fg: var(--button-soft-fg-#{$color}-#{$state}, var(--button-color));
+          }
+        }
+      }
+    }
+  }
+}
+
+/// Outline Buttons
+@mixin outline-rules() {
+  --button-fg: var(--button-outline-default-fg, var(--button-color));
+  --button-bg: var(--button-outline-default-bg, transparent);  
+  --button-border-color: var(--button-outline-default-border-color, var(--button-fg));
+}
+
+@mixin outline-state-color-variations($states...) {  
+  @each $color in $colorIncludes {
+    @if (map-has-key($_colors, $color)) {
+      @each $key, $state in meta.keywords($states) {
+        @if $state == hover or $state == focus {
+          &.button--#{$color}:#{$state} {
+            --button-bg: var(--button-outline-bg-#{$color}-#{$state}, transparent);
+            --button-fg: var(--button-outline-fg-#{$color}-#{$state}, color-mix(in oklab, var(--button-color), calc(var(--button-fg-#{$color}-#{$state}-depth, 1) * 10%) var(--button-fg-#{$color}-#{$state}-color-mix, #000)  ));
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin ghost-rules() {
+  --button-fg: var(--button-ghost-default-fg, var(--button-color-contrast));
+  --button-bg: var(--button-ghost-default-bg, transparent);
+  --button-border-color: var(--button-ghost-default-border-color, transparent);
+}
+
+@mixin ghost-state-color-variations($states...) {  
+  @each $color in $colorIncludes {
+    @if (map-has-key($_colors, $color)) {
+      @each $key, $state in meta.keywords($states) {
+        @if $state == hover or $state == focus {
+          &.button--#{$color}:#{$state} {
+            --button-bg: var(--button-ghost-bg-#{$color}-#{$state}, var(--button-color));
+            --button-fg: var(--button-ghost-fg-#{$color}-#{$state}, var(--button-color-contrast));
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin link-rules() {
+  --button-fg: var(--button-link-default-fg, var(--button-color));
+  --button-bg: var(--button-link-default-bg, transparent);
+  --button-border-color: var(--button-link-default-border-color, transparent);
+}
+
+@mixin link-state-rules($states...) {
+  @each $key, $state in meta.keywords($states) {
+    @if $state == hover or $state == focus {
+      &:#{$state} {
+        --button-fg: var(--button-link-fg-#{$state}, var(--button-color));
+        --button-bg: var(--button-link-bg-#{$state}, transparent);
+        text-decoration-line: underline;
+      }
+    }
+  }
+}
+
+@mixin wide-rules() {
+  --button-padding-inline-wide: clamp(var(--text-frame-x), 10vw, calc(var(--text-frame-x) * 3));
+  --button-padding-inline-start: var(--button-padding-inline-wide);
+  --button-padding-inline-end: var(--button-padding-inline-wide);
+}
+
 
 @mixin size-rules($size) {
   /// list of values for inline start padding - string (custom prop name) or number value

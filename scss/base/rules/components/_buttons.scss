@@ -8,41 +8,74 @@
     // Component base layer
     @layer base {
       @include buttons.base-rules();
+      :where(.button__icon, .button__text) {
+        display: inline-flex;
+        align-items: center
+      }
+      &:has(.button__icon + .button__text), :has(.button__text + .button__icon) {
+        gap: 0.5em;
+      }
     }
     // Component modifiers layer
     @layer modifiers {
-      @include buttons.gen-button-color-variations();
+      @include buttons.gen-button-size-variations();      
+      @include buttons.gen-button-color-variations();   
+      &.button--inverted {
+        @include buttons.inverted-rules();
+      }            
       &.button--outline {
         @include buttons.outline-rules();
-        @include buttons.gen-outline-color-variations();
       }
       &.button--soft {
         @include buttons.soft-rules();
-        @include buttons.gen-soft-button-color-variations();
-      }
-      &.button--inverted {
-        @include buttons.inverted-rules();
-        @include buttons.gen-inverted-button-color-variations();
-        &.button--outline {
-          @include buttons.inverted-outline-rules();
-        }
       }
       &.button--ghost {
         @include buttons.ghost-rules();
-        // @include buttons.gen-ghost-button-color-variations();
       }
-      @include buttons.gen-button-size-variations();       
+      &.button--link {
+        @include buttons.link-rules();
+      }
+      &.button--wide {
+        @include buttons.wide-rules();
+      }
+      &.button--block {
+        flex-basis: 100%;;
+      }
+      &.button--square {
+        --button-padding-inline-start: 0;
+        --button-padding-inline-end: 0;
+        width: 3em;
+        aspect-ratio: 1 / 1;
+        align-self: center;
+      }
+      &.button--circle {
+        --button-padding-inline-start: 0;
+        --button-padding-inline-end: 0;
+        width: 3em;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        align-self: center;
+      }
     }
     // Component states layer
     @layer states {
+      @include buttons.base-state-rules($hover: hover, $focus: focus);
+      @include buttons.base-state-color-variations($hover: hover, $focus: focus);
+      &.button--inverted {
+        @include buttons.inverted-state-rules($hover: hover, $focus: focus);
+        @include buttons.inverted-state-color-variations($hover: hover, $focus: focus);
+      }
+      &.button--soft {
+        @include buttons.soft-state-color-variations($hover: hover, $focus: focus);
+      }
+      &.button--outline {
+        @include buttons.outline-state-color-variations($hover: hover, $focus: focus);    
+      }
       &.button--ghost {
-        &:hover, &:focus {
-          @include buttons.ghost-hover-rules();          
-        }
-        @include buttons.gen-ghost-state-color-variations($hover: hover, $focus: focus);
-        // &:active {
-        //   @include buttons.ghost-active-rules();
-        // }         
+        @include buttons.ghost-state-color-variations($hover: hover, $focus: focus);
+      }
+      &.button--link {
+        @include buttons.link-state-rules($hover: hover, $focus: focus);
       }
     }
   }
