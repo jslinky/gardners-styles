@@ -1,6 +1,13 @@
+@use "sass:meta";
 @use "../../functions/get-color-prefix" as *;
+@use "../../functions/overrides" as *;
+@use "../../../theme/overrides" as overrides;
+
 
 $_colorNamePrefix: getColorPrefix();
+$_overrides: meta.module-variables("overrides");
+
+$button-selectors: get-override("button-selectors", '.button, button', $_overrides);
 
 $button-default-color: #{$_colorNamePrefix}grey-10!default;
 $button-border-width: 1px !default;
