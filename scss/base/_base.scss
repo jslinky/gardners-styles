@@ -24,7 +24,7 @@
 }
 
 @layer base.reset {
-    :root:is(.#{$scopeClassName}) {
+    :root:is(#{$baseResetRulesScopeClassName}) {
 
         @media (prefers-reduced-motion: no-preference) {
             interpolate-size: allow-keywords;
@@ -40,6 +40,7 @@
 
 @layer base.components {
     @import "./rules/components/typography/headings";
+    @import "./rules/components/typography/base";
     @import "./rules/components/typography/fluid-type";
     @import "./rules/components/layout";
     @import "./rules/components/buttons";

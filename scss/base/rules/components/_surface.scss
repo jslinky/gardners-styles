@@ -1,20 +1,31 @@
 @use "../../../theme" as *;
 @use "../../props/colors" as color-props;
+@use "../../mixins/rules/components/buttons" as buttons;
+
+$_color-prefix: getColorPrefix();
+
+  // @debug $_color-prefix;
+  $button-color-variations: ();
+  @each $color in $colorIncludes {
+    $button-color-variations: append($button-color-variations, unquote('.button--#{$color}'), comma);
+  }
 
 @include output-rules-with-scope() {
   [data-surface] {
     --color: var(--surface-color);
     --bg-color: var(--surface-bg-color);
     color: var(--color);
+    --field-border-color: color-mix(in oklab, var(--bg-color), var(--field-border-color-tint,#000) calc(var(--surface-depth, 1) * 5%) );
     background-color: var(--bg-color);
+
+    @layer base {
+      :where(.button, button) {
+        &:not(:is(#{$button-color-variations})) {
+          @include buttons.inverted-rules();
+        }        
+      }
+    }
   }
-
-  /// create a color includes
-  $surface-colors: "primary" "secondary" "tertiary";
-
-  $_color-prefix: getColorPrefix();
-
-  // @debug $_color-prefix;
 
   @each $color in $surface-colors {
     @layer base {
@@ -22,21 +33,33 @@
         --surface-bg-color: var(--#{$_color-prefix}#{$color});
         --surface-color: var(--#{$_color-prefix}#{$color}-contrast);
         :where(.button, button) {
-          --button-background-color: var(--surface-color);
-          --button-color: var(--surface-bg-color);
-        }
-      }
-    }
-    @layer modifiers {
-      [data-surface="#{$color}"] {
-        :where(.button, button).button--outline {
-          --button-color: var(--surface-color);
-          --button-background-color: transparent;
-          --button-border-color: var(
-            --button-color
-          ); /// this should be baked into button rules
+          // --button-background-color: var(--surface-color);
+          // --button-color: var(--surface-bg-color);
+          &:not(:is(#{$button-color-variations})) {
+            @include buttons.gen-button-color($color);
+            &:hover {
+              @include buttons.inverted-state-rule-output(hover);
+              @include buttons.inverted-state-color-variation($color, hover);
+            }
+            &:focus {
+              @include buttons.inverted-state-rule-output(focus);
+              @include buttons.inverted-state-color-variation($color, focus);
+            }
+          }
+          &.button--outline {
+            --button-color: var(--surface-color);
+            --button-background-color: transparent;
+            --button-border-color: var(
+              --button-color
+            ); /// this should be baked into button rules
+          }          
         }
       }
     }
   }
+
+  :where([class*="border"]) {
+      border-color: var(--field-border-color, var(--color-grey-10, #d1d5db));
+  }
+
 }

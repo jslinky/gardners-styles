@@ -7,6 +7,7 @@
     position: sticky;
     top: 0;
     z-index: 10;
+    box-shadow: 0 2px 4px 4px oklch(from var(--color-dark) l c h / 0.25) inset;
   }
 
   :is(.navMenu, .navMenu .primary, .quickSearch) {
@@ -63,6 +64,10 @@
       align-items: center;
       width:100%;
       justify-content: center;
+      font-size: var(--text-sm);
+      @include bp.respond-to(lg) {
+        font-size: var(--text-base);
+      }
     }
   }
 
@@ -128,7 +133,6 @@
       background-size: 1.5em;
       background-repeat: no-repeat;
       background-position: center;
-      translate: 50% 0%;
     }
     span {
       display: none; /// visually hide this

@@ -79,6 +79,10 @@
       }
     }
 
+    :where(#{$card-component-selectors}):not([data-card-bordered]) {
+      --card-border-width: 0;
+    }
+
     :where(#{$card-component-selectors}):not([data-card-layout="col"]) {
       grid-auto-flow: row;
       align-items: flex-start;

@@ -1,6 +1,8 @@
-$scopeClassName: 'new'!default; 
+$scopeClassName: '.new'!default; 
+$baseResetRulesScopeClassName: '#body, .c-footer, .unauthenticated'!default;
 $colorNamePrefix: 'color-'!default;
 $colorIncludes: 'primary' 'secondary' 'tertiary' 'dark' 'light' 'grey'!default;
 $useTailwindForColorOutput: true !default;
 $generateSteppedColors: 'primary' 'secondary' !default;
 $grey-tint-color: 'primary' !default;
+$surface-colors: "primary" "secondary" "tertiary"!default;

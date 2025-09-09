@@ -100,18 +100,35 @@ $button-font-size: (
   --button-border-color: var(--button-inverted-default-border-color, var(--button-color-contrast));
 }
 
+@mixin inverted-state-rule-output($state) {
+    --_button-inverted-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+    --_button-inverted-border-#{$state}: color-mix(in oklab, var(--button-bg), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+    --button-bg: var(--button-inverted-bg-#{$state}, var(--_button-inverted-bg-#{$state}));
+    --button-fg: var(--button-inverted-fg-#{$state}, var(--button-color-contrast));
+    --button-border: var(--button-inverted-border-#{$state}, var(--_button-inverted-border-#{$state}));  
+}
+
 @mixin inverted-state-rules($states...) {
   @each $key, $state in meta.keywords($states) {
     @if $state == hover or $state == focus {
       &:#{$state} {
-        --_button-inverted-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
-        --_button-inverted-border-#{$state}: color-mix(in oklab, var(--button-bg), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
-        --button-bg: var(--button-inverted-bg-#{$state}, var(--_button-inverted-bg-#{$state}));
-        --button-fg: var(--button-inverted-fg-#{$state}, var(--button-color-contrast));
-        --button-border: var(--button-inverted-border-#{$state}, var(--_button-inverted-border-#{$state}));
+        @include inverted-state-rule-output($state);
+        // --_button-inverted-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+        // --_button-inverted-border-#{$state}: color-mix(in oklab, var(--button-bg), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+        // --button-bg: var(--button-inverted-bg-#{$state}, var(--_button-inverted-bg-#{$state}));
+        // --button-fg: var(--button-inverted-fg-#{$state}, var(--button-color-contrast));
+        // --button-border: var(--button-inverted-border-#{$state}, var(--_button-inverted-border-#{$state}));
       }
     }
   }
+}
+
+@mixin inverted-state-color-variation($color, $state) {
+    --_button-inverted-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+    --_button-inverted-border-#{$state}: color-mix(in oklab, var(--button-bg), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+    --button-bg: var(--button-inverted-bg-#{$color}-#{$state}, var(--_button-inverted-bg-#{$state}));
+    --button-fg: var(--button-inverted-fg-#{$color}-#{$state}, var(--button-color-contrast));
+    --button-border: var(--button-inverted-border-#{$color}-#{$state}, var(--_button-inverted-border-#{$state}));   
 }
 
 @mixin inverted-state-color-variations($states...) {  
@@ -120,11 +137,12 @@ $button-font-size: (
       @each $key, $state in meta.keywords($states) {
         @if $state == hover or $state == focus {
           &.button--#{$color}:#{$state} {
-            --_button-inverted-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
-            --_button-inverted-border-#{$state}: color-mix(in oklab, var(--button-bg), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
-            --button-bg: var(--button-inverted-bg-#{$color}-#{$state}, var(--_button-inverted-bg-#{$state}));
-            --button-fg: var(--button-inverted-fg-#{$color}-#{$state}, var(--button-color-contrast));
-            --button-border: var(--button-inverted-border-#{$color}-#{$state}, var(--_button-inverted-border-#{$state}));
+            @include inverted-state-color-variation($color, $state);
+            // --_button-inverted-bg-#{$state}: color-mix(in oklab, var(--button-color), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+            // --_button-inverted-border-#{$state}: color-mix(in oklab, var(--button-bg), calc(var(--button-bg-#{$state}-depth, 1) * 10%) var(--button-bg-#{$state}-color-mix, oklch(from var(--button-color) clamp(0, (l / 0.623 - 1) * -infinity, 1) 0 h))  );
+            // --button-bg: var(--button-inverted-bg-#{$color}-#{$state}, var(--_button-inverted-bg-#{$state}));
+            // --button-fg: var(--button-inverted-fg-#{$color}-#{$state}, var(--button-color-contrast));
+            // --button-border: var(--button-inverted-border-#{$color}-#{$state}, var(--_button-inverted-border-#{$state}));
           }
         }
       }

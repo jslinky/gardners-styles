@@ -168,7 +168,7 @@ $color-loop-output-flat: ();
     @debug 'Using Tailwind for color output';
 }
 
-// :root:is(.#{$scopeClassName}) {
+// :root:is(#{$scopeClassName}) {
 //     /// style query for if stepped colors will be generated
 //     $value: if(get-override("generateSteppedColors", config.$generateSteppedColors, $_overrides), 1, 0);
 //     --has-stepped-colors: #{$value};

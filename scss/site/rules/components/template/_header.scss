@@ -113,22 +113,6 @@
       span {
         display: none;
       }
-      &:nth-child(1) {
-        a {
-          // @include buttons.inverted-outline-rules();
-          @include buttons.outline-rules();
-          &:before {
-            content: "Log in";
-          }
-        }
-      }
-      &:nth-child(2) {
-        a {
-          &:before {
-            content: "Sign up";
-          }
-        }
-      }
       a {
         @include buttons.base-rules();
         @include buttons.inverted-rules();
@@ -143,6 +127,23 @@
           text-indent: 0;
         }
       }
+      &:nth-child(1) {
+        a {
+          // @include buttons.inverted-outline-rules();
+          @include buttons.outline-rules();
+          &:before {
+            content: "Log in";
+          }
+        }
+      }
+      &:nth-child(2) {
+        a {
+          @include buttons.gen-button-color(secondary);
+          &:before {
+            content: "Sign up";
+          }
+        }
+      }      
     }
   }
 

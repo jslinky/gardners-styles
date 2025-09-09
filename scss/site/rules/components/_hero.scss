@@ -16,6 +16,7 @@
     position: relative;
     grid-template-columns: 1fr; 
     grid-template-rows: auto var(--hero-after-height);
+    overflow-x: clip;
     &:after, &:before {
         clip-path: polygon(100% 100%, 100% 0, 0 0, 0 calc(100% - var(--line-width)), 50% 10%);
         isolation: isolate;
@@ -58,11 +59,6 @@
     padding-block: var(--space-lg);
     width: min(var(--max-wrapper-width), calc(100vw - (var(--space-lg) * 2)));
     margin-inline: auto;
-}
-
-/// move and rework
-:where(p) {
-    color: var(--color);
 }
 
 :where(.hero.hero--pullup) {
