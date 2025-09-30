@@ -6,27 +6,13 @@
 @use "../../mixins/rules/components/flow" as *;
 @use "../../mixins/rules/components/typography/fluid-type" as fluid;
 
-@include output-rules-with-scope() {
+@mixin all-card-styles() {
   @layer base {
     :where(#{$card-component-selectors}) {
-      --card-two-columns: 50% 50%; /// temp - move this
-      --card-body-padding-inline: var(--layout-gap);
-      --card-body-padding-block: var(--layout-gap);
-      --card-auto-row: auto;
-      --fluid-headings: false;
-
       @include card.default-rules();
 
       :where(.button, button) {
         @include card.link();
-      }
-
-      @container (inline-size > 80ch) {
-        &:not([data-card-layout="row"]):has(
-            #{$card-picture-selectors}:not(:empty)
-          ) {
-          @include card.two-column-layout();
-        }
       }
     }
 
@@ -71,6 +57,10 @@
   }
 
   @layer modifiers {
+    :where(#{$card-component-selectors}) {
+      @include card.grid-template-attr-sizes();
+    }
+    
     :where(#{$card-component-selectors}):is([data-card-layout="col"]) {
       @include card.column-rules();
 
@@ -176,7 +166,14 @@
       :where(#{$card-component-selectors}):not([data-card-layout="row"]) {
         --card-auto-row: auto;
         @include card.column-rules();
+        &:has(#{$card-picture-selectors}:not(:empty)) {
+          @include card.two-column-layout();
+        }
       }
     }
-  }
+  }  
+}
+
+@include output-rules-with-scope() {
+  @include all-card-styles();
 }

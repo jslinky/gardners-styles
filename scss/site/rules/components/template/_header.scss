@@ -9,7 +9,7 @@
   }
 }
 
-:root:is(.unauthenticated) {
+:root:is(.new.unauthenticated) {
 
   /// Unset rules
   .stickyHeaderLoggedOut {
@@ -194,3 +194,142 @@
 }
 
 
+:root:is(.new.authenticated) {
+  @media (max-width: 900px) {
+    .stickyHeader {
+      height: 110px;
+    }
+
+    .sticky-wrapper {
+      min-width: auto;
+    }
+
+    #barHeader .loggedIn {
+      display: grid;
+      grid-template-areas:
+        "logo burger basket"
+        "search search search";
+      grid-auto-flow: column;
+      grid-auto-columns: max-content 1fr 1fr;
+      width: 100%;
+    }
+
+    .stickyHeader
+      #barHeader
+      #bar-Wrapper
+      .bar-inner
+      > ul
+      > li.logoSection
+      #logo
+      a.normal {
+      width: 140px;
+    }
+
+    .sticky-wrapper:not(.is-sticky) {
+      #barHeader .loggedIn {
+        grid-auto-columns: max-content 0px 1fr;
+      }
+    }
+
+    :is(#barHeader, #megaMenuHeader) :is(.container_16) {
+      // /* width: min(calc(var(--max-wrapper-width) - (var(--layout-gap) * 2)), calc(100% - (var(--layout-gap) * 2))); */
+      // /* width: min(calc(1200px - (1rem * 2)), calc(100% - (1rem * 2))); */
+      width: calc(min(var(--max-wrapper-width), 100%) - (var(--layout-gap) * 2));
+      margin: 0;
+    }
+
+    :is(#barHeader, #megaMenuHeader) :is(.grid_16) {
+      width: 100%;
+      margin: 0;
+    }
+
+    .bar-inner {
+      display: flex;
+    }
+
+    .logoSection {
+      grid-area: logo;
+    }
+
+    .hamburgerSection {
+      grid-area: burger;
+    }
+
+    .searchSection {
+      grid-area: search;
+      height: 40px;
+      display: flex;
+    }
+
+    .basketSection {
+      grid-area: basket;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    #bar-Wrapper {
+      height: auto;
+    }
+
+    .stickyHeader
+      #barHeader
+      #bar-Wrapper
+      .bar-inner
+      > ul
+      > li.hamburgerSection
+      #hamburgerMenu
+      a.sticky {
+      width: 84px;
+      background-position: left center;
+    }
+
+    .stickyHeader
+      #barHeader#barHeader
+      #bar-Wrapper
+      .bar-inner
+      > ul
+      > li.searchSection
+      #SearchForm {
+      all: unset;
+      left: 0;
+      position: absolute;
+      transform: translatex(-65px);
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      background: white;
+    }
+
+    #navMenu {
+      width: max-content;
+    }
+
+
+    .categoryContainer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .categoryColumn {
+      &:nth-child(2n + 1) {
+        .categories {
+          border-left: none;
+          padding-left: 0;
+        }
+      }
+      width: 100%;
+    }
+
+    .sticky-wrapper {
+      height: 110px !important;
+    }
+
+    .megaMenu {
+      max-width: calc(100vw - (var(--layout-gap) * 2));
+      max-height: 70dvh;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+}
+ 

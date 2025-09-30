@@ -1,0 +1,5 @@
+@use "../../mixins/rules/props/colors" as *;
+
+:root {
+    @include generateAllColors();
+}

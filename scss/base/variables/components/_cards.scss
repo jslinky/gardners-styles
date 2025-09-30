@@ -1,3 +1,4 @@
+@use 'sass:list';
 $card-component-selectors: ".card"!default;
 $card-picture-selectors: ".card-picture"!default;
 $card-body-selectors: ".card-body"!default;
@@ -9,3 +10,13 @@ $card-body-ctas: ".card-body__content__ctas"!default;
 $card-footer-selectors: ".card-footer"!default;
 
 $card-title-heading-size: "xs"!default;
+
+$card-content-sizes-fr: '0.25fr' '0.5fr' '0.75fr' '1fr' '1.25fr' '1.5fr' '1.75fr' '2fr'!default;
+$card-content-sizes-pc: '25%' '33%' '50%' '75%' '100%'!default;
+$card-content-sizes-px: '256px' '288px' '320px' '384px' '448px' '512px' '576px' '672px'!default;
+$card-content-sizes-ch: '20ch' '30ch' '40ch' '50ch' '60ch' '70ch' '80ch'!default;
+
+$card-content-size-list: list.join($card-content-sizes-fr, $card-content-sizes-pc);
+$card-content-size-list: list.join($card-content-size-list, $card-content-sizes-px);
+$card-content-size-list: list.join($card-content-size-list, $card-content-sizes-ch);
+$card-content-size-list: list.append($card-content-size-list, 'auto')!default;

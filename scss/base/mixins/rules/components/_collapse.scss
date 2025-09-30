@@ -1,0 +1,169 @@
+@mixin base-collapse-rules() {
+  inline-size: var(--details-inline-size, 50ch);
+
+  @media (prefers-reduced-motion: no-preference) {
+    interpolate-size: allow-keywords;
+  }
+}
+
+@mixin base-collapse-content-rules() {
+  block-size: 0;
+  overflow-y: clip;
+  transition: var(
+    --collapse-transition,
+    content-visibility 1s allow-discrete,
+    opacity 1s,
+    block-size 1s
+  );
+
+  > div {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+}
+
+@mixin base-collapse-content-open-rules() {
+  //   &[open] {
+  //     &::details-content {
+  /* opacity: 1; */
+  block-size: auto;
+  > div {
+    opacity: 1;
+  }
+  //     }
+  //   }
+}
+
+@mixin base-collapse-title-rules() {
+  cursor: pointer;
+  --marker-content: attr(data-marker-expand);
+  display: flex;
+  align-items: center;
+  gap: var(--collapse-title-gap, var(--spacing-md, 0.5rem));
+
+  span {
+    flex: 1 1 auto;
+  }
+
+  &::marker {
+    display: none;
+  }
+
+  &:before {
+    content: var(--marker-content);
+    font-size: 1.75em;
+    width: 1em;
+    height: 1em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-color, inherit);
+    background-color: var(--color, transparent);
+    flex-shrink: 0;
+  }
+}
+
+@mixin base-collapse-title-open-rules() {
+  --marker-content: attr(data-marker-collapse);
+}
+
+@mixin base-collapse-icon-open-rules() {
+  > *:is(:not(:only-child)) {
+    &:nth-child(1) {
+      display: none;
+    }
+
+    &:nth-child(2) {
+      display: inline-flex;
+    }
+  }
+}
+
+@mixin base-icon-slot-rules() {
+  gap: var(--collapse-title-gap, var(--spacing-md, 0.5rem));
+  display: flex;
+  align-items: center;
+}
+
+@mixin base-icon-rules() {
+  display: grid;
+  place-items: center;
+  > * {
+    width: 1.75em;
+    height: 1.75em;
+  }
+
+  > *:is(:not(:only-child)) {
+    &:nth-child(1) {
+      display: inline-flex;
+    }
+
+    &:nth-child(2) {
+      display: none;
+    }
+  }
+}
+
+@mixin base-collapse-icon-arrow-rules() {
+  > *:is(:only-child) {
+    transition: var(--collapse-icon-arrow-transition, rotate 0.3s ease-in-out);
+  }
+}
+
+@mixin modify-collapse-content-surface-or-outlined-rules() {
+  padding-inline: max(var(--text-frame-y), var(--spacing-sm)) var(--spacing-sm);
+  padding-block-end: max(var(--text-frame-y), var(--spacing-sm));
+}
+
+@mixin modify-collapse-title-surface-or-outlined-rules() {
+  padding-inline: var(--text-frame-y) var(--spacing-sm);
+  padding-block: var(--text-frame-y);
+}
+
+@mixin modify-collapse-outlined-rules() {
+  border: var(--field-border-width, 1px) solid
+    var(--field-border-color, var(--color-gray-200));
+  &[data-surface] {
+    --field-border-color: oklch(from var(--bg-color) calc(l - 0.05) c h);
+  }
+}
+
+@mixin modify-collapse-open-rules($collapse_icon) {
+  .#{$collapse_icon} {
+    &.#{$collapse_icon}--arrow {
+      > *:is(:only-child) {
+        rotate: 180deg;
+      }
+    }
+  }
+}
+
+@mixin modify-collapse-title-has-icon-rules($collapse_title) {
+  &.#{$collapse_title}--has-icon {
+    &:before {
+      display: none;
+    }
+  }
+}
+
+@mixin modify-collapse-title-is-text-base-rules($collapse_title) {
+  &.#{$collapse_title}--text-base {
+    gap: 0;
+    > p {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+@mixin modify-collapse-title-marker-end-rules(
+  $collapse_title,
+  $collapse_icon_slot
+) {
+  .#{$collapse_title}--marker-end {
+    flex-direction: row-reverse;
+
+    .#{$collapse_icon_slot} {
+      flex-direction: row-reverse;
+    }
+  }
+}

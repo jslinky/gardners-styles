@@ -1,8 +1,12 @@
 @use "../../mixins/rules/components/flow" as *;
 @use "../../mixins/output-rules-with-scope" as *;
 
-@include output-rules-with-scope() {
+@mixin all-flow-styles() {
   .flow > * + * {
     @include flow();
   }
+}
+
+@include output-rules-with-scope() {
+  @include all-flow-styles();
 }

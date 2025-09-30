@@ -1,17 +1,24 @@
 @use "../../../../theme" as *;
 @use "../../../variables/components/cards" as *;
 
+@mixin default-props() {
+    --card-two-columns: var(--card-left-col, minmax(0, 1fr)) var(--card-right-col, minmax(0, 1fr));
+    --card-body-padding-inline: var(--layout-gap);
+    --card-body-padding-block: var(--layout-gap);
+    --card-auto-row: auto;
+    --fluid-headings: false; 
+}
+
 @mixin default-rules() {
-    // --color-surface-bg: transparent;
-    // --card-two-columns: var(--card-left-col, 1fr) var(--card-right-col, 1fr);
-    // --card-gutter-stacked: var(--spacing-gutter);
+    @include default-props();
     grid-template-columns: var(--card-columns, 1fr);
     background-color: var(--card-background-color, var(--surface-bg-color));
     position: relative;
     border: var(--card-border-width, var(--field-border-width, 1px)) var(--card-border-style, solid) var(--card-border-color, var(--field-border-color, transparent));
     border-radius: var(--card-radius, var(--radius));
     height: 100%;
-    gap: var(--card-gap, var(--card-gap-stacked));
+    column-gap: calc(var(--card-gap-column, var(--card-padding-inline, 0)) * var(--card-gap-column-multiplier, 1));
+    row-gap: calc(var(--card-gap-row, var(--card-padding-block, 0)) * var(--card-gap-row-multiplier, 1));    
     aspect-ratio: var(--card-aspect, none);
     display: grid;
     padding-inline: var(--card-padding-inline, 0);
@@ -24,7 +31,6 @@
 
 @mixin stacked() {
     --card-columns: 1fr;
-    --card-gap: var(--card-gap-stacked);
     grid-auto-flow: row;
 }
 
@@ -46,8 +52,52 @@
 
 @mixin two-column-layout() {
     --card-columns: var(--card-two-columns);
-    --card-gap: calc(var(--card-padding-inline) * 2);
     grid-auto-flow: column;
+}
+
+/// baked in fallbacks for content sizing
+@mixin grid-template-content-sizes($direction: column, $order: 0, $size: 1fr) {
+    @if ($direction == row) {
+        @if ($order == 0) {
+            &:is([data-card-#{$direction}-content-#{$order}-size="#{$size}"]) {
+                --card-top-row: #{$size};
+            }
+        } @else if ($order == 1) {
+            &:is([data-card-#{$direction}-content-#{$order}-size="#{$size}"]) {
+                --card-bottom-row: #{$size};
+            }
+        }
+    } @else if ($direction == column) {
+        @if ($order == 0) {
+            &:is([data-card-#{$direction}-content-#{$order}-size="#{$size}"]) {
+                --card-left-col: #{$size};
+            }
+        } @else if ($order == 1) {
+            &:is([data-card-#{$direction}-content-#{$order}-size="#{$size}"]) {
+                --card-right-col: #{$size};
+            }
+        }
+    }
+}
+
+/// content sizing using attr() function
+@mixin grid-template-attr-sizes() {
+    /* Browser has modern attr() support */
+    $check: unquote('x: attr(x type(*))');
+    @supports (#{$check}) {          
+        &:is([data-card-column-content-0-size]) {
+            --card-left-col: attr(data-card-column-content-0-size type(<length> | <percentage>));
+        }
+        &:is([data-card-column-content-1-size]) {
+            --card-right-col: attr(data-card-column-content-1-size type(<length> | <percentage>));
+        }
+        &:is([data-card-row-content-0-size]) {
+            --card-top-row: attr(data-card-row-content-0-size type(<length> | <percentage>));
+        }
+        &:is([data-card-row-content-1-size]) {
+            --card-bottom-row: attr(data-card-row-content-1-size type(<length> | <percentage>));
+        }
+    }
 }
 
 @mixin text-align($direction: column) {
@@ -248,11 +298,17 @@
 }
 
 
+
 @mixin column-rules() {
     @include text-align(column);
     @include justify-content(column);
     @include align-items(column);
     @include image-align-self(column);
+
+    @each $size in $card-content-size-list {
+        @include grid-template-content-sizes(column, 0, $size);
+        @include grid-template-content-sizes(column, 1, $size);
+    }
 
     &:where([data-card-column-reverse-order]) {
         &:has(#{$card-picture-selectors}:first-child) {
@@ -277,6 +333,10 @@
             }
         }
     }
+
+    :where(#{$card-picture-selectors}) {
+        align-self: start;
+    }
 }
 
 @mixin row-rules() {
@@ -284,6 +344,11 @@
     @include justify-content(row);
     @include align-items(row);
     @include image-align-self(row);
+
+    @each $size in $card-content-size-list {
+        @include grid-template-content-sizes(row, 0, $size);
+        @include grid-template-content-sizes(row, 1, $size);
+    }    
 
     &:where([data-card-row-reverse-order]) {
         &:has(#{$card-picture-selectors}:first-child) {

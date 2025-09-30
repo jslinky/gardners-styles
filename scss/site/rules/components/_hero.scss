@@ -3,7 +3,8 @@
     --hero-max-height: 250px;
     --hero-fluid-height: 50vi;    
     
-    --hero-after-height: 166px;
+    --hero-after-height: clamp(100px, 70px + 10vw, 166px);
+    --hero-after-min-width: clamp(600px, 550px + 10vw, var(--max-wrapper-width));
     --line-width: var(--space-sm);
 }
 
@@ -29,7 +30,7 @@
         max-height: var(--hero-after-height);
         align-self: flex-end;        
         inset:0;        
-        min-width: var(--max-wrapper-width);
+        min-width: var(--hero-after-min-width);
     }
     &:before {
         background-color: var(--color-primary);

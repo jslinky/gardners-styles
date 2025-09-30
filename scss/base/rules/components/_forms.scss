@@ -2,55 +2,59 @@
 @use "../../../theme" as *;
 @use "../../mixins/rules/components/forms" as forms;
 
-@include output-rules-with-scope() {
+@mixin all-form-styles() {
   #{$form-layout-selector} {
-    --row-gap: var(--space-sm);
-    --column-gap: var(--space-sm);
-    --hint-fs: var(--xs);
-    --half-row-gap: calc(var(--row-gap) / 2);
-    --quarter-row-gap: calc(var(--row-gap) / 4);
-    display: grid;
-    grid-template-columns: max(25%, 120px) 1fr;
-    gap: var(--row-gap) var(--column-gap);
-    &:has(.hint) {
-      row-gap: max(
-        var(--half-row-gap),
-        calc(var(--hint-fs) + var(--half-row-gap))
-      );
-      :is(#{$form-row-selector}) {
-        row-gap: max(var(--quarter-row-gap), 4px);
-        &:not(:has(.hint)) {
-          margin-block-start: var(--row-gap);
-        }
-        &:has(.hint) {
-          + :is(#{$form-row-selector}) {
-            margin-block-start: 0;
+    @layer base {
+      --row-gap: var(--space-sm);
+      --column-gap: var(--space-sm);
+      --hint-fs: var(--xs);
+      --half-row-gap: calc(var(--row-gap) / 2);
+      --quarter-row-gap: calc(var(--row-gap) / 4);
+      display: grid;
+      grid-template-columns: max(25%, 120px) 1fr;
+      gap: var(--row-gap) var(--column-gap);
+      &:has(.hint) {
+        row-gap: max(
+          var(--half-row-gap),
+          calc(var(--hint-fs) + var(--half-row-gap))
+        );
+        :is(#{$form-row-selector}) {
+          row-gap: max(var(--quarter-row-gap), 4px);
+          &:not(:has(.hint)) {
+            margin-block-start: var(--row-gap);
+          }
+          &:has(.hint) {
+            + :is(#{$form-row-selector}) {
+              margin-block-start: 0;
+            }
           }
         }
       }
-    }
-    :where(.hint) {
-      visibility: hidden;
-      grid-column-start: 2;
-      font-size: var(--hint-fs);
-    }
-    :is(#{$form-row-selector}) {
-      display: grid;
-      grid-template-columns: subgrid;
-      grid-column: 1 / -1;
-    }
-    :is(
-        div:has(> input[type="radio"], > input[type="checkbox"]),
-        button[type="submit"]
-      ) {
-      grid-column-start: 2;
-      grid-template-columns: max-content 1fr;
-      column-gap: min(var(--column-gap), var(--space-xs));
-      align-items: center;
+      :where(.hint) {
+        visibility: hidden;
+        grid-column-start: 2;
+        font-size: var(--hint-fs);
+      }
+      :is(#{$form-row-selector}) {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
+      }
+      :is(
+          div:has(> input[type="radio"], > input[type="checkbox"]),
+          button[type="submit"]
+        ) {
+        grid-column-start: 2;
+        grid-template-columns: max-content 1fr;
+        column-gap: min(var(--column-gap), var(--space-xs));
+        align-items: center;
+      }
     }
   }
   :where(label:has(+ input:is(#{$input-text-selectors}))) {
-    @include forms.default-layout-label-rules();
+    @layer base {
+      @include forms.default-layout-label-rules();
+    }
   }
 
   :where(
@@ -58,8 +62,10 @@
           label:first-child
         )
     ) {
-    label {
-      order: 2;
+    @layer base {
+      label {
+        order: 2;
+      }
     }
   }
 
@@ -111,4 +117,8 @@
     ".input",
     "width" "height"
   );
+}
+
+@include output-rules-with-scope() {
+  @include all-form-styles();
 }

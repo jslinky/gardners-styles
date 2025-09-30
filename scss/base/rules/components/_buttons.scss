@@ -3,8 +3,7 @@
 @use "../../variables/components/buttons" as *;
 @use "../../mixins/rules/components/buttons" as buttons;
 
-// https://css-tricks.com/organizing-design-system-component-patterns-with-css-cascade-layers/?utm_source=CSS-Weekly&utm_campaign=Issue-606&utm_medium=web
-@include output-rules-with-scope() {
+@mixin all-button-styles() {
   :where(#{$button-selectors}) {
     // Component base layer
     @layer base {
@@ -80,4 +79,9 @@
       }
     }
   }
+}
+
+// https://css-tricks.com/organizing-design-system-component-patterns-with-css-cascade-layers/?utm_source=CSS-Weekly&utm_campaign=Issue-606&utm_medium=web
+@include output-rules-with-scope() {
+  @include all-button-styles();
 }
