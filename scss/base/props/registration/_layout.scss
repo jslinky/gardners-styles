@@ -1,0 +1,5 @@
+@use "sass:meta";
+@use "../../../theme/" as *;
+@use "../layout" as layout;
+
+@include output-registered-props(layout.$register-layout);

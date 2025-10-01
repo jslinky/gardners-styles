@@ -1,0 +1,5 @@
+@use "sass:meta";
+@use "../../../theme/" as *;
+@use "../key-tokens" as tokens;
+
+@include output-registered-props(tokens.$register-key-tokens);

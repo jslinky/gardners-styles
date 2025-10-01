@@ -22,4 +22,142 @@ $font-size-list: (
     display-lg: 48,
     display-xl: 60,
     display-2xl: 72
+)!default;
+
+$register-font-size: (
+    'text-size-increment': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': #{$text-size-increment}
+    ), 
+    'font-size-base-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, $font-size-base-px, map-get($font-size-list, $base-font-size-marker))
+    ),
+    'font-size-base': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, $font-size-base-px, map-get($font-size-list, $base-font-size-marker)) / 16) * 1rem)
+    ),
+    'xxs-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px / ($text-size-increment * $text-size-increment)), map-get($font-size-list, xxs))
+    ), 
+    'xs-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px / $text-size-increment), map-get($font-size-list, xs))
+    ),
+    'sm-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * (1 / $text-size-increment)), map-get($font-size-list, sm))
+    ),
+    'md-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, $font-size-base-px, map-get($font-size-list, md))
+    ),
+    'lg-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * $text-size-increment), map-get($font-size-list, lg))
+    ),
+    'xl-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment), map-get($font-size-list, xl))
+    ),
+    'display-xs-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-xs))
+    ),
+    'display-sm-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-sm))
+    ),
+    'display-md-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-md))
+    ),
+    'display-lg-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-lg))
+    ),
+    'display-xl-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-xl))
+    ),
+    'display-2xl-px': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-2xl))
+    ),
+    'xxs': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px / ($text-size-increment * $text-size-increment)), map-get($font-size-list, xxs)) / 16) * 1rem)
+    ), 
+    'xs': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px / $text-size-increment), map-get($font-size-list, xs)) / 16) * 1rem)
+    ),
+    'sm': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * (1 / $text-size-increment)), map-get($font-size-list, sm)) / 16) * 1rem)
+    ),
+    'md': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, $font-size-base-px, map-get($font-size-list, md)) / 16) * 1rem)
+    ),
+    'lg': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * $text-size-increment), map-get($font-size-list, lg)) / 16) * 1rem)
+    ),
+    'xl': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment), map-get($font-size-list, xl)) / 16) * 1rem)
+    ),
+    'display-xs': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-xs)) / 16) * 1rem)
+    ), 
+    'display-sm': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-sm)) / 16) * 1rem)
+    ),
+    'display-md': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-md)) / 16) * 1rem)
+    ),
+    'display-lg': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-lg)) / 16) * 1rem)
+    ),
+    'display-xl': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-xl)) / 16) * 1rem)
+    ),
+    'display-2xl': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc((if($use-typo-scale, round($font-size-base-px * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment * $text-size-increment), map-get($font-size-list, display-2xl)) / 16) * 1rem)
+    )                   
 );

@@ -6,6 +6,7 @@
 @forward "./mixins/output-props";
 @forward "./mixins/output-rules-with-scope";
 
+@forward "./mixins/utils/register-custom-prop";
 @forward "./mixins/utils/pick-keys";
 @forward "./mixins/utils/pow";
 @forward "./mixins/utils/range-map";

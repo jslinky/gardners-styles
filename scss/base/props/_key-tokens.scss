@@ -12,7 +12,79 @@ $unit: clamp(var(--unit-min, 0.25rem), var(--unit-fluid, 1vi), var(--unit-max)) 
 $radius: 0.35rem !default;
 $line-height-relative: 1.4em !default;
 $line-height-fixed: 0.375rem !default;
-$border: 1px !default;
 $flow-space: var(--space-lg) !default;
 $field-border-color: var(--color-grey-10, #d1d5db) !default;
 $field-border-width: 1px !default;
+
+$register-key-tokens: (
+    'text-frame-ratio': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': #{$text-frame-ratio}
+    ),
+    'text-frame-y': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': #{$text-frame-y}
+    ),
+    'text-frame-x': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': calc(#{$text-frame-y} * #{$text-frame-ratio})
+    ),
+    'space-increment': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': #{$space-increment}
+    ),
+    'unit-max': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': #{$unit-max}
+    ),
+    'unit-min': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value':  calc(#{$unit-max} / 2) 
+    ),
+    'unit-fluid': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': #{$unit-fluid}
+    ),
+    'unit': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': clamp(calc(#{$unit-max} / 2), #{$unit-fluid}, #{$unit-max})
+    ),
+    'radius': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': #{$radius}
+    ),
+    'line-height-relative': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': #{$line-height-relative}
+    ),
+    'line-height-fixed': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': #{$line-height-fixed}
+    ),
+    'flow-space': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': #{$flow-space}
+    ),
+    'field-border-width': (
+        'syntax': "<length>",
+        'inherits': false,
+        'initial-value': #{$field-border-width}
+    ),
+    'field-border-color': (
+        'syntax': "<color>",
+        'inherits': false,
+        'initial-value': #d1d5db
+    )                                     
+);

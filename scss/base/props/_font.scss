@@ -5,3 +5,21 @@
 $font-family-base: 'system-ui, sans-serif' !default;
 $font-family-heading: string.unquote("Calibri, Seravek, 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', source-sans-pro, sans-serif") !default;
 $font-heading-weight: 600 !default;
+
+$register-font: (
+    'font-family-base': (
+        'syntax': "<string>",
+        'inherits': false,
+        'initial-value': "#{$font-family-base}"
+    ),
+    'font-family-heading': (
+        'syntax': "<string>",
+        'inherits': false,
+        'initial-value': "#{$font-family-heading}"
+    ),
+    'font-heading-weight': (
+        'syntax': "<number>",
+        'inherits': false,
+        'initial-value': #{$font-heading-weight}
+    )
+);

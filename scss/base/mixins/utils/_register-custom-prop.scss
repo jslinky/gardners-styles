@@ -1,0 +1,30 @@
+@mixin register-prop($name, $syntax, $inherits, $initial-value) {
+    @property --#{$name} {
+        syntax: "#{$syntax}";
+        inherits: #{$inherits};
+        initial-value: #{$initial-value};
+    }
+}
+
+@mixin output-registered-props($map) {
+    @each $key, $value in $map {
+        $name: $key;
+        $syntax: map-get($value , 'syntax');
+        $inherits: map-get($value , 'inherits');
+        $initial-value: map-get($value , 'initial-value');
+        @if($syntax != null) and ($inherits != null) and ($initial-value != null) {
+            @include register-prop($name, $syntax, $inherits, $initial-value);        
+        } @else {
+            @if($syntax == null) {
+                @warn "Property missing for #{$name} custom property registration. Syntax is #{$syntax}";
+            }
+            @if($inherits == null) {
+                @warn "Property missing for #{$name} custom property registration. Inherits is #{$inherits}";
+            }
+            @if($initial-value == null) {
+                @warn "Property missing for #{$name} custom property registration. Initial Value is #{$initial-value}";
+            }            
+        }
+    }
+}
+

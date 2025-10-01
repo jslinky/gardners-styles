@@ -1,0 +1,5 @@
+@use "sass:meta";
+@use "../../../theme/" as *;
+@use "../wrapper" as wrapper;
+
+@include output-registered-props(wrapper.$register-wrapper);

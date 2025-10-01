@@ -26,6 +26,7 @@
     "build:forms-props": "sass scss/base/compiled-modules/props/_forms.scss:dist/compiled-modules/props/forms.css --style=compressed --load-path=node_modules",
     "build:layout-props": "sass scss/base/compiled-modules/props/_layout.scss:dist/compiled-modules/props/layout.css --style=compressed --load-path=node_modules",
     "build:spacing-props": "sass scss/base/compiled-modules/props/_spacing.scss:dist/compiled-modules/props/spacing.css --style=compressed --load-path=node_modules",    
+    "build:register-props": "sass scss/base/props/_registration.scss:dist/compiled-modules/props/registration.css --style=compressed --load-path=node_modules",
     "build:all-props": "pnpm run build:color-props && pnpm run build:font-size-props && pnpm run build:font-props && pnpm run build:forms-props && pnpm run build:layout-props && pnpm run build:spacing-props",
     "build:components": "pnpm run build:base && pnpm run build:fluid-type && pnpm run build:headings && pnpm run build:buttons && pnpm run build:card && pnpm run build:collapse && pnpm run build:flow && pnpm run build:forms && pnpm run build:surface && pnpm run build:timeline",
     "build:all": "pnpm run build:all-props && pnpm run build:components",

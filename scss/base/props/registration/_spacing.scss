@@ -1,0 +1,5 @@
+@use "sass:meta";
+@use "../../../theme/" as *;
+@use "../spacing" as spacing;
+
+@include output-registered-props(spacing.$register-spacing);

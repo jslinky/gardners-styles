@@ -1,0 +1,5 @@
+@use "sass:meta";
+@use "../../../theme/" as *;
+@use "../font-size" as fs;
+
+@include output-registered-props(fs.$register-font-size);
