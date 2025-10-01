@@ -20,6 +20,7 @@
     "build:forms": "sass scss/base/compiled-modules/components/_forms.scss:dist/compiled-modules/components/forms.css --style=compressed --load-path=node_modules",
     "build:surface": "sass scss/base/compiled-modules/components/_surface.scss:dist/compiled-modules/components/surface.css --style=compressed --load-path=node_modules",
     "build:timeline": "sass scss/base/compiled-modules/components/_timeline.scss:dist/compiled-modules/components/timeline.css --style=compressed --load-path=node_modules",
+    "build:layout": "sass scss/base/compiled-modules/components/_layout.scss:dist/compiled-modules/components/layout.css --style=compressed --load-path=node_modules",
     "build:color-props": "sass scss/base/compiled-modules/props/_colors.scss:dist/compiled-modules/props/colors.css --style=compressed --load-path=node_modules",
     "build:font-size-props": "sass scss/base/compiled-modules/props/_font-size.scss:dist/compiled-modules/props/font-size.css --style=compressed --load-path=node_modules",
     "build:font-props": "sass scss/base/compiled-modules/props/_font.scss:dist/compiled-modules/props/font.css --style=compressed --load-path=node_modules",
