@@ -1,8 +1,8 @@
 @use "sass:meta";
 @use "../../../../theme" as *;
 // @use "../../variables" as *;
-@use "../../../props/key-tokens" as key-tokens;
-@use "../../../props/colors" as colors;
+@use "../../../variables/props/key-tokens" as key-tokens;
+@use "../../../variables/props/colors" as colors;
 @use "../../../variables/components/buttons" as *;
 
 $_key-tokens: meta.module-variables("key-tokens");

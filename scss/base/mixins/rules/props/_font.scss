@@ -1,5 +1,5 @@
 @use "sass:meta";
-@use "../../../props/font" as font;
+@use "../../../variables/props/font" as font;
 @use "../../../../theme" as *;
 
 $_font: meta.module-variables("font");

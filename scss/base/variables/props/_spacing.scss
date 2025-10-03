@@ -1,7 +1,7 @@
 // Import theme overrides first
 @use "./key-tokens" as tokens;
-@use "../../theme/" as *;
-@import "../../theme/overrides";
+@use "../../../theme/" as *;
+@import "../../../theme/overrides";
 
 $space-increment: include-prop-fallbacks("space-increment", #{tokens.$space-increment});
 

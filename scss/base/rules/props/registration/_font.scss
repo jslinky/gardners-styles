@@ -1,5 +1,5 @@
 @use "sass:meta";
 @use "../../../../theme/" as *;
-@use "../../../props/font" as font;
+@use "../../../variables/props/font" as font;
 
 @include output-registered-props(font.$register-font);

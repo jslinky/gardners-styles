@@ -1,7 +1,7 @@
-@use "../variables/components/forms" as *;
-@use "../variables/config" as *;
+@use "../../variables/components/forms" as *;
+@use "../../variables/config" as *;
 // Import theme overrides first
-@import "../../theme/overrides";
+@import "../../../theme/overrides";
 
 $accent-color: var(--#{$colorNamePrefix}primary) !default;
 

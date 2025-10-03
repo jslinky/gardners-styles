@@ -35,7 +35,12 @@
 }
 
 @layer base.props {
-    @import "./prop-rules";
+    @import "./rules/props/colors";
+    @import "./rules/props/font-size";
+    @import "./rules/props/layout";
+    @import "./rules/props/spacing";
+    @import "./rules/props/font";
+    @import "./rules/props/forms";    
 }
 
 @layer base.components {

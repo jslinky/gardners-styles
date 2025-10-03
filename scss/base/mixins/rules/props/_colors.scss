@@ -7,7 +7,7 @@
 @use "../../../functions/get-color-prefix" as colorPrefix;
 @use "../../../functions/overrides" as *;
 
-@use "../../../props/colors" as colors;
+@use "../../../variables/props/colors" as colors;
 
 /// Override colorIncludes with the value from overrides if available
 $_overrides: meta.module-variables("overrides");

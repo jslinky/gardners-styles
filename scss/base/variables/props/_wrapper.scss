@@ -1,8 +1,8 @@
 @use "sass:string";
 // Import theme overrides first
 @use "./layout" as layout;
-@use "../../theme/" as *;
-@import "../../theme/overrides";
+@use "../../../theme/" as *;
+@import "../../../theme/overrides";
 
 // Set defaults with potential overrides from theme
 $max-wrapper-width: 1440px !default;

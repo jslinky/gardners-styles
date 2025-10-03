@@ -1,9 +1,9 @@
 // replace with oklch when lightningcss is in place
 @use "sass:meta";
-@use "../../theme/_index" as *;
-@use "../../theme/overrides" as overrides;
-@use "../functions/overrides" as *;
-@use "../variables/config" as config;
+@use "../../../theme/_index" as *;
+@use "../../../theme/overrides" as overrides;
+@use "../../functions/overrides" as *;
+@use "../../variables/config" as config;
 
 $_colorNamePrefix: getColorPrefix();
 

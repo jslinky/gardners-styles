@@ -3,7 +3,7 @@
 @use "sass:list";
 @use "../../../../theme" as *;
 // @use "../../../variables" as *;
-@use "../../../props/spacing" as spacing;
+@use "../../../variables/props/spacing" as spacing;
 
 $_spacing: meta.module-variables("spacing");
 

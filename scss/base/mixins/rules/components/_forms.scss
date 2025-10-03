@@ -1,7 +1,7 @@
 @use "../../../../theme" as *;
 @use "../../../variables/components/forms" as *;
-@use "../../../props/forms" as *;
-@use '../../../props/font-size' as fs;
+@use "../../../variables/props/forms" as *;
+@use '../../../variables/props/font-size' as fs;
 
 @mixin output-input-base-props($props-to-include: $input-base-props) {
     @include output-props('_', $props-to-include...);

@@ -1,7 +1,7 @@
 @use "sass:meta";
 @use "../../../../theme" as *;
 @use "../../../variables" as *;
-@use "../../../props/forms" as forms;
+@use "../../../variables/props/forms" as forms;
 
 $_forms: meta.module-variables("forms");
 

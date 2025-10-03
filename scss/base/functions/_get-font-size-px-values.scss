@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:list";
-@use "../props/font-size" as font-size;
+@use "../variables/props/font-size" as font-size;
 
 @function get-font-size-px-values($font-size-list, $base-font-size-marker, $include-fallback:true, $use-typo-scale: true) {
 

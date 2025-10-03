@@ -3,7 +3,7 @@
 @use "sass:list";
 @use "../../../../theme" as *;
 // @use "../../../variables" as *;
-@use "../../../props/font-size" as font-size;
+@use "../../../variables/props/font-size" as font-size;
 
 $_font-size: meta.module-variables("font-size");
 

@@ -1,5 +1,5 @@
 @use "../../../theme" as *;
-@use "../../props/colors" as color-props;
+@use "../../variables/props/colors" as color-props;
 @use "../../mixins/rules/components/buttons" as buttons;
 
 $_color-prefix: getColorPrefix();
