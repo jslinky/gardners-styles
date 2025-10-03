@@ -34,15 +34,19 @@ $color-loop-output-flat: ();
     @return map.get($map, $colorName);
 }
 
+// @debug 'Colors:' $_colors;
+
 // Removes the leaky variables which are @forwarded and get outputted
 @for $i from 1 through $exclude-count {
-  $key-to-remove: list.nth($color-map-keys, $i);
+  $key-to-remove: list.nth($color-map-keys, if($i == 1, $i, $i - 1));
   $key-to-remove-starts-with: list.nth(str-explode($key-to-remove, '-'), 1);
     $inColorIncludes: list.index($colorIncludes, $key-to-remove-starts-with);  
     @if not ($inColorIncludes) {
         $_colors: map.remove($_colors, $key-to-remove);
     } 
 }
+
+// @debug 'Colors after:' $_colors;
 
 
 /// Populate $color-loop-output with top level keys from $colorInclues

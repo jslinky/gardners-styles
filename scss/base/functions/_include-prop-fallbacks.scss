@@ -1,0 +1,13 @@
+@use "../variables/config" as config; // update this to include overrides!!!!
+
+@function include-prop-fallbacks($value, $fallback, $include-fallbacks: config.$include-prop-fallbacks) {
+  @if $include-fallbacks {
+    @if type-of($value) == "string" {
+        @return "var(--#{$value}, #{$fallback})";
+    } @else {
+        @error "Expected a string value for value '#{$value}', but got #{type-of($value)}";
+    }
+  } @else {
+    @return var(--#{$value});
+  }  
+}

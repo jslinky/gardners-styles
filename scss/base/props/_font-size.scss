@@ -4,7 +4,7 @@
 $use-typo-scale: true !default;
 $text-size-increment: 1.25 !default;
 $font-size-base-px: 16 !default;
-$font-size-base: calc((var(--font-size-base-px) / 16) * 1rem);
+$font-size-base: calc((var(--font-size-base-px, #{$font-size-base-px}) / 16) * 1rem);
 
 $base-font-size-marker: 'md' !default;
 
