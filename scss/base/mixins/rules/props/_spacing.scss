@@ -15,6 +15,8 @@ $_spacing: meta.module-variables("spacing");
 }
 
 // Spacing related variables
-@include output-rules-with-scope() {
-    @include output-props($_spacing...); 
+@mixin output-spacing-props() {
+    @include output-rules-with-scope() {
+        @include output-props($_spacing...);
+    }
 }

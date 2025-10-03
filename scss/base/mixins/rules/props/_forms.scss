@@ -6,6 +6,8 @@
 $_forms: meta.module-variables("forms");
 
 // Font family related variables
-@include output-rules-with-scope() {
-    @include output-props(pick-keys($_forms, accent-color)...); 
+@mixin output-forms-props() {
+    @include output-rules-with-scope() {
+        @include output-props(pick-keys($_forms, accent-color)...); 
+    }
 }

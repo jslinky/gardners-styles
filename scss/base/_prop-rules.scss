@@ -1,6 +1,12 @@
-@use "./mixins/rules/props/colors";
-@use "./mixins/rules/props/layout"; 
-@use "./mixins/rules/props/font-size"; 
-@use "./mixins/rules/props/spacing"; 
-@use "./mixins/rules/props/font"; 
-@use "./mixins/rules/props/forms";
+// @use "./mixins/rules/props/colors";
+// @use "./mixins/rules/props/font-size"; 
+// @use "./mixins/rules/props/layout"; 
+// @use "./mixins/rules/props/spacing"; 
+// @use "./mixins/rules/props/font"; 
+// @use "./mixins/rules/props/forms";
+@use "./rules/props/colors";
+@use "./rules/props/font-size";
+@use "./rules/props/layout";
+@use "./rules/props/spacing";
+@use "./rules/props/font";
+@use "./rules/props/forms";

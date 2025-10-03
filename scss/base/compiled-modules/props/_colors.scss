@@ -1,5 +1,6 @@
-@use "../../mixins/rules/props/colors" as *;
+@use "../../mixins/output-rules-with-scope" as *;
+@use "../../mixins/rules/props/colors" as colors;
 
-:root {
-    @include generateAllColors();
+@include output-rules-with-scope() {
+    @include colors.generateAllColors();
 }

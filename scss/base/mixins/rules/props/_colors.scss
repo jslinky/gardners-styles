@@ -14,9 +14,9 @@ $_overrides: meta.module-variables("overrides");
 $_config: meta.module-variables("config");
 
 // Use the utility function for clean override handling
-$colorIncludes: get-override("colorIncludes", config.$colorIncludes, $_overrides);
+$colorIncludes: get-override("colorIncludes", config.$colorIncludes, $_overrides) !default;
 $generateSteppedColors: get-override("generateSteppedColors", config.$generateSteppedColors, $_overrides);
-$useTailwindForColorOutput: get-override("useTailwindForColorOutput", config.$useTailwindForColorOutput, $_overrides);
+$useTailwindForColorOutput: get-override("useTailwindForColorOutput", config.$useTailwindForColorOutput, $_overrides) !default;
 $_merged-excludes: map.merge($_config , $_overrides );
 $exclude-count: list.length($_merged-excludes);
 
@@ -163,23 +163,19 @@ $color-loop-output-flat: ();
     }
 }
 
-// Color related variables
-@if $useTailwindForColorOutput == false {
-    @include output-rules-with-scope() {
-        @include generateAllColors();
+@mixin outputColorRules() {
+    // Color related variables
+    @if $useTailwindForColorOutput == false {
+        @include output-rules-with-scope() {
+            @include generateAllColors();
+        }
+    } @else {
+        @debug 'Using Tailwind for color output';
     }
-} @else {
-    @debug 'Using Tailwind for color output';
 }
 
-// :root:is(#{$scopeClassName}) {
-//     /// style query for if stepped colors will be generated
-//     $value: if(get-override("generateSteppedColors", config.$generateSteppedColors, $_overrides), 1, 0);
-//     --has-stepped-colors: #{$value};
-// }
-
-
-/// Output fallback @properties for all colors - uses static values as custom props can't be used in initial-value 
+@mixin outputColorRegisterProps() {
+    /// Output fallback @properties for all colors - uses static values as custom props can't be used in initial-value 
     @each $color in $colorIncludes {
         @if(map.has-key($_colors, $color)) {            
             $lightness: if(checkIfColorDefined("#{$color}-l"), getColorPropValue("#{$color}-l"), 0.56);
@@ -190,3 +186,6 @@ $color-loop-output-flat: ();
             }
         }
     }
+}
+
+

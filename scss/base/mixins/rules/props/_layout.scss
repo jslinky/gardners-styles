@@ -13,14 +13,20 @@ $_layout: meta.module-variables("layout");
 $_wrapper: meta.module-variables("wrapper");
 
 // Layout related variables
-@include output-rules-with-scope() {
-    @include output-props(pick-keys($_key-tokens, $_valid-key-tokens-keys)...);
+@mixin output-key-tokens-props() {
+    @include output-rules-with-scope() {
+        @include output-props(pick-keys($_key-tokens, $_valid-key-tokens-keys)...);
+    }
 }
 
-@include output-rules-with-scope() {
-    @include output-props(pick-keys($_layout, $_valid-layout-keys)...);
+@mixin output-layout-props() {
+    @include output-rules-with-scope() {
+        @include output-props(pick-keys($_layout, $_valid-layout-keys)...);
+    }
 }
 
-@include output-rules-with-scope() {
-    @include output-props(pick-keys($_wrapper, $_valid-wrapper-keys)...);
+@mixin output-wrapper-props() {
+    @include output-rules-with-scope() {
+        @include output-props(pick-keys($_wrapper, $_valid-wrapper-keys)...);
+    }
 }
