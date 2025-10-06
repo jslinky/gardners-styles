@@ -10,12 +10,12 @@ $register-font: (
     'font-family-base': (
         'syntax': "<string>",
         'inherits': false,
-        'initial-value': "#{$font-family-base}"
+        'initial-value': "'system-ui'"
     ),
     'font-family-heading': (
         'syntax': "<string>",
         'inherits': false,
-        'initial-value': "#{$font-family-heading}"
+        'initial-value': "sans-serif"
     ),
     'font-heading-weight': (
         'syntax': "<number>",
