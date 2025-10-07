@@ -8,27 +8,14 @@
 
   @import "./site/rules/components/typography/fonts";  
 
-  :where(a):not(.button, button) {
-    text-decoration: none;
-  }
-
-  :is(html, body, #outerWrap) {
-    height:100%;
-  }
-
-  body {
-    font-family: var(--font-family-base);
-    font-size: var(--font-size-base);
-    color: var(--root-fg,var(--color-dark, #1d1d1d));
-    background-color: var(--root-bg,var(--color-light, #fff));
-  }
-
-
 }
 
-
-
 @layer site.components {
+
+  :is(#outerWrap) {
+    height: 100%;
+  }
+
   @import "./site/rules/components/template/header";
   @import "./site/rules/components/template/nav";
   @import "./site/rules/components/hero";

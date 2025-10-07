@@ -8,18 +8,18 @@ $font-heading-weight: 600 !default;
 
 $register-font: (
     'font-family-base': (
-        'syntax': "<string>",
-        'inherits': false,
+        'syntax': "*",
+        'inherits': true,
         'initial-value': "'system-ui'"
     ),
     'font-family-heading': (
-        'syntax': "<string>",
-        'inherits': false,
+        'syntax': "*",
+        'inherits': true,
         'initial-value': "sans-serif"
     ),
     'font-heading-weight': (
         'syntax': "<number>",
-        'inherits': false,
+        'inherits': true,
         'initial-value': #{$font-heading-weight}
     )
 );

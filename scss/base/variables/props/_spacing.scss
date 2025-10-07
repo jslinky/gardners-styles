@@ -20,62 +20,62 @@ $space-6xl: calc(var(--space-5xl) * #{$space-increment}) !default;
 
 $register-spacing: (
     'space-3xs': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) / 1.42 / 1.42 / 1.42)
     ),
     'space-2xs': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) / 1.42 / 1.42)
     ),
     'space-xs': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) / 1.42)
     ),
     'space-sm': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': clamp(0.25rem, 1vi, 1rem)
     ),
     'space-md': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) * 1.42)
     ),
     'space-lg': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42)
     ),
     'space-xl': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42)
     ),
     'space-2xl': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42 * 1.42)
     ),
     'space-3xl': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42 * 1.42 * 1.42)
     ),
     'space-4xl': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42 * 1.42 * 1.42 * 1.42)
     ),
     'space-5xl': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42 * 1.42 * 1.42 * 1.42 * 1.42)
     ),
     'space-6xl': (
-        'syntax': "<length>",
+        'syntax': "*",
         'inherits': false,
         'initial-value': calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42 * 1.42 * 1.42 * 1.42 * 1.42 * 1.42)
     )                                            

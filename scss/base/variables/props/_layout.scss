@@ -38,39 +38,39 @@ $flex-grid-gap: var(--layout-gap, #{$layout-gap}) !default;
 
 $register-layout: (
   "layout-column-min": (
-    "syntax": "<length>",
-    "inherits": false,
+    "syntax": "*",
+    "inherits": true,
     "initial-value": #{$layout-column-min},
   ),
   "layout-gap": (
-    "syntax": "<length>",
-    "inherits": false,
+    "syntax": "*",
+    "inherits": true,
     "initial-value": calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42),
   ),
   "layout-grid-min": (
-    "syntax": "<length>",
-    "inherits": false,
+    "syntax": "*",
+    "inherits": true,
     "initial-value": #{$layout-column-min},
   ),
   "layout-grid-gap": (
-    "syntax": "<length>",
-    "inherits": false,
+    "syntax": "*",
+    "inherits": true,
     "initial-value": calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42),
   ),
   "layout-grid-template-columns": (
     "syntax": "*",
-    "inherits": false,
+    "inherits": true,
     "initial-value":
       repeat(auto-fit, minmax(min(100%, #{$layout-column-min}), 1fr)),
   ),
   "column-count": (
     "syntax": "<number>",
-    "inherits": false,
+    "inherits": true,
     "initial-value": #{$column-count},
   ),
   "breakpoint": (
-    "syntax": "<length>",
-    "inherits": false,
+    "syntax": "*",
+    "inherits": true,
     "initial-value":
       calc(
         #{$layout-column-min} * #{$column-count} +
@@ -81,18 +81,18 @@ $register-layout: (
       ),
   ),
   "column-size": (
-    "syntax": "<length>",
-    "inherits": false,
+    "syntax": "*",
+    "inherits": true,
     "initial-value": #{$column-size},
   ),
   "flex-grid-min": (
-    "syntax": "<length>",
-    "inherits": false,
+    "syntax": "*",
+    "inherits": true,
     "initial-value": #{$layout-column-min},
   ),
   "flex-grid-gap": (
-    "syntax": "<length>",
-    "inherits": false,
+    "syntax": "*",
+    "inherits": true,
     "initial-value": calc(clamp(0.25rem, 1vi, 1rem) * 1.42 * 1.42 * 1.42),
   ),
 );

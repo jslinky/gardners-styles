@@ -1,0 +1,4 @@
+@use "../mixins/rules/base" as base;
+@use "../../theme" as *;
+
+@include base.all-base-styles($scopeClassName);

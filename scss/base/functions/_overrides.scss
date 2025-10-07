@@ -36,3 +36,27 @@
     
     @return $result;
 }
+
+/// Get original config value (ignores overrides)
+/// @param {String} $variable-name - The name of the variable
+/// @param {*} $config-value - The original config value
+/// @return {*} - Always returns the original config value, ignoring any overrides
+/// @example get-original("max-wrapper-width", 1440px) returns 1440px
+@function get-original($variable-name, $config-value) {
+    @return $config-value;
+}
+
+/// Get multiple original config values at once (ignores overrides)
+/// @param {Map} $variable-config-pairs - Map of variable names to config values
+/// @return {Map} - Map of variable names to original config values
+/// @example get-originals(("max-wrapper-width": 1440px, "layout-gap": 1rem)) returns ("max-wrapper-width": 1440px, "layout-gap": 1rem)
+@function get-originals($variable-config-pairs) {
+    $result: ();
+    @each $variable-name, $config-value in $variable-config-pairs {
+        $value: get-original($variable-name, $config-value);
+        $result: map.merge($result, ($variable-name: $value));
+    }
+    
+    @return $result;
+}
+

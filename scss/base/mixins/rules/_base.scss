@@ -1,0 +1,64 @@
+@mixin html-body-styles() {
+  height: 100%;
+}
+
+@mixin body-styles() {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--root-fg, var(--color-dark, #1d1d1d));
+  background-color: var(--root-bg, var(--color-light, #fff));    
+}
+
+@mixin paragraph-styles() {
+  color: var(--color, inherit);
+}
+
+@mixin interpolate-size() {
+  @media (prefers-reduced-motion: no-preference) {
+    interpolate-size: allow-keywords;
+  }
+}
+
+@mixin anchor-not-button-styles() {
+  text-decoration: none;
+}
+
+@mixin all-base-styles($scopeClassName) {
+
+    @if $scopeClassName != "" or $scopeClassName != null {
+      :root:is(#{$scopeClassName}) {
+        &:is(html) {
+            @include html-body-styles();
+        }
+        body {
+            @include html-body-styles();
+            @include body-styles();
+        }
+        :where(a):not(.button, button) {
+            @include anchor-not-button-styles();
+        }
+        :where(p) {
+            @include paragraph-styles();
+        }
+
+        @include interpolate-size();         
+      }
+    } @else {
+        :is(html, body) {
+            @include html-body-styles();
+        }
+        body {
+        @include body-styles();
+        }
+        :where(a):not(.button, button) {
+            @include anchor-not-button-styles();
+        }
+        :where(p) {
+            @include paragraph-styles();
+        }
+
+        @include interpolate-size();         
+    }
+
+   
+}

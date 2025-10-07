@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "build": "sass scss/style.scss:dist/style.css --style=compressed --load-path=node_modules",    
-    "build:base": "sass scss/base/output-modules/components/typography/_base.scss:dist/modules/components/typography/base.css --load-path=node_modules",
+    "build:reset": "sass scss/base/output-modules/_reset.scss:dist/modules/reset.css --load-path=node_modules",
+    "build:base": "sass scss/base/output-modules/_base.scss:dist/modules/base.css --load-path=node_modules",
     "build:fluid-type": "sass scss/base/output-modules/components/typography/_fluid-type.scss:dist/modules/components/typography/fluid-type.css --load-path=node_modules",
     "build:headings": "sass scss/base/output-modules/components/typography/_headings.scss:dist/modules/components/typography/headings.css --load-path=node_modules",
     "build:buttons": "sass scss/base/output-modules/components/_buttons.scss:dist/modules/components/buttons.css --load-path=node_modules",
@@ -29,7 +30,7 @@
     "build:spacing-props": "sass scss/base/output-modules/props/_spacing.scss:dist/modules/props/spacing.css --load-path=node_modules",    
     "build:register-props": "sass scss/base/rules/props/_registration.scss:dist/modules/props/registration.css --load-path=node_modules",
     "build:all-props": "pnpm run build:color-props && pnpm run build:font-size-props && pnpm run build:font-props && pnpm run build:forms-props && pnpm run build:layout-props && pnpm run build:spacing-props",
-    "build:components": "pnpm run build:base && pnpm run build:fluid-type && pnpm run build:headings && pnpm run build:buttons && pnpm run build:card && pnpm run build:collapse && pnpm run build:flow && pnpm run build:forms && pnpm run build:surface && pnpm run build:timeline && pnpm run build:layout",
+    "build:components": "pnpm run build:reset && pnpm run build:base && pnpm run build:fluid-type && pnpm run build:headings && pnpm run build:buttons && pnpm run build:card && pnpm run build:collapse && pnpm run build:flow && pnpm run build:forms && pnpm run build:surface && pnpm run build:timeline && pnpm run build:layout",
     "build:all": "pnpm run build:all-props && pnpm run build:components",
     "watch": "sass scss/style.scss:dist/style.css --watch --load-path=node_modules"
   },
