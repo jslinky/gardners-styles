@@ -19,7 +19,7 @@ This document lists the core design tokens defined by the SCSS source. The syste
 | --- | --- | --- |
 | `$colorNamePrefix` | `color-` | Prefix used for generated colour custom properties |
 | `$colorIncludes` | `primary secondary tertiary dark light grey` | Colour families included in output |
-| `$generateSteppedColors` | `primary secondary` | Colour families that receive generated lightness steps |
+| `$generateSteppedColors` | `primary secondary tertiary` | Colour families that receive generated lightness steps |
 | `$grey-tint-color` | `primary` | Colour family used as the grey range reference |
 | `$grey-tint-chroma` | `0.02` | Chroma used for the generated grey range |
 | `$surface-colors` | `primary secondary tertiary grey dark light` | Colour families available to surface rules |
